@@ -1,4 +1,9 @@
-import { ISLOADING_SET, ISREGISTER_SET } from './actionType';
+import {
+  ISLOADING_SET,
+  ISLOGIN_SET,
+  ISREGISTER_SET,
+  USER_SET,
+} from './actionType';
 
 const initialState = {
   user_id: 0,
@@ -6,6 +11,7 @@ const initialState = {
   user_lastName: '',
   user_role: '',
   user_picture: '',
+  isLogin: false,
   isLoading: false,
   isRegister: false,
 };
@@ -21,6 +27,20 @@ export default function reducer(state = initialState, action) {
       return {
         ...state,
         isRegister: action.payload,
+      };
+    case ISLOGIN_SET:
+      return {
+        ...state,
+        isLogin: action.payload,
+      };
+    case USER_SET:
+      return {
+        ...state,
+        user_id: action.payload.id,
+        user_firstName: action.payload.firstName,
+        user_lastName: action.payload.lastName,
+        user_role: action.payload.role,
+        user_picture: action.payload.picture,
       };
     default:
       return state;

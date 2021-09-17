@@ -1,27 +1,47 @@
 import React, { useRef, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 
-import { registerBuyer } from '../stores/action';
+import { register } from '../stores/action';
+
+const roles = ['buyers', 'sellers'];
 
 export default function Register() {
   const formRegister = useRef(null);
   const dispatch = useDispatch();
   const history = useHistory();
-  const { isRegister } = useSelector(({ isRegister }) => {
-    return { isRegister };
-  });
+  const location = useLocation();
+  const { isRegister, isLogin, user_role } = useSelector(
+    ({ isRegister, isLogin, user_role }) => {
+      return { isRegister, isLogin, user_role };
+    }
+  );
 
   useEffect(() => {
-    if (isRegister) {
+    if (isRegister && location.pathname === '/register') {
       history.push('/login');
+    } else if (isRegister && location.pathname === '/seller/register') {
+      history.push('/seller/login');
     }
-  }, [history, isRegister]);
+  }, [history, isRegister, location.pathname]);
+
+  useEffect(() => {
+    if (isLogin && user_role === 'buyer') {
+      history.push('/');
+    } else if (isLogin && user_role === 'seller') {
+      history.push('/seller/dashboard');
+    }
+  }, [isLogin, history, user_role]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData(formRegister.current);
-    dispatch(registerBuyer(formData));
+
+    if (location.pathname === '/register') {
+      dispatch(register(formData, roles[0]));
+    } else {
+      dispatch(register(formData, roles[1]));
+    }
   };
 
   return (

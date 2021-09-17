@@ -1,11 +1,18 @@
 const router = require('express').Router();
+const upload = require('../middlewares/multer');
+const uploadImage = require('../middlewares/imagekit');
 
 const SellerController = require('../controllers/sellerController');
 const authentication = require('../middlewares/authentication');
 const authorization = require('../middlewares/authorization');
 
 router.post('/login', SellerController.loginSeller);
-router.post('/register', SellerController.registerSeller);
+router.post(
+  '/register',
+  upload.single('picture'),
+  uploadImage,
+  SellerController.registerSeller
+);
 
 router.use(authentication);
 router.use(authorization);
