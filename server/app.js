@@ -6,7 +6,6 @@ const express = require('express');
 const cors = require('cors');
 
 const app = express();
-const PORT = process.env.PORT || 4000;
 
 const errorHandler = require('./middlewares/errorHandler');
 const router = require('./routes');
@@ -17,6 +16,4 @@ app.use(cors());
 app.use(router);
 app.use(errorHandler);
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+module.exports = app;

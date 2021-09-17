@@ -20,6 +20,7 @@ module.exports = {
         allowNull: false,
         unique: true,
         type: Sequelize.STRING,
+        unique: true,
       },
       phoneNumber: {
         allowNull: false,
@@ -36,6 +37,7 @@ module.exports = {
       password: {
         allowNull: false,
         type: Sequelize.STRING,
+        unique: true,
       },
       createdAt: {
         allowNull: false,
