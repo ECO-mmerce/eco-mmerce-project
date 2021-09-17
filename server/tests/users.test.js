@@ -120,6 +120,21 @@ const sellerErrPass = {
   email: email7,
 };
 
+const sellerLogin = {
+  email: email4,
+  password,
+};
+
+const sellerLoginErrEmail = {
+  email: '',
+  password,
+};
+
+const sellerLoginErrPass = {
+  email: email4,
+  password: '',
+};
+
 afterAll((done) => {
   User.destroy({
     truncate: true,
@@ -429,6 +444,66 @@ describe('POST /sellers/register [fail]', () => {
         expect(response.status).toBe(400);
         expect(response.body).toEqual(
           expect.arrayContaining([{ message: 'Password cannot be empty' }])
+        );
+        done();
+      })
+      .catch((err) => {
+        done(err);
+      });
+  });
+});
+
+describe('POST /sellers/login [success]', () => {
+  test('Should return {id, firstName, lastName, picture, role, access_token} [200]', (done) => {
+    request(app)
+      .post('/sellers/login')
+      .set('Accept', appJSON)
+      .send(sellerLogin)
+      .then((response) => {
+        expect(response.status).toBe(200);
+        expect(response.body).toHaveProperty('id', expect.any(Number));
+        expect(response.body).toHaveProperty('firstName');
+        expect(response.body).toHaveProperty('lastName');
+        expect(response.body).toHaveProperty('picture');
+        expect(response.body).toHaveProperty('role');
+        expect(response.body).toHaveProperty('access_token');
+        done();
+      })
+      .catch((err) => {
+        done(err);
+      });
+  });
+});
+
+describe('POST /sellers/login [fail] [401]', () => {
+  test('Should return {message: "Invalid email or password"} [401]', (done) => {
+    request(app)
+      .post('/sellers/login')
+      .set('Accept', appJSON)
+      .send(sellerLoginErrEmail)
+      .then((response) => {
+        expect(response.status).toBe(401);
+        expect(response.body).toHaveProperty(
+          'message',
+          'Invalid email or password'
+        );
+        done();
+      })
+      .catch((err) => {
+        done(err);
+      });
+  });
+
+  test('Should return {message: "Invalid email or password"} [401]', (done) => {
+    request(app)
+      .post('/sellers/login')
+      .set('Accept', appJSON)
+      .send(sellerLoginErrPass)
+      .then((response) => {
+        expect(response.status).toBe(401);
+        expect(response.body).toHaveProperty(
+          'message',
+          'Invalid email or password'
         );
         done();
       })
