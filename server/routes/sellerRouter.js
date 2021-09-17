@@ -1,10 +1,14 @@
 const router = require('express').Router();
 
 const SellerController = require('../controllers/sellerController');
+const authentication = require('../middlewares/authentication');
+const authorization = require('../middlewares/authorization');
 
 router.post('/login', SellerController.loginSeller);
 router.post('/register', SellerController.registerSeller);
 
+router.use(authentication);
+router.use(authorization);
 router.get('/products', SellerController.getAllProducts);
 router.post('/products', SellerController.createProduct);
 router.get('/products/:id', SellerController.getProduct);

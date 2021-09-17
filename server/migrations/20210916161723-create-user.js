@@ -18,11 +18,12 @@ module.exports = {
       },
       email: {
         allowNull: false,
+        unique: true,
         type: Sequelize.STRING,
       },
       phoneNumber: {
         allowNull: false,
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
       },
       picture: {
         allowNull: false,

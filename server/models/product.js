@@ -45,7 +45,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       ingridient: {
         allowNull: false,
-        type: Sequelize.ARRAY(Sequelize.TEXT),
+        type: DataTypes.ARRAY(DataTypes.TEXT),
       },
       UserId: {
         allowNull: false,

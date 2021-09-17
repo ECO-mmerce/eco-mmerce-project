@@ -5,11 +5,11 @@ if (process.env.NODE_ENV !== 'production') {
 const express = require('express');
 const cors = require('cors');
 
-const errorHandler = require('./middlewares/errorHandler');
-const router = require('./routes');
-
 const app = express();
 const PORT = process.env.PORT || 4000;
+
+const errorHandler = require('./middlewares/errorHandler');
+const router = require('./routes');
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
