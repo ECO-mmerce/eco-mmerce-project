@@ -19,10 +19,11 @@ module.exports = {
       email: {
         allowNull: false,
         type: Sequelize.STRING,
+        unique: true,
       },
       phoneNumber: {
         allowNull: false,
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
       },
       picture: {
         allowNull: false,
@@ -35,6 +36,7 @@ module.exports = {
       password: {
         allowNull: false,
         type: Sequelize.STRING,
+        unique: true,
       },
       createdAt: {
         allowNull: false,
