@@ -1,26 +1,25 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
+const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class HarmfulIngridient extends Model {
-    static associate(models) {
-      // define association here
-    }
-  };
-  HarmfulIngridient.init({
-    name: {
-      allowNull: false,
-      type: DataTypes.STRING
-    }
-  }, {
-    hooks: {
-      beforeCreate: (ingridient, _) => {
-        ingridient.name = ingridient.name.toLowerCase();
-      }
+    static associate(models) {}
+  }
+  HarmfulIngridient.init(
+    {
+      name: {
+        allowNull: false,
+        type: DataTypes.STRING,
+      },
     },
-    sequelize,
-    modelName: 'HarmfulIngridient',
-  });
+    {
+      hooks: {
+        beforeCreate: (ingridient, _) => {
+          ingridient.name = ingridient.name.toLowerCase();
+        },
+      },
+      sequelize,
+      modelName: 'HarmfulIngridient',
+    }
+  );
   return HarmfulIngridient;
 };

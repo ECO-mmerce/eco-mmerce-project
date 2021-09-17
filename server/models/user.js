@@ -1,12 +1,15 @@
 'use strict';
 const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Seller extends Model {
+  class User extends Model {
     static associate(models) {
-      Seller.hasMany(models.Product, { foreignKey: 'id' });
+      models.User.belongsToMany(models.Product, {
+        through: models.UsersProduct,
+      });
+      models.User.hasMany(models.UsersProduct);
     }
   }
-  Seller.init(
+  User.init(
     {
       firstName: {
         allowNull: false,
@@ -29,11 +32,20 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         type: DataTypes.STRING,
       },
+      role: {
+        allowNull: false,
+        type: Sequelize.STRING,
+      },
+      password: {
+        allowNull: false,
+        type: Sequelize.STRING,
+        unique: true,
+      },
     },
     {
       sequelize,
-      modelName: 'Seller',
+      modelName: 'User',
     }
   );
-  return Seller;
+  return User;
 };

@@ -1,32 +1,31 @@
 'use strict';
 const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Chat extends Model {
-    static associate(models) {}
+  class UsersProduct extends Model {
+    static associate(models) {
+      models.UsersProduct.belongsTo(User);
+      models.UsersProduct.belongsTo(Product);
+    }
   }
-  Chat.init(
+  UsersProduct.init(
     {
-      BuyerId: {
+      ProductId: {
         allowNull: false,
         type: DataTypes.INTEGER,
       },
-      SellerId: {
+      UserId: {
         allowNull: false,
         type: DataTypes.INTEGER,
       },
-      isBuyer: {
-        allowNull: false,
-        type: DataTypes.BOOLEAN,
-      },
-      message: {
+      status: {
         allowNull: false,
         type: DataTypes.STRING,
       },
     },
     {
       sequelize,
-      modelName: 'Chat',
+      modelName: 'UsersProduct',
     }
   );
-  return Chat;
+  return UsersProduct;
 };
