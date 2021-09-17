@@ -14,6 +14,11 @@ module.exports = (sequelize, DataTypes) => {
       firstName: {
         allowNull: false,
         type: DataTypes.STRING,
+        validate: {
+          notEmpty: {
+            msg: 'First name cannot be empty',
+          },
+        },
       },
       lastName: {
         allowNull: false,
@@ -22,11 +27,24 @@ module.exports = (sequelize, DataTypes) => {
       email: {
         allowNull: false,
         type: DataTypes.STRING,
-        isEmail: true,
+        unique: true,
+        validate: {
+          notEmpty: {
+            msg: 'Email cannot be empty',
+          },
+          isEmail: {
+            msg: 'Invalid email format',
+          },
+        },
       },
       phoneNumber: {
         allowNull: false,
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
+        validate: {
+          notEmpty: {
+            msg: 'Phone number cannot be empty',
+          },
+        },
       },
       picture: {
         allowNull: false,
@@ -40,11 +58,21 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         type: Sequelize.STRING,
         unique: true,
+        validate: {
+          notEmpty: {
+            msg: 'First name cannot be empty',
+          },
+        },
       },
     },
     {
       sequelize,
       modelName: 'User',
+      addHooks: {
+        beforeCreate: (user, _) => {
+          if (!user.lastName) user.lastName = user.firstName;
+        },
+      },
     }
   );
   return User;

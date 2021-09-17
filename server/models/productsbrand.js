@@ -9,10 +9,20 @@ module.exports = (sequelize, DataTypes) => {
       ProductId: {
         allowNull: false,
         type: DataTypes.INTEGER,
+        validate: {
+          notEmpty: {
+            msg: 'Product id cannot be empty',
+          },
+        },
       },
       BrandId: {
         allowNull: false,
         type: DataTypes.INTEGER,
+        validate: {
+          notEmpty: {
+            msg: 'Brand id cannot be empty',
+          },
+        },
       },
     },
     {
