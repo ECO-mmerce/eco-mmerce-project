@@ -32,10 +32,10 @@ class BuyerController {
             lastName: user.lastName,
           });
         } else {
-          throw { name: 'Bad Request', message: 'Invalid Email or Password' };
+          throw { name: 'Unauthorized', message: 'Invalid Email or Password' };
         }
       } else {
-        throw { name: 'Bad Request', message: 'Invalid Email or Password' };
+        throw { name: 'Unauthorized', message: 'Invalid Email or Password' };
       }
     } catch (err) {
       next(err);

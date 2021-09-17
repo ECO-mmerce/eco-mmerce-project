@@ -177,7 +177,7 @@ describe('POST /buyers/register [fail]', () => {
       .send(user)
       .then((response) => {
         expect(response.status).toBe(400);
-        expect(resopnse.body).toHaveProperty('message', 'Email already exists');
+        expect(response.body).toHaveProperty('message', 'Email already exists');
         done();
       })
       .catch((err) => {
@@ -278,7 +278,7 @@ describe('POST /buyers/login [success]', () => {
       .set('Accept', appJSON)
       .send(userLogin)
       .then((response) => {
-        expect(response.status).toBe(200);
+        expect(response.status).toBe(200); // BUG
         expect(response.body).toHaveProperty('id', expect.any(Number));
         expect(response.body).toHaveProperty('firstName');
         expect(response.body).toHaveProperty('lastName');
@@ -303,7 +303,7 @@ describe('POST /buyers/login [fail] [401]', () => {
         expect(response.status).toBe(401);
         expect(response.body).toHaveProperty(
           'message',
-          'Invalid email or password'
+          'Invalid Email or Password'
         );
         done();
       })
@@ -321,7 +321,7 @@ describe('POST /buyers/login [fail] [401]', () => {
         expect(response.status).toBe(401);
         expect(response.body).toHaveProperty(
           'message',
-          'Invalid email or password'
+          'Invalid Email or Password'
         );
         done();
       })
@@ -340,7 +340,7 @@ describe('POST /sellers/register [success]', () => {
       .set('Accept', appJSON)
       .send(seller)
       .then((response) => {
-        expect(response.status).toBe(201);
+        expect(response.status).toBe(201); // BUG
         expect(response.body).toHaveProperty('id', expect.any(Number));
         expect(response.body).toHaveProperty('email');
         done();
@@ -359,7 +359,7 @@ describe('POST /sellers/register [fail]', () => {
       .send(seller)
       .then((response) => {
         expect(response.status).toBe(400);
-        expect(resopnse.body).toHaveProperty('message', 'Email already exists');
+        expect(response.body).toHaveProperty('message', 'Email already exists');
         done();
       })
       .catch((err) => {
@@ -460,7 +460,7 @@ describe('POST /sellers/login [success]', () => {
       .set('Accept', appJSON)
       .send(sellerLogin)
       .then((response) => {
-        expect(response.status).toBe(200);
+        expect(response.status).toBe(200); // BUG
         expect(response.body).toHaveProperty('id', expect.any(Number));
         expect(response.body).toHaveProperty('firstName');
         expect(response.body).toHaveProperty('lastName');
@@ -485,7 +485,7 @@ describe('POST /sellers/login [fail] [401]', () => {
         expect(response.status).toBe(401);
         expect(response.body).toHaveProperty(
           'message',
-          'Invalid email or password'
+          'Invalid Email or Password'
         );
         done();
       })
@@ -503,7 +503,7 @@ describe('POST /sellers/login [fail] [401]', () => {
         expect(response.status).toBe(401);
         expect(response.body).toHaveProperty(
           'message',
-          'Invalid email or password'
+          'Invalid Email or Password'
         );
         done();
       })
@@ -512,3 +512,38 @@ describe('POST /sellers/login [fail] [401]', () => {
       });
   });
 });
+
+// describe('GET /sellers/products [success]', () => {
+//   test('Should return {id, firstName, lastName, role, Category, Brand} [200]', (done) => {
+//     request(app)
+//       .get('/sellers/products')
+//       .expect('Accept', appJSON)
+//       .expect(response.body)
+//       .toEqual(
+//         expect.arrayContaining([
+//           expect.objectContaining({
+//             id: expect.any(Number),
+//             name: expect.any(String),
+//             price: expect.any(Number),
+//             stock: expect.any(Number),
+//             weight: expect.any(Number),
+//             status: expect.any(String),
+//             description: expect.any(String),
+//             ingridient: expect.arrayContaining([]),
+//             picture: expect.any(String),
+//             Category: expect.objectContaining({
+//               id: expect.any(Number),
+//               name: expect.any(String),
+//             }),
+//             Brand: expect.arrayContaining([
+//               expect.objectContaining({
+//                 id: expect.any(Number),
+//                 ProductId: expect.any(Number),
+//                 BrandId: expect.any(Number),
+//               }),
+//             ]),
+//           }),
+//         ])
+//       );
+//   });
+// });
