@@ -7,6 +7,13 @@ const appJSON = 'application/json';
 const firstName = 'First';
 const lastName = 'Last';
 const email = 'test@email.id';
+const email1 = 'test1@email.id';
+const email2 = 'test2@email.id';
+const email3 = 'test3@email.id';
+const email4 = 'test4@email.id';
+const email5 = 'test5@email.id';
+const email6 = 'test6@email.id';
+const email7 = 'test7@email.id';
 const phoneNumber = '087777771111';
 const picture =
   'https://image.shutterstock.com/image-illustration/male-default-placeholder-avatar-profile-260nw-582509551.jpg';
@@ -14,6 +21,7 @@ const roleBuyer = 'buyer';
 const roleSeller = 'seller';
 const password = 'inipassword';
 
+// User Buyer
 const user = {
   firstName,
   lastName,
@@ -38,17 +46,60 @@ const userErrName = {
   ...user,
   firstName: '',
   lastName: '',
-  email: 'testerrname@email.id',
+  email: email1,
 };
 
 const userErrPhone = {
   ...user,
   phoneNumber: '',
+  email: email2,
 };
 
 const userErrPass = {
   ...user,
   password: '',
+  email: email3,
+};
+
+// User Seller
+
+const seller = {
+  firstName,
+  lastName,
+  email: email4,
+  phoneNumber,
+  picture,
+  role: roleSeller,
+  password,
+};
+
+const sellerEmptyEmail = {
+  ...seller,
+  email: '',
+};
+
+const sellerInvalidEmail = {
+  ...seller,
+  email: 'testmail',
+};
+
+const sellerErrName = {
+  ...seller,
+  firstName: '',
+  lastName: '',
+  email: email5,
+};
+
+const sellerErrPhone = {
+  ...seller,
+  phoneNumber: '',
+  email: email6,
+};
+
+const sellerErrPass = {
+  ...seller,
+  password: '',
+  email: email7,
 };
 
 afterAll((done) => {
@@ -64,6 +115,8 @@ afterAll((done) => {
       done(err);
     });
 });
+
+// Test Buyer
 
 describe('POST /buyers/register [success]', () => {
   test('Should return {id, email} [201]', (done) => {
@@ -172,6 +225,128 @@ describe('POST /buyers/register [fail]', () => {
       .post('/buyers/register')
       .set('Accept', appJSON)
       .send(userErrPass)
+      .then((response) => {
+        expect(response.status).toBe(400);
+        expect(response.body).toEqual(
+          expect.arrayContaining([{ message: 'Password cannot be empty' }])
+        );
+        done();
+      })
+      .catch((err) => {
+        done(err);
+      });
+  });
+});
+
+// Test Seller
+
+describe('POST /sellers/register [success]', () => {
+  test('Should return {id, email} [201]', (done) => {
+    request(app)
+      .post('/sellers/register')
+      .set('Accept', appJSON)
+      .send(seller)
+      .then((response) => {
+        expect(response.status).toBe(201);
+        expect(response.body).toHaveProperty('id', expect.any(Number));
+        expect(response.body).toHaveProperty('email');
+        done();
+      })
+      .catch((err) => {
+        done(err);
+      });
+  });
+});
+
+describe('POST /sellers/register [fail]', () => {
+  test('Should return {message: "Email already exists"} [400]', (done) => {
+    request(app)
+      .post('/sellers/register')
+      .set('Accept', appJSON)
+      .send(seller)
+      .then((response) => {
+        expect(response.status).toBe(400);
+        expect(resopnse.body).toHaveProperty('message', 'Email already exists');
+        done();
+      })
+      .catch((err) => {
+        done(err);
+      });
+  });
+
+  test('Should return [{message: "Invalid email format"}] [400]', (done) => {
+    request(app)
+      .post('/sellers/register')
+      .set('Accept', appJSON)
+      .send(sellerInvalidEmail)
+      .then((response) => {
+        expect(response.status).toBe(400);
+        expect(response.body).toEqual(
+          expect.arrayContaining([{ message: 'Invalid email format' }])
+        );
+        done();
+      })
+      .catch((err) => {
+        done(err);
+      });
+  });
+
+  test('Should return [{message: "Email cannot be empty"}] [400]', (done) => {
+    request(app)
+      .post('/sellers/register')
+      .set('Accept', appJSON)
+      .send(sellerEmptyEmail)
+      .then((response) => {
+        expect(response.status).toBe(400);
+        expect(response.body).toEqual(
+          expect.arrayContaining([{ message: 'Email cannot be empty' }])
+        );
+        done();
+      })
+      .catch((err) => {
+        done(err);
+      });
+  });
+
+  test('Should return [{message: "First name cannot be empty"}] [400]', (done) => {
+    request(app)
+      .post('/sellers/register')
+      .set('Accept', appJSON)
+      .send(sellerErrName)
+      .then((response) => {
+        expect(response.status).toBe(400);
+        expect(response.body).toEqual(
+          expect.arrayContaining([{ message: 'First name cannot be empty' }])
+        );
+        done();
+      })
+      .catch((err) => {
+        done(err);
+      });
+  });
+
+  test('Should return [{message: "Phone number cannot be empty}] [400]', (done) => {
+    request(app)
+      .post('/sellers/register')
+      .set('Accept', appJSON)
+      .send(sellerErrPhone)
+      .then((response) => {
+        expect(response.status).toBe(400);
+        expect(response.body).toEqual(
+          expect.arrayContaining([{ message: 'Phone number cannot be empty' }])
+        );
+        done();
+      })
+      .catch((err) => {
+        done(err);
+      });
+  });
+
+  test('Should return [{message: "Password cannot be empty"}] [400]', (done) => {
+    request(app)
+      .post('/sellers/register')
+      .set('Accept', appJSON)
+      .send(sellerErrPass)
       .then((response) => {
         expect(response.status).toBe(400);
         expect(response.body).toEqual(
