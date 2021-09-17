@@ -154,22 +154,29 @@ class SellerController {
         ingridient,
         picture,
         CategoryId,
+        brand,
       } = req.body;
 
       const { id } = req.user;
 
-      const newProduct = await Product.create({
-        name,
-        price,
-        stock,
-        weight,
-        status,
-        UserId: id,
-        description,
-        ingridient,
-        picture,
-        CategoryId,
-      });
+      const newProduct = await Product.create(
+        {
+          name,
+          price,
+          stock,
+          weight,
+          status,
+          UserId: id,
+          description,
+          ingridient,
+          picture,
+          CategoryId,
+          Brands: { name: brand },
+        },
+        {
+          include: [Brand],
+        }
+      );
 
       res.status(201).json(newProduct);
     } catch (err) {

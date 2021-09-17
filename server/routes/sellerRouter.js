@@ -2,7 +2,7 @@ const router = require('express').Router();
 
 const SellerController = require('../controllers/sellerController');
 const authentication = require('../middlewares/authentication');
-const authorization = require('../middlewares/authorization');
+const { authorization } = require('../middlewares/authorization');
 
 router.post('/login', SellerController.loginSeller);
 router.post('/register', SellerController.registerSeller);

@@ -513,37 +513,37 @@ describe('POST /sellers/login [fail] [401]', () => {
   });
 });
 
-// describe('GET /sellers/products [success]', () => {
-//   test('Should return {id, firstName, lastName, role, Category, Brand} [200]', (done) => {
-//     request(app)
-//       .get('/sellers/products')
-//       .expect('Accept', appJSON)
-//       .expect(response.body)
-//       .toEqual(
-//         expect.arrayContaining([
-//           expect.objectContaining({
-//             id: expect.any(Number),
-//             name: expect.any(String),
-//             price: expect.any(Number),
-//             stock: expect.any(Number),
-//             weight: expect.any(Number),
-//             status: expect.any(String),
-//             description: expect.any(String),
-//             ingridient: expect.arrayContaining([]),
-//             picture: expect.any(String),
-//             Category: expect.objectContaining({
-//               id: expect.any(Number),
-//               name: expect.any(String),
-//             }),
-//             Brand: expect.arrayContaining([
-//               expect.objectContaining({
-//                 id: expect.any(Number),
-//                 ProductId: expect.any(Number),
-//                 BrandId: expect.any(Number),
-//               }),
-//             ]),
-//           }),
-//         ])
-//       );
-//   });
-// });
+describe('GET /sellers/products [success]', () => {
+  test('Should return {id, firstName, lastName, role, Category, Brand} [200]', (done) => {
+    request(app)
+      .get('/sellers/products')
+      .expect('Accept', appJSON)
+      .expect(response.body)
+      .toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            id: expect.any(Number),
+            name: expect.any(String),
+            price: expect.any(Number),
+            stock: expect.any(Number),
+            weight: expect.any(Number),
+            status: expect.any(String),
+            description: expect.any(String),
+            ingridient: expect.arrayContaining([]),
+            picture: expect.any(String),
+            Category: expect.objectContaining({
+              id: expect.any(Number),
+              name: expect.any(String),
+            }),
+            Brand: expect.arrayContaining([
+              expect.objectContaining({
+                id: expect.any(Number),
+                ProductId: expect.any(Number),
+                BrandId: expect.any(Number),
+              }),
+            ]),
+          }),
+        ])
+      );
+  });
+});

@@ -17,4 +17,21 @@ async function authorization(req, res, next) {
   }
 }
 
-module.exports = authorization;
+async function authorizationBuyer(req, res, next) {
+  try {
+    const { id } = req.user;
+    const verifyUser = await User.findOne({ where: id });
+    if (verifyUser.role === 'buyer') {
+      next();
+    } else {
+      throw {
+        name: 'Forbidden',
+        message: "You don't have an access to do this !",
+      };
+    }
+  } catch (err) {
+    next(err);
+  }
+}
+
+module.exports = { authorization, authorizationBuyer };
