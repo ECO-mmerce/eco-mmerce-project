@@ -1,26 +1,101 @@
-const { Product, Category, Seller } = require('../models/');
+const { signToken } = require('../helpers/jwt');
+const { checkPassword } = require('../helpers/bcrypt');
+const { Product, User, Brand, Category } = require('../models');
 
 class SellerController {
   static async loginSeller(req, res, next) {
-    res.send('ea login');
+    try {
+      const { email, password } = req.body;
+
+      const user = await User.findOne({
+        where: { email },
+      });
+
+      console.log(user);
+
+      if (user) {
+        if (checkPassword(password, user.password)) {
+          const access_token = signToken({
+            id: user.id,
+            email: user.email,
+            role: user.role,
+          });
+
+          res.status(200).json({
+            access_token,
+            id: user.id,
+            role: user.role,
+            picture: user.picture,
+            firstname: user.firstName,
+            lastName: user.lastName,
+          });
+        } else {
+          throw { name: 'Bad Request', message: 'Invalid Email or Password' };
+        }
+      } else {
+        throw { name: 'Bad Request', message: 'Invalid Email or Password' };
+      }
+    } catch (err) {
+      next(err);
+    }
   }
 
   static async registerSeller(req, res, next) {
-    res.send('ea ke register');
+    try {
+      const { firstName, lastName, email, password, phoneNumber, picture } =
+        req.body;
+
+      const newSeller = await User.create({
+        firstName,
+        lastName,
+        email,
+        password,
+        phoneNumber,
+        picture,
+        role: 'seller',
+      });
+
+      res.status(201).json({ id: newSeller.id, email: newSeller.email });
+    } catch (err) {
+      next(err);
+    }
   }
 
   static async getAllProducts(req, res, next) {
     try {
-      const { id } = 1;
+      const { id } = req.user;
       const products = await Product.findAll({
-        order: [[`id`, `ASC`]],
-        where: id,
-        include: [{ model: Category }, { model: Seller }],
+        where: { UserId: id },
+        order: [['id', 'ASC']],
+        include: [
+          {
+            model: Category,
+            attributes: { exclude: ['createdAt', 'updatedAt'] },
+          },
+          {
+            model: Brand,
+            attributes: { exclude: ['createdAt', 'updatedAt'] },
+            through: {
+              attributes: {
+                exclude: ['createdAt', 'updatedAt'],
+              },
+            },
+          },
+        ],
+        attributes: {
+          exclude: [
+            'weight',
+            'status',
+            'description',
+            'ingridient',
+            'createdAt',
+            'updatedAt',
+          ],
+        },
       });
 
       res.status(200).json(products);
     } catch (err) {
-      console.log(err);
       next(err);
     }
   }
@@ -28,9 +103,40 @@ class SellerController {
   static async getProduct(req, res, next) {
     try {
       const { id } = req.params;
-      const product = await Product.findOne(id);
+      const { id: UserId } = req.user;
+      const product = await Product.findOne({
+        where: [{ id }, { UserId }],
+        order: [['id', 'ASC']],
+        include: [
+          {
+            model: Category,
+            attributes: { exclude: ['createdAt', 'updatedAt'] },
+          },
+          {
+            model: Brand,
+            attributes: { exclude: ['createdAt', 'updatedAt'] },
+            through: {
+              attributes: {
+                exclude: ['createdAt', 'updatedAt'],
+              },
+            },
+          },
+        ],
+        attributes: {
+          exclude: ['createdAt', 'updatedAt'],
+        },
+      });
 
-      res.status(200).json(product);
+      if (product === null) {
+        throw { name: 'Bad Request', message: 'ID not found !' };
+      } else if (product.UserId !== UserId) {
+        throw {
+          name: 'Forbidden',
+          message: "You don't have an access to do this !",
+        };
+      } else {
+        res.status(200).json(product);
+      }
     } catch (err) {
       next(err);
     }
@@ -46,10 +152,11 @@ class SellerController {
         status,
         description,
         ingridient,
-        SellerId,
         picture,
         CategoryId,
       } = req.body;
+
+      const { id } = req.user;
 
       const newProduct = await Product.create({
         name,
@@ -57,9 +164,9 @@ class SellerController {
         stock,
         weight,
         status,
+        UserId: id,
         description,
         ingridient,
-        SellerId,
         picture,
         CategoryId,
       });
@@ -73,6 +180,7 @@ class SellerController {
   static async updateProduct(req, res, next) {
     try {
       const { id } = req.params;
+      const { id: UserId } = req.user;
       const {
         name,
         price,
@@ -81,7 +189,6 @@ class SellerController {
         status,
         description,
         ingridient,
-        SellerId,
         picture,
         CategoryId,
       } = req.body;
@@ -95,16 +202,20 @@ class SellerController {
           status,
           description,
           ingridient,
-          SellerId,
           picture,
           CategoryId,
         },
-        { where: { id }, returning: true }
+        { where: [{ id }, { UserId }], returning: true }
       );
 
-      res.status(200).json(updatedProduct);
+      console.log(updatedProduct);
+
+      if (updatedProduct[0] === 0) {
+        throw { name: 'Not Found', message: 'ID not found !' };
+      } else {
+        res.status(200).json(updatedProduct[1]);
+      }
     } catch (err) {
-      console.log(err);
       next(err);
     }
   }
