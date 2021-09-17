@@ -3,8 +3,18 @@ const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Product extends Model {
     static associate(models) {
-      Product.belongsTo(Category, { foreignKey: 'CategoryId' });
-      Product.belongsTo(Seller, { foreignKey: 'SellerId' });
+      models.Product.belongsTo(models.Category, {
+        foreignKey: 'CategoryId',
+      });
+
+      models.Product.belongsToMany(models.Brand, {
+        through: models.ProductsBrand,
+      });
+
+      models.Product.belongsToMany(models.User, {
+        through: models.UsersProduct,
+      });
+      models.Product.hasMany(models.UsersProduct);
     }
   }
   Product.init(
@@ -31,13 +41,13 @@ module.exports = (sequelize, DataTypes) => {
       },
       description: {
         allowNull: false,
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
       },
       ingridient: {
         allowNull: false,
-        type: DataTypes.STRING,
+        type: Sequelize.ARRAY(Sequelize.TEXT),
       },
-      SellerId: {
+      UserId: {
         allowNull: false,
         type: DataTypes.INTEGER,
       },

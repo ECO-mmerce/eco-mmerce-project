@@ -1,12 +1,15 @@
 'use strict';
 const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Category extends Model {
+  class Brand extends Model {
     static associate(models) {
-      Category.hasMany(models.Product, { foreignKey: 'id' });
+      models.Brand.belongsToMany(models.Product, {
+        through: models.ProductBrand,
+        foreignKey: 'BrandId',
+      });
     }
   }
-  Category.init(
+  Brand.init(
     {
       name: {
         allowNull: false,
@@ -15,8 +18,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       sequelize,
-      modelName: 'Category',
+      modelName: 'Brand',
     }
   );
-  return Category;
+  return Brand;
 };
