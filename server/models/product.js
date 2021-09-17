@@ -75,7 +75,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       ingridient: {
         allowNull: false,
-        type: Sequelize.ARRAY(Sequelize.TEXT),
+        type: DataTypes.ARRAY(DataTypes.TEXT),
         validate: {
           notEmpty: {
             msg: 'Ingridient cannot be empty',
