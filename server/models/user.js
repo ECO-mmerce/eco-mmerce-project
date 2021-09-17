@@ -60,7 +60,7 @@ module.exports = (sequelize, DataTypes) => {
         unique: true,
         validate: {
           notEmpty: {
-            msg: 'First name cannot be empty',
+            msg: 'Password cannot be empty',
           },
         },
       },
