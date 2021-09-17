@@ -26,7 +26,7 @@ class SellerController {
             id: user.id,
             role: user.role,
             picture: user.picture,
-            firstname: user.firstName,
+            firstName: user.firstName,
             lastName: user.lastName,
           });
         } else {
@@ -42,9 +42,10 @@ class SellerController {
 
   static async registerSeller(req, res, next) {
     try {
-      const { firstName, lastName, email, password, phoneNumber, picture } =
-        req.body;
-
+      const { firstName, lastName, email, password, phoneNumber } = req.body;
+      const picture =
+        req.imgUrl ||
+        'https://ik.imagekit.io/imgmarc/default-profile_4m4ooSMXJ.png?updatedAt=1629741970508';
       const newSeller = await User.create({
         firstName,
         lastName,

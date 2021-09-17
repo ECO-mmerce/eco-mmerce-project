@@ -41,11 +41,11 @@ export function setUser(user) {
   };
 }
 
-export function registerBuyer(payload) {
+export function register(payload, role) {
   return async function (dispatch, getState) {
     try {
       dispatch(setIsLoading(true));
-      const response = await fetch(baseUrl + '/buyers/register', {
+      const response = await fetch(baseUrl + `/${role}/register`, {
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -74,11 +74,11 @@ export function registerBuyer(payload) {
   };
 }
 
-export function loginBuyer(payload) {
+export function login(payload, role) {
   return async function (dispatch, getState) {
     try {
       dispatch(setIsLoading(true));
-      const response = await fetch(baseUrl + '/buyers/login', {
+      const response = await fetch(baseUrl + `/${role}/login`, {
         method: 'POST',
         headers: {
           Accept: 'application/json',

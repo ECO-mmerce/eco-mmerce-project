@@ -1,27 +1,32 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
-import { loginBuyer, setIsRegister } from '../stores/action';
+import { useHistory, useLocation } from 'react-router-dom';
+import { login, setIsRegister } from '../stores/action';
+
+const roles = ['buyers', 'sellers'];
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const { isLogin } = useSelector(({ isLogin }) => {
-    return { isLogin };
+  const { isLogin, user_role } = useSelector(({ isLogin, user_role }) => {
+    return { isLogin, user_role };
   });
 
   const dispatch = useDispatch();
   const history = useHistory();
+  const location = useLocation();
 
   useEffect(() => {
     dispatch(setIsRegister(false));
   }, [dispatch]);
 
   useEffect(() => {
-    if (isLogin) {
+    if (isLogin && user_role === 'buyer') {
       history.push('/');
+    } else if (isLogin && user_role === 'seller') {
+      history.push('/seller/dashboard');
     }
-  }, [isLogin, history]);
+  }, [isLogin, history, user_role]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -30,7 +35,11 @@ export default function Login() {
       password,
     };
 
-    dispatch(loginBuyer(payload));
+    if (location.pathname === '/login') {
+      dispatch(login(payload, roles[0]));
+    } else {
+      dispatch(login(payload, roles[1]));
+    }
   };
 
   const handleEmail = (e) => {
