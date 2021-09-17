@@ -1,8 +1,4 @@
-export const USER_ID_SET = 'USER_ID/SET';
-export const USER_FIRSTNAME_SET = 'USER_FIRSTNAME/SET';
-export const USER_LASTNAME_SET = 'USER_LASTNAME/SET';
-export const USER_PICTURE_SET = 'USER_PICTURE/SET';
-export const USER_ROLE_SET = 'USER_ROLE/SET';
 export const USER_SET = 'USER/SET';
 export const ISLOADING_SET = 'ISLOADING/SET';
 export const ISREGISTER_SET = 'ISREGISTER/SET';
+export const ISLOGIN_SET = 'ISLOGIN/SET';

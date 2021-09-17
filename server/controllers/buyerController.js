@@ -28,7 +28,7 @@ class BuyerController {
             id: user.id,
             role: user.role,
             picture: user.picture,
-            firstname: user.firstName,
+            firstName: user.firstName,
             lastName: user.lastName,
           });
         } else {

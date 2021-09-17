@@ -8,8 +8,8 @@ export default function Register() {
   const formRegister = useRef(null);
   const dispatch = useDispatch();
   const history = useHistory();
-  const { isRegister } = useSelector(({ isRegister }) => {
-    return { isRegister };
+  const { isRegister, isLogin } = useSelector(({ isRegister, isLogin }) => {
+    return { isRegister, isLogin };
   });
 
   useEffect(() => {
@@ -17,6 +17,12 @@ export default function Register() {
       history.push('/login');
     }
   }, [history, isRegister]);
+
+  useEffect(() => {
+    if (isLogin) {
+      history.push('/');
+    }
+  }, [isLogin, history]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
