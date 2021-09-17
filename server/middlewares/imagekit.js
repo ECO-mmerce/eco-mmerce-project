@@ -1,5 +1,5 @@
 const FormData = require('form-data');
-const imagekitAPI = require('../apis/imagekitAPI');
+const imagekitAPI = require('../apis/imagekit');
 const getDate = require('../helpers/getDate');
 
 async function uploadImage(req, res, next) {
@@ -19,11 +19,7 @@ async function uploadImage(req, res, next) {
       req.imgUrl = response.data.url;
       next();
     } else {
-      const error = new Error();
-      error.name = 'Bad Request';
-      error.message = 'Please select an image';
-
-      throw error;
+      next();
     }
   } catch (err) {
     next(err);
