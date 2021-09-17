@@ -1,5 +1,10 @@
 import './App.css';
+import 'react-toastify/dist/ReactToastify.css';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import { useDispatch } from 'react-redux';
+import { useEffect } from 'react';
+
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Home from './views/Home';
@@ -10,11 +15,19 @@ import Products from './views/Products';
 import ProductDetails from './views/ProductDetails';
 import UserDashboard from './views/UserDashboard';
 import Orders from './views/Orders';
+import { checkToken } from './stores/action';
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(checkToken());
+  }, [dispatch]);
+
   return (
     <BrowserRouter>
       <div className="App">
+        <ToastContainer />
         <Navbar />
         <Switch>
           <Route path="/" exact>
