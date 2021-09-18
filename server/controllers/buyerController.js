@@ -268,7 +268,6 @@ class BuyerController {
 
       const newCarts = JSON.parse(JSON.stringify(carts));
       for (let key in newCarts) {
-        let obj = {};
         let count = 0;
         let currentId = newCarts[key].Product.id;
         for (let key2 in newCarts) {
@@ -295,21 +294,6 @@ class BuyerController {
       });
 
       res.status(201).json({ message: 'Product is added to cart' });
-    } catch (err) {
-      next(err);
-    }
-  }
-
-  static async getChat(req, res, next) {
-    try {
-      const { id: BuyerId } = req.user;
-      const { chatWithId: SellerId } = req.body;
-      const chat = Chat.findAll({
-        order: [['id', 'ASC']],
-        where: { BuyerId, SellerId },
-      });
-
-      res.status(200).json(chat);
     } catch (err) {
       next(err);
     }

@@ -1,6 +1,7 @@
 const router = require('express').Router();
 
 const BuyerController = require('../controllers/buyerController.js');
+const ChatController = require('../controllers/chatController.js');
 const authentication = require('../middlewares/authentication.js');
 const { authorizationBuyer } = require('../middlewares/authorization.js');
 const uploadImage = require('../middlewares/imagekit');
@@ -22,7 +23,5 @@ router.use(authorizationBuyer);
 
 router.get('/carts', BuyerController.getCarts);
 router.post('/carts', BuyerController.createCart);
-
-router.get('/chats', BuyerController.getChat);
 
 module.exports = router;
