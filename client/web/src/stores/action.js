@@ -5,6 +5,8 @@ import {
   ISREGISTER_SET,
   MESSAGES_SET,
   USER_SET,
+  PRODUCTS_SET,
+  PRODUCT_SET,
 } from './actionType';
 import { toast } from 'react-toastify';
 
@@ -51,9 +53,22 @@ export function setMessages(messages) {
 }
 
 export function setChatWith(payload) {
-  console.log(payload);
   return {
     type: CHATWITH_SET,
+    payload: payload,
+  };
+}
+
+export function setProducts(payload) {
+  return {
+    type: PRODUCTS_SET,
+    payload: payload,
+  };
+}
+
+export function setProduct(payload) {
+  return {
+    type: PRODUCT_SET,
     payload: payload,
   };
 }
@@ -160,5 +175,34 @@ export function addMessage(message) {
     const newMessages = [...messages, message];
     console.log(newMessages, 'ini redux');
     dispatch(setMessages(newMessages));
+  };
+}
+
+export function fetchProducts() {
+  return async function (dispatch, getState) {
+    try {
+      const response = await fetch(baseUrl + `/buyers/products`);
+      const data = await response.json();
+      dispatch(setProducts(data));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+}
+
+export function fetchProduct(id) {
+  return async function (dispatch, getState) {
+    console.log('MASOK ACTION');
+    try {
+      dispatch(setIsLoading(true));
+      const response = await fetch(baseUrl + `/buyers/products/${id}`);
+      const data = await response.json();
+      console.log(data);
+      dispatch(setProduct(data));
+    } catch (err) {
+      console.log(err);
+    } finally {
+      dispatch(setIsLoading(false));
+    }
   };
 }

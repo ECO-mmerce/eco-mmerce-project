@@ -4,3 +4,5 @@ export const ISREGISTER_SET = 'ISREGISTER/SET';
 export const ISLOGIN_SET = 'ISLOGIN/SET';
 export const MESSAGES_SET = 'MESSAGES/SET';
 export const CHATWITH_SET = 'CHATWITH/SET';
+export const PRODUCTS_SET = 'PRODUCTS/SET';
+export const PRODUCT_SET = 'PRODUCT/SET';

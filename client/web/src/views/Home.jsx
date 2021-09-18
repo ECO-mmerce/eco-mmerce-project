@@ -1,7 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import MiniProduct from '../components/MiniProduct';
+import { fetchProducts } from '../stores/action';
+import { useDispatch, useSelector } from 'react-redux';
 
 export default function Home() {
+  const dispatch = useDispatch();
+  const products = useSelector((state) => state.products);
+
+  useEffect(() => {
+    dispatch(fetchProducts());
+  }, []);
+
   return (
     <section>
       <section className="text-gray-600 body-font relative">
@@ -18,8 +27,9 @@ export default function Home() {
 
       {/* <!-- mini products --> */}
       <section className="text-gray-600 body-font px-64 grid grid-cols-4">
-        {[1, 2, 3, 4].map((el) => {
-          return <MiniProduct key={el} />;
+        {products.map((el) => {
+          console.log(el);
+          return <MiniProduct key={el.id} products={el} />;
         })}
       </section>
     </section>

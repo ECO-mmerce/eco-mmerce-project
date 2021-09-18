@@ -5,6 +5,8 @@ import {
   ISREGISTER_SET,
   MESSAGES_SET,
   USER_SET,
+  PRODUCTS_SET,
+  PRODUCT_SET,
 } from './actionType';
 
 const initialState = {
@@ -19,6 +21,8 @@ const initialState = {
   messages: [],
   chatWithId: 0,
   chatWithName: '',
+  products: [],
+  product: {},
 };
 
 export default function reducer(state = initialState, action) {
@@ -58,6 +62,16 @@ export default function reducer(state = initialState, action) {
         ...state,
         chatWithId: action.payload.id,
         chatWithName: action.payload.name,
+      };
+    case PRODUCTS_SET:
+      return {
+        ...state,
+        products: action.payload,
+      };
+    case PRODUCT_SET:
+      return {
+        ...state,
+        product: action.payload,
       };
     default:
       return state;

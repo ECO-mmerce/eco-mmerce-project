@@ -53,8 +53,8 @@ export default function ChatRoom({ socket }) {
   const handleSend = () => {
     socket.emit('chat', {
       message: {
-        buyerId: user_role === 'buyer' ? user_id : chatWithId,
-        sellerId: user_role === 'buyer' ? chatWithId : user_id,
+        BuyerId: user_role === 'buyer' ? user_id : chatWithId,
+        SellerId: user_role === 'buyer' ? chatWithId : user_id,
         message: chat,
         fullName: user_firstName + ' ' + user_lastName,
       },

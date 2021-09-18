@@ -1,6 +1,9 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
+import { setUser } from '../stores/action';
+import { useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
 
 export default function Navbar() {
   const { user_firstName, user_lastName, user_picture } = useSelector(
@@ -13,14 +16,34 @@ export default function Navbar() {
     }
   );
 
+  const dispatch = useDispatch();
   const history = useHistory();
   const location = useLocation();
+
+  const toastOptions = {
+    position: 'bottom-right',
+    theme: 'light',
+  };
 
   const goToSellerPage = () => {
     history.push('/seller');
   };
 
   const goToHomePage = () => {
+    history.push('/');
+  };
+
+  const goToLoginPage = (e) => {
+    e.preventDefault();
+    history.push('/login');
+  };
+
+  const logOut = (e) => {
+    e.preventDefault();
+    dispatch(setUser(''));
+    localStorage.clear();
+
+    toast.success('Logged out', toastOptions);
     history.push('/');
   };
 
@@ -87,9 +110,35 @@ export default function Navbar() {
           </button>
         )}
 
-        <button className="flex text-xl items-center mx-4">
-          {user_picture ? (
-            <img src={user_picture} width="26" alt="user_picture" />
+        <button
+          className="flex text-xl items-center mx-4"
+          onClick={
+            localStorage.getItem('access_token')
+              ? (e) => logOut(e)
+              : (e) => goToLoginPage(e)
+          }
+        >
+          {localStorage.getItem('access_token') ? (
+            user_picture ? (
+              <>
+                <img src={user_picture} width="26" alt="user_picture" />
+                <span>{`${user_firstName} ${user_lastName}`}</span>
+              </>
+            ) : (
+              <>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  height="24"
+                  fill="currentColor"
+                  className="bi bi-person-square"
+                  viewBox="0 0 16 16"
+                >
+                  <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
+                  <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm12 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1v-1c0-1-1-4-6-4s-6 3-6 4v1a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12z" />
+                </svg>
+                <span>{`${user_firstName} ${user_lastName}`}</span>
+              </>
+            )
           ) : (
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -102,8 +151,6 @@ export default function Navbar() {
               <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm12 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1v-1c0-1-1-4-6-4s-6 3-6 4v1a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12z" />
             </svg>
           )}
-
-          <span>{`${user_firstName} ${user_lastName}`}</span>
         </button>
         <button className="flex text-xl items-center mx-4">
           <svg
