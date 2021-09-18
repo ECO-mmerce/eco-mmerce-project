@@ -24,7 +24,7 @@ export default function Login() {
     if (isLogin && user_role === 'buyer') {
       history.push('/');
     } else if (isLogin && user_role === 'seller') {
-      history.push('/seller/dashboard');
+      history.push('/seller');
     }
   }, [isLogin, history, user_role]);
 
