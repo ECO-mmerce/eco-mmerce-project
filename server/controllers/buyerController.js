@@ -9,7 +9,7 @@ const {
   Category,
   Cart,
   UsersProduct,
-  ProductsBrand,
+  Chat,
 } = require('../models');
 const _ = require('lodash');
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
@@ -268,7 +268,6 @@ class BuyerController {
 
       const newCarts = JSON.parse(JSON.stringify(carts));
       for (let key in newCarts) {
-        let obj = {};
         let count = 0;
         let currentId = newCarts[key].Product.id;
         for (let key2 in newCarts) {
@@ -284,6 +283,7 @@ class BuyerController {
       next(err);
     }
   }
+
   static async createCart(req, res, next) {
     try {
       const { id: UserId } = req.user;

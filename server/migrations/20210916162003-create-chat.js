@@ -11,16 +11,22 @@ module.exports = {
       BuyerId: {
         allowNull: false,
         type: Sequelize.INTEGER,
+        references: {
+          model: 'Users',
+          key: 'id',
+        },
+        onUpdate: 'cascade',
+        onDelete: 'cascade',
       },
       SellerId: {
         allowNull: false,
         type: Sequelize.INTEGER,
       },
-      isBuyer: {
-        allowNull: false,
-        type: Sequelize.BOOLEAN,
-      },
       message: {
+        allowNull: false,
+        type: Sequelize.STRING,
+      },
+      fullName: {
         allowNull: false,
         type: Sequelize.STRING,
       },

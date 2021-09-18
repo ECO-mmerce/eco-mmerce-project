@@ -2,8 +2,10 @@ const router = require('express').Router();
 const upload = require('../middlewares/multer');
 const uploadImage = require('../middlewares/imagekit');
 
-const SellerController = require('../controllers/sellerController');
 const authentication = require('../middlewares/authentication');
+const ChatController = require('../controllers/chatController');
+const SellerController = require('../controllers/sellerController');
+
 const { authorization } = require('../middlewares/authorization');
 
 router.post('/login', SellerController.loginSeller);
@@ -16,6 +18,7 @@ router.post(
 
 router.use(authentication);
 router.use(authorization);
+router.get('/chats', ChatController.getBuyerChat);
 router.get('/products', SellerController.getAllProducts);
 router.post('/products', SellerController.createProduct);
 router.get('/products/:id', SellerController.getProduct);

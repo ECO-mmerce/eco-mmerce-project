@@ -1,5 +1,7 @@
-const socket = require('socket.io');
 const app = require('../app');
+const socket = require('socket.io');
+
+const { Chat } = require('../models');
 
 const PORT = process.env.PORT || 4000;
 
@@ -34,8 +36,9 @@ io.on('connection', (socket) => {
   });
 
   socket.on('chat', ({ message }) => {
-    const roomname = `chat-seller-${message.sellerId}-buyer-${message.buyerId}`;
-    // Chats.create(message)
+    const roomname = `chat-seller-${message.SellerId}-buyer-${message.BuyerId}`;
+    Chat.create(message);
+    console.log(message);
     console.log(roomname);
 
     io.in(roomname).emit('message', message);

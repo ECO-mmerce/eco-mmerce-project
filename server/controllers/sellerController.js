@@ -1,6 +1,7 @@
 const { signToken } = require('../helpers/jwt');
 const { checkPassword } = require('../helpers/bcrypt');
-const { Product, User, Brand, Category, UsersProduct } = require('../models');
+const _ = require('lodash');
+const { Product, User, Brand, Category, UsersProduct, Chat } = require('../models');
 
 class SellerController {
   static async loginSeller(req, res, next) {

@@ -9,6 +9,8 @@ module.exports = (sequelize, DataTypes) => {
       });
       models.User.hasMany(models.UsersProduct);
 
+      models.User.hasMany(models.Chat, { foreignKey: 'BuyerId' });
+
       models.User.belongsToMany(models.Product, {
         through: models.Cart,
       });

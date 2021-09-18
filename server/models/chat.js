@@ -2,7 +2,9 @@
 const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Chat extends Model {
-    static associate(models) {}
+    static associate(models) {
+      models.Chat.belongsTo(models.User, { foreignKey: 'BuyerId' });
+    }
   }
   Chat.init(
     {
@@ -14,11 +16,11 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         type: DataTypes.INTEGER,
       },
-      isBuyer: {
-        allowNull: false,
-        type: DataTypes.BOOLEAN,
-      },
       message: {
+        allowNull: false,
+        type: DataTypes.STRING,
+      },
+      fullName: {
         allowNull: false,
         type: DataTypes.STRING,
       },
