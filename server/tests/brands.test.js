@@ -1,21 +1,18 @@
 const app = require('../app');
-const { HarmfulIngridient } = require('../models');
+const { Brand } = require('../models');
 const request = require('supertest');
 
-const data = [{ name: 'ingridient1' }, { name: 'ingridient2' }];
+const data = [{ name: 'brand1' }, { name: 'brand2' }];
 
 beforeAll((done) => {
-  HarmfulIngridient.bulkCreate(data)
-    .then((resp) => {
-      console.log(resp.body);
+  Brand.bulkCreate(data)
+    .then(() => {
       done();
     })
-    .catch((err) => {
-      done(err);
-    });
+    .catch((err) => done(err));
 });
 afterAll((done) => {
-  HarmfulIngridient.destroy({
+  Brand.destroy({
     truncate: true,
     cascade: true,
     restartIdentity: true,
@@ -23,15 +20,13 @@ afterAll((done) => {
     .then(() => {
       done();
     })
-    .catch((err) => {
-      done(err);
-    });
+    .catch((err) => done(err));
 });
 
-describe('GET /ingridients [success]', () => {
+describe('GET /brands [success]', () => {
   test('Should return {id, name} [200]', (done) => {
     request(app)
-      .get('/ingridients')
+      .get('/brands')
       .then((response) => {
         expect(response.status).toBe(200);
         expect(response.body).toEqual(
