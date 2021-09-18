@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
-import { setUser } from '../stores/action';
+import { setIsLogin, setUser } from '../stores/action';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 
@@ -40,7 +40,16 @@ export default function Navbar() {
 
   const logOut = (e) => {
     e.preventDefault();
-    dispatch(setUser(''));
+    dispatch(
+      setUser({
+        id: 0,
+        firstname: 'Guest',
+        lastName: '',
+        role: '',
+        picture: '',
+      })
+    );
+    dispatch(setIsLogin(false));
     localStorage.clear();
 
     toast.success('Logged out', toastOptions);
