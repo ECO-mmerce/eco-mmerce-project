@@ -7,6 +7,7 @@ import {
   USER_SET,
   PRODUCTS_SET,
   PRODUCT_SET,
+  CHATLIST_SET,
 } from './actionType';
 
 const initialState = {
@@ -23,6 +24,7 @@ const initialState = {
   chatWithName: '',
   products: [],
   product: {},
+  chatList: [],
 };
 
 export default function reducer(state = initialState, action) {
@@ -71,6 +73,11 @@ export default function reducer(state = initialState, action) {
       return {
         ...state,
         product: action.payload,
+      };
+    case CHATLIST_SET:
+      return {
+        ...state,
+        chatList: action.payload,
       };
     default:
       return state;
