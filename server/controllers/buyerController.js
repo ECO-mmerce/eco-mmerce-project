@@ -9,8 +9,9 @@ const {
   Category,
   Cart,
   UsersProduct,
+  ProductsBrand,
 } = require('../models');
-
+const _ = require('lodash');
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 class BuyerController {
@@ -104,28 +105,42 @@ class BuyerController {
 
   static async getProducts(req, res, next) {
     try {
+      const { brand, categoryId: CategoryId } = req.query;
+      const filterBrand = brand ? { name: brand } : {};
+      const filterCategory = CategoryId ? { id: CategoryId } : {};
       const products = await Product.findAll({
         order: [['id', 'ASC']],
         include: [
           {
-            model: User,
-            attributes: ['firstName', 'lastName', 'role'],
-            through: {
-              attributes: {
-                exclude: ['createdAt', 'updatedAt'],
-              },
+            model: UsersProduct,
+            attributes: {
+              exclude: [
+                'ProductId',
+                'UserId',
+                // 'status',
+                'createdAt',
+                'updatedAt',
+              ],
             },
+            include: [
+              {
+                model: User,
+                attributes: ['id', 'firstName', 'lastName', 'role'],
+              },
+            ],
           },
           {
             model: Category,
+            where: filterCategory,
             attributes: { exclude: ['createdAt', 'updatedAt'] },
           },
           {
             model: Brand,
+            where: filterBrand,
             attributes: { exclude: ['createdAt', 'updatedAt'] },
             through: {
               attributes: {
-                exclude: ['createdAt', 'updatedAt'],
+                exclude: ['createdAt', 'updatedAt', 'ProductId', 'BrandId'],
               },
             },
           },
@@ -136,12 +151,13 @@ class BuyerController {
             'status',
             'description',
             'ingridient',
+            'CategoryId',
+            'UserId',
             'createdAt',
             'updatedAt',
           ],
         },
       });
-
       res.status(200).json(products);
     } catch (err) {
       next(err);
@@ -155,13 +171,22 @@ class BuyerController {
         where: { id },
         include: [
           {
-            model: User,
-            attributes: ['firstName', 'lastName', 'role'],
-            through: {
-              attributes: {
-                exclude: ['createdAt', 'updatedAt'],
-              },
+            model: UsersProduct,
+            attributes: {
+              exclude: [
+                'ProductId',
+                'UserId',
+                // 'status',
+                'createdAt',
+                'updatedAt',
+              ],
             },
+            include: [
+              {
+                model: User, // seller
+                attributes: ['id', 'firstName', 'lastName', 'role'],
+              },
+            ],
           },
           {
             model: Category,
@@ -178,7 +203,7 @@ class BuyerController {
           },
         ],
         attributes: {
-          exclude: ['createdAt', 'updatedAt'],
+          exclude: ['UserId', 'CategoryId', 'createdAt', 'updatedAt'],
         },
       });
 
@@ -215,9 +240,7 @@ class BuyerController {
             ],
             include: [
               {
-                // association: 'Seller',
                 model: UsersProduct,
-                // as: 'Seller',
                 attributes: {
                   exclude: ['ProductId', 'UserId', 'createdAt', 'updatedAt'],
                 },
@@ -243,24 +266,20 @@ class BuyerController {
         ],
       });
 
-      // console.log(carts, 'ppppppppp');
       const newCarts = JSON.parse(JSON.stringify(carts));
-      // const newCarts = Object.create(carts);
-      // console.log(newCarts, 'kkkkkkkkk');
       for (let key in newCarts) {
-        // console.log(newCarts[cart], 'OOOOO');
+        let obj = {};
         let count = 0;
         let currentId = newCarts[key].Product.id;
         for (let key2 in newCarts) {
           if (newCarts[key2].Product.id === currentId) count++;
         }
         newCarts[key].Product.qty = count;
-
-        console.log(newCarts[key].Product.qty);
-        // if (newCarts[key].Product.qty > 1) delete newCarts[key].Product;
       }
 
-      res.status(200).json(newCarts);
+      const uniqueCarts = _.uniqWith(newCarts, _.isEqual);
+
+      res.status(200).json(uniqueCarts);
     } catch (err) {
       next(err);
     }
