@@ -1,5 +1,6 @@
 'use strict';
 const { Model } = require('sequelize');
+const _ = require('lodash');
 module.exports = (sequelize, DataTypes) => {
   class Brand extends Model {
     static associate(models) {
@@ -24,6 +25,14 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: 'Brand',
+      addHooks: {
+        beforeCreate: (brand, _) => {
+          brand.name = brand.name
+            .split(' ')
+            .map((el) => _.capitalize(el))
+            .join(' ');
+        },
+      },
     }
   );
   return Brand;
