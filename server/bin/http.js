@@ -16,4 +16,28 @@ const io = socket(server, {
 
 io.on('connection', (socket) => {
   console.log(`user ${socket.id} connected`);
+  socket.on('joinRoom', ({ sellerId, buyerId }) => {
+    const roomname = `chat-seller-${sellerId}-buyer-${buyerId}`;
+    // Join to room
+    console.log(roomname);
+    socket.join(roomname);
+
+    // // Emit to sender only
+    // socket.emit('message', {
+    //   text: `Connected to ${isBuyer ? 'seller' : 'buyer'}`,
+    // });
+
+    // // Emit to everyone except sender
+    // socket.broadcast.in(roomname).emit('message', {
+    //   text: `${name} has entered the chat`,
+    // });
+  });
+
+  socket.on('chat', ({ message }) => {
+    const roomname = `chat-seller-${message.sellerId}-buyer-${message.buyerId}`;
+    // Chats.create(message)
+    console.log(roomname);
+
+    io.in(roomname).emit('message', message);
+  });
 });

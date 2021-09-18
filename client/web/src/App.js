@@ -38,7 +38,7 @@ function App() {
             <Home />
           </Route>
           <Route path="/products/:id">
-            <ProductDetails />
+            <ProductDetails socket={socket} />
           </Route>
           <Route path="/products">
             <Products />
