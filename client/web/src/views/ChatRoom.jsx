@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { addMessage } from '../stores/action';
+import { addMessage, fetchMessages } from '../stores/action';
 
 export default function ChatRoom({ socket }) {
   const {
@@ -39,6 +39,10 @@ export default function ChatRoom({ socket }) {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    dispatch(fetchMessages());
+  }, []);
+
+  useEffect(() => {
     if (!chatWithId || !chatWithName) {
       history.push('/');
     }
@@ -53,8 +57,8 @@ export default function ChatRoom({ socket }) {
   const handleSend = () => {
     socket.emit('chat', {
       message: {
-        buyerId: user_role === 'buyer' ? user_id : chatWithId,
-        sellerId: user_role === 'buyer' ? chatWithId : user_id,
+        BuyerId: user_role === 'buyer' ? user_id : chatWithId,
+        SellerId: user_role === 'buyer' ? chatWithId : user_id,
         message: chat,
         fullName: user_firstName + ' ' + user_lastName,
       },

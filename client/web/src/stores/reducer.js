@@ -53,7 +53,6 @@ export default function reducer(state = initialState, action) {
         messages: action.payload,
       };
     case CHATWITH_SET:
-      console.log(action.payload, 'ini di reducer');
       return {
         ...state,
         chatWithId: action.payload.id,
