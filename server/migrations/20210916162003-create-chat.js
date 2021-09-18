@@ -16,11 +16,11 @@ module.exports = {
         allowNull: false,
         type: Sequelize.INTEGER,
       },
-      isBuyer: {
-        allowNull: false,
-        type: Sequelize.BOOLEAN,
-      },
       message: {
+        allowNull: false,
+        type: Sequelize.STRING,
+      },
+      fullName: {
         allowNull: false,
         type: Sequelize.STRING,
       },

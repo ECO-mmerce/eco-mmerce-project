@@ -23,4 +23,6 @@ router.use(authorizationBuyer);
 router.get('/carts', BuyerController.getCarts);
 router.post('/carts', BuyerController.createCart);
 
+router.get('/chats', BuyerController.getChat);
+
 module.exports = router;

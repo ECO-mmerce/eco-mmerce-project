@@ -9,7 +9,7 @@ const {
   Category,
   Cart,
   UsersProduct,
-  ProductsBrand,
+  Chat,
 } = require('../models');
 const _ = require('lodash');
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
@@ -284,6 +284,7 @@ class BuyerController {
       next(err);
     }
   }
+
   static async createCart(req, res, next) {
     try {
       const { id: UserId } = req.user;
@@ -294,6 +295,21 @@ class BuyerController {
       });
 
       res.status(201).json({ message: 'Product is added to cart' });
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  static async getChat(req, res, next) {
+    try {
+      const { id: BuyerId } = req.user;
+      const { chatWithId: SellerId } = req.body;
+      const chat = Chat.findAll({
+        order: [['id', 'ASC']],
+        where: { BuyerId, SellerId },
+      });
+
+      res.status(200).json(chat);
     } catch (err) {
       next(err);
     }

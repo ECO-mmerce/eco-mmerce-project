@@ -21,5 +21,6 @@ router.post('/products', SellerController.createProduct);
 router.get('/products/:id', SellerController.getProduct);
 router.put('/products/:id', SellerController.updateProduct);
 router.delete('/products/:id', SellerController.deleteProduct);
+router.get('/chats', SellerController.getChat);
 
 module.exports = router;

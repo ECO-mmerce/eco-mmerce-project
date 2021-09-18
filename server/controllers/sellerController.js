@@ -1,6 +1,6 @@
 const { signToken } = require('../helpers/jwt');
 const { checkPassword } = require('../helpers/bcrypt');
-const { Product, User, Brand, Category } = require('../models');
+const { Product, User, Brand, Category, Chat } = require('../models');
 
 class SellerController {
   static async loginSeller(req, res, next) {
@@ -240,6 +240,21 @@ class SellerController {
           message: `Product with Id ${id} has been successfully deleted!`,
         });
       }
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  static async getChat(req, res, next) {
+    try {
+      const { id: SellerId } = req.user;
+      const { chatWithId: BuyerId } = req.body;
+      const chat = Chat.findAll({
+        order: [['id', 'ASC']],
+        where: { SellerId, BuyerId },
+      });
+
+      res.status(200).json(chat);
     } catch (err) {
       next(err);
     }

@@ -14,11 +14,11 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         type: DataTypes.INTEGER,
       },
-      isBuyer: {
-        allowNull: false,
-        type: DataTypes.BOOLEAN,
-      },
       message: {
+        allowNull: false,
+        type: DataTypes.STRING,
+      },
+      fullName: {
         allowNull: false,
         type: DataTypes.STRING,
       },
