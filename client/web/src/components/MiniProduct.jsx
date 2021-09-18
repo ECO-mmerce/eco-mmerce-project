@@ -1,8 +1,9 @@
 import React from 'react';
-
-export default function MiniProduct() {
+import { Link } from 'react-router-dom';
+export default function MiniProduct(props) {
+  const {product} = props
   return (
-    <div className="p-4">
+    <Link to={`/products/${product.id}`}>
       <div className="bg-gray-100 p-6 rounded-lg">
         <img
           className="h-40 rounded w-full object-cover object-center mb-6"
@@ -20,6 +21,6 @@ export default function MiniProduct() {
           hexagon disrupt edison bulbche.
         </p>
       </div>
-    </div>
+    </Link>
   );
 }

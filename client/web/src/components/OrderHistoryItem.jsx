@@ -8,14 +8,14 @@ export default function OrderHistoryItem() {
       </div>
       <td>Rp 5.000.000</td>
       <td>status</td>
-      <div>
-        <button className="bg-red-400 text-white px-3 py-1 rounded-lg">
+      <div className="flex">
+        <button className="bg-red-400 text-white px-3 py-1 rounded-l-lg">
           cancel
         </button>
-        <button className="bg-blue-400 text-white px-3 py-1 rounded-lg">
+        <button className="bg-blue-400 text-white px-3 py-1 ">
           complaint
         </button>
-        <button className="bg-green-400 text-white px-3 py-1 rounded-lg">
+        <button className="bg-green-400 text-white px-3 py-1 rounded-r-lg">
           re-order
         </button>
       </div>

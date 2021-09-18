@@ -56,56 +56,57 @@ export default function Register() {
         </div>
         <h1 className="text-4xl font-medium">Register</h1>
         <form
-          className="flex flex-col text-2xl gap-5 my-5 items-center"
+          className="flex flex-col text-2xl gap-5 my-5 items-center px-10"
           encType="multipart/form-data"
           onSubmit={handleSubmit}
           ref={formRegister}
         >
           <input
-            className="px-2 py-1 rounded bg-gray-200"
+            className="px-2 py-1 rounded bg-gray-200 w-full"
             type="text"
             placeholder="First Name"
             id="firstName"
             name="firstName"
           />
           <input
-            className="px-2 py-1 rounded bg-gray-200"
+            className="px-2 py-1 rounded bg-gray-200 w-full"
             type="text"
             placeholder="Last Name"
             id="lastName"
             name="lastName"
           />
           <input
-            className="px-2 py-1 rounded bg-gray-200"
+            className="px-2 py-1 rounded bg-gray-200 w-full"
             type="text"
             placeholder="Email"
             id="email"
             name="email"
           />
           <input
-            className="px-2 py-1 rounded bg-gray-200"
+            className="px-2 py-1 rounded bg-gray-200 w-full"
             type="number"
             placeholder="Phone Number"
             id="phoneNumber"
             name="phoneNumber"
           />
           <input
-            className="px-2 py-1 rounded bg-gray-200"
+            className="px-2 py-1 rounded bg-gray-200 w-full"
             type="password"
             placeholder="Password"
             id="password"
             name="password"
           />
-
-          <label htmlFor="picture">Profile Picture</label>
-          <input
-            className="px-2 py-1 rounded bg-gray-200"
-            type="file"
-            accept="image/*"
-            placeholder="Password"
-            id="picture"
-            name="picture"
-          />
+          <div className="flex flex-col">
+            <label className="text-left ml-1 mb-1" htmlFor="picture">Profile Picture</label>
+            <input
+              className="px-2 py-1 rounded bg-gray-200 w-full"
+              type="file"
+              accept="image/*"
+              placeholder="Password"
+              id="picture"
+              name="picture"
+            />
+          </div>
 
           <button
             type="submit"

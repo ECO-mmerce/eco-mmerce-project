@@ -30,36 +30,38 @@ function App() {
         <ToastContainer />
         <Navbar />
         <Switch>
-          <Route path="/" exact>
-            <Home />
-          </Route>
-          <Route path="/products/:id">
-            <ProductDetails />
-          </Route>
-          <Route path="/products">
-            <Products />
-          </Route>
-          <Route path="/dashboard">
-            <UserDashboard />
-          </Route>
-          <Route path="/login">
-            <Login />
-          </Route>
-          <Route path="/register">
-            <Register />
-          </Route>
-          <Route path="/seller/login">
-            <Login />
-          </Route>
-          <Route path="/seller/register">
-            <Register />
-          </Route>
-          <Route path="/seller/addproduct">
-            <AddNewProduct />
-          </Route>
-          <Route path="/seller/orders">
-            <Orders />
-          </Route>
+          <div className="min-h-screen">
+            <Route path="/" exact>
+              <Home />
+            </Route>
+            <Route path="/products/:id">
+              <ProductDetails />
+            </Route>
+            <Route path="/products" exact>
+              <Products />
+            </Route>
+            <Route path="/cart">
+              <UserDashboard />
+            </Route>
+            <Route path="/login">
+              <Login />
+            </Route>
+            <Route path="/register">
+              <Register />
+            </Route>
+            <Route path="/seller/login">
+              <Login />
+            </Route>
+            <Route path="/seller/register">
+              <Register />
+            </Route>
+            <Route path="/seller/addProduct">
+              <AddNewProduct />
+            </Route>
+            <Route path="/seller/orders">
+              <Orders />
+            </Route>
+          </div>
         </Switch>
         <Footer />
       </div>
