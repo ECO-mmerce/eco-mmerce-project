@@ -10,7 +10,7 @@ const router = require('./routes');
 
 const app = express();
 
-app.use(express()); // for socket.io
+// app.use(express()); // for socket.io
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors());

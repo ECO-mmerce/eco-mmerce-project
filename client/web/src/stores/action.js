@@ -146,11 +146,20 @@ export function checkToken() {
   };
 }
 
-export function fetchMessages(buyerId, sellerId) {
+export function fetchMessages() {
   return async function (dispatch, getState) {
     try {
-      // http://baseurl/chats .GET
-    } catch (err) {}
+      const { chatWithId } = getState();
+      const response = await fetch(baseUrl + '/chats/' + chatWithId, {
+        headers: {
+          access_token: localStorage.access_token,
+        },
+      });
+      const data = await response.json();
+      dispatch(setMessages(data));
+    } catch (err) {
+      console.log(err);
+    }
   };
 }
 
@@ -158,7 +167,6 @@ export function addMessage(message) {
   return function (dispatch, getState) {
     const { messages } = getState();
     const newMessages = [...messages, message];
-    console.log(newMessages, 'ini redux');
     dispatch(setMessages(newMessages));
   };
 }
