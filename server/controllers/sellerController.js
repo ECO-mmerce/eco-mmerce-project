@@ -1,7 +1,7 @@
 const { signToken } = require('../helpers/jwt');
 const { checkPassword } = require('../helpers/bcrypt');
 const _ = require('lodash');
-const { Product, User, Brand, Category, Chat } = require('../models');
+const { Product, User, Brand, Category, UsersProduct, Chat } = require('../models');
 
 class SellerController {
   static async loginSeller(req, res, next) {
@@ -180,7 +180,13 @@ class SellerController {
         }
       );
 
-      res.status(201).json(newProduct);
+      const sellerProduct = await UsersProduct.create({
+        ProductId: newProduct.id,
+        UserId: id,
+        status: 'apa hayo',
+      });
+
+      res.status(201).json({ message: 'Successfully added product' });
     } catch (err) {
       next(err);
     }

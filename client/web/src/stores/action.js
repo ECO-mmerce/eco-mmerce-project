@@ -1,4 +1,5 @@
 import {
+  CHATWITH_SET,
   ISLOADING_SET,
   ISLOGIN_SET,
   ISREGISTER_SET,
@@ -46,6 +47,14 @@ export function setMessages(messages) {
   return {
     type: MESSAGES_SET,
     payload: messages,
+  };
+}
+
+export function setChatWith(payload) {
+  console.log(payload);
+  return {
+    type: CHATWITH_SET,
+    payload: payload,
   };
 }
 

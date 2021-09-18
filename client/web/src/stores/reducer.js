@@ -1,4 +1,5 @@
 import {
+  CHATWITH_SET,
   ISLOADING_SET,
   ISLOGIN_SET,
   ISREGISTER_SET,
@@ -16,6 +17,8 @@ const initialState = {
   isLoading: false,
   isRegister: false,
   messages: [],
+  chatWithId: 0,
+  chatWithName: '',
 };
 
 export default function reducer(state = initialState, action) {
@@ -48,6 +51,13 @@ export default function reducer(state = initialState, action) {
       return {
         ...state,
         messages: action.payload,
+      };
+    case CHATWITH_SET:
+      console.log(action.payload, 'ini di reducer');
+      return {
+        ...state,
+        chatWithId: action.payload.id,
+        chatWithName: action.payload.name,
       };
     default:
       return state;
