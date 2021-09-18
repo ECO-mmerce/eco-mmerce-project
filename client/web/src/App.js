@@ -46,7 +46,7 @@ function App() {
           <Route path="/dashboard">
             <UserDashboard />
           </Route>
-          <Route path="/chat/:targetId">
+          <Route path="/chat">
             <ChatRoom socket={socket} />
           </Route>
           <Route path="/login">

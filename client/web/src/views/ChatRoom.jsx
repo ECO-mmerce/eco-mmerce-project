@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams, useHistory } from 'react-router-dom';
-import { toast } from 'react-toastify';
+import { useHistory } from 'react-router-dom';
 import { addMessage } from '../stores/action';
 
 export default function ChatRoom({ socket }) {
@@ -10,44 +9,40 @@ export default function ChatRoom({ socket }) {
     user_firstName,
     user_lastName,
     user_role,
-    isLogin,
     messages,
-    //chatwithId,
-    //chatwithName
+    chatWithId,
+    chatWithName,
   } = useSelector(
     ({
       user_id,
       user_firstName,
       user_lastName,
       user_role,
-      isLogin,
       messages,
+      chatWithId,
+      chatWithName,
     }) => {
       return {
         user_id,
         user_firstName,
         user_lastName,
         user_role,
-        isLogin,
         messages,
+        chatWithId,
+        chatWithName,
       };
     }
   );
   const [chat, setChat] = useState('');
 
-  const params = useParams();
   const history = useHistory();
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!isLogin) {
+    if (!chatWithId || !chatWithName) {
       history.push('/');
-      toast.info('Please login first', {
-        position: 'bottom-right',
-        theme: 'light',
-      });
     }
-  }, [isLogin, history]);
+  }, [chatWithId, chatWithName, history]);
 
   useEffect(() => {
     socket.on('message', (message) => {
@@ -58,17 +53,18 @@ export default function ChatRoom({ socket }) {
   const handleSend = () => {
     socket.emit('chat', {
       message: {
-        buyerId: user_role === 'buyer' ? user_id : params.targetId,
-        sellerId: user_role === 'buyer' ? params.targetId : user_id,
+        buyerId: user_role === 'buyer' ? user_id : chatWithId,
+        sellerId: user_role === 'buyer' ? chatWithId : user_id,
         message: chat,
         fullName: user_firstName + ' ' + user_lastName,
       },
     });
+    setChat('');
   };
 
   return (
     <div>
-      {params.targetId}
+      {chatWithName}
       <ul>
         {messages.map((message, i) => {
           return (
