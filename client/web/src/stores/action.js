@@ -2,6 +2,7 @@ import {
   ISLOADING_SET,
   ISLOGIN_SET,
   ISREGISTER_SET,
+  MESSAGES_SET,
   USER_SET,
 } from './actionType';
 import { toast } from 'react-toastify';
@@ -38,6 +39,13 @@ export function setUser(user) {
   return {
     type: USER_SET,
     payload: user,
+  };
+}
+
+export function setMessages(messages) {
+  return {
+    type: MESSAGES_SET,
+    payload: messages,
   };
 }
 
@@ -126,5 +134,22 @@ export function checkToken() {
     } catch (err) {
       console.log(err);
     }
+  };
+}
+
+export function fetchMessages(buyerId, sellerId) {
+  return async function (dispatch, getState) {
+    try {
+      // http://baseurl/chats .GET
+    } catch (err) {}
+  };
+}
+
+export function addMessage(message) {
+  return function (dispatch, getState) {
+    const { messages } = getState();
+    const newMessages = [...messages, message];
+    console.log(newMessages, 'ini redux');
+    dispatch(setMessages(newMessages));
   };
 }

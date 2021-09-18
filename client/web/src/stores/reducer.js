@@ -2,6 +2,7 @@ import {
   ISLOADING_SET,
   ISLOGIN_SET,
   ISREGISTER_SET,
+  MESSAGES_SET,
   USER_SET,
 } from './actionType';
 
@@ -14,6 +15,7 @@ const initialState = {
   isLogin: false,
   isLoading: false,
   isRegister: false,
+  messages: [],
 };
 
 export default function reducer(state = initialState, action) {
@@ -41,6 +43,11 @@ export default function reducer(state = initialState, action) {
         user_lastName: action.payload.lastName,
         user_role: action.payload.role,
         user_picture: action.payload.picture,
+      };
+    case MESSAGES_SET:
+      return {
+        ...state,
+        messages: action.payload,
       };
     default:
       return state;

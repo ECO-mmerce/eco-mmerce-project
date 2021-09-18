@@ -1,8 +1,36 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
-export default function ProductDetails() {
+export default function ProductDetails({ socket }) {
+  const { user_id } = useSelector(({ user_id }) => {
+    return {
+      user_id,
+    };
+  });
+
+  const history = useHistory();
+  const handleChat = () => {
+    // dispatch(setChatWith(sellerId, sellerName))
+    socket.emit('joinRoom', {
+      sellerId: 1, //product.sellerId
+      buyerId: user_id,
+    });
+    history.push('/chat/1'); // push ke chat doang
+  };
+
+  const handleSeller = () => {
+    socket.emit('joinRoom', {
+      sellerId: user_id,
+      buyerId: 3,
+    });
+    history.push('/chat/3');
+  };
+
   return (
     <section className="text-gray-600 body-font overflow-hidden">
+      <button onClick={handleChat}>Go To Chat</button>
+      <button onClick={handleSeller}>Go To Chat Seller</button>
       <div className="container px-5 py-24 mx-auto">
         <div className="lg:w-4/5 mx-auto flex flex-wrap">
           <img
