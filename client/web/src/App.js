@@ -4,6 +4,7 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
+import { io } from 'socket.io-client';
 
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -16,6 +17,8 @@ import ProductDetails from './views/ProductDetails';
 import UserDashboard from './views/UserDashboard';
 import Orders from './views/Orders';
 import { checkToken } from './stores/action';
+
+const socket = io('http://localhost:4000');
 
 function App() {
   const dispatch = useDispatch();
