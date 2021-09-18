@@ -3,3 +3,4 @@ export const ISLOADING_SET = 'ISLOADING/SET';
 export const ISREGISTER_SET = 'ISREGISTER/SET';
 export const ISLOGIN_SET = 'ISLOGIN/SET';
 export const MESSAGES_SET = 'MESSAGES/SET';
+export const CHATWITH_SET = 'CHATWITH/SET';

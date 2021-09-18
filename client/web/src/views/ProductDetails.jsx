@@ -1,6 +1,7 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import { setChatWith } from '../stores/action';
 
 export default function ProductDetails({ socket }) {
   const { user_id } = useSelector(({ user_id }) => {
@@ -9,22 +10,26 @@ export default function ProductDetails({ socket }) {
     };
   });
 
+  const dispatch = useDispatch();
+
   const history = useHistory();
   const handleChat = () => {
     // dispatch(setChatWith(sellerId, sellerName))
+    dispatch(setChatWith({ id: 1, name: 'Ini nama seller' })); // get id and name from product.sellerId & product.sellerName
     socket.emit('joinRoom', {
       sellerId: 1, //product.sellerId
       buyerId: user_id,
     });
-    history.push('/chat/1'); // push ke chat doang
+    history.push('/chat'); // push ke chat doang
   };
 
   const handleSeller = () => {
+    dispatch(setChatWith({ id: 3, name: 'Ini nama buyer' })); // dapet dari hasil getAll chat
     socket.emit('joinRoom', {
       sellerId: user_id,
       buyerId: 3,
     });
-    history.push('/chat/3');
+    history.push('/chat');
   };
 
   return (
