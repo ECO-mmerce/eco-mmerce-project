@@ -18,6 +18,7 @@ import UserDashboard from './views/UserDashboard';
 import Orders from './views/Orders';
 import { checkToken } from './stores/action';
 import ChatRoom from './views/ChatRoom';
+import SellerDashboard from './views/SellerDashboard';
 
 const socket = io('http://localhost:4000');
 
@@ -56,7 +57,7 @@ function App() {
             <Register />
           </Route>
           <Route path="/seller" exact>
-            <h1>Seller</h1>
+            <SellerDashboard socket={socket} />
           </Route>
           <Route path="/seller/login">
             <Login />

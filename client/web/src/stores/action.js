@@ -7,6 +7,7 @@ import {
   USER_SET,
   PRODUCTS_SET,
   PRODUCT_SET,
+  CHATLIST_SET,
 } from './actionType';
 import { toast } from 'react-toastify';
 
@@ -70,6 +71,13 @@ export function setProduct(payload) {
   return {
     type: PRODUCT_SET,
     payload: payload,
+  };
+}
+
+export function setChatList(chatList) {
+  return {
+    type: CHATLIST_SET,
+    payload: chatList,
   };
 }
 
@@ -207,6 +215,26 @@ export function fetchProduct(id) {
       const data = await response.json();
       console.log(data);
       dispatch(setProduct(data));
+    } catch (err) {
+      console.log(err);
+    } finally {
+      dispatch(setIsLoading(false));
+    }
+  };
+}
+
+export function fetchChatList() {
+  return async function (dispatch, getState) {
+    try {
+      dispatch(setIsLoading(true));
+      const response = await fetch(baseUrl + '/sellers/chats', {
+        headers: {
+          access_token: localStorage.access_token,
+        },
+      });
+      const data = await response.json();
+      console.log(data, '===== ini chatlist');
+      dispatch(setChatList(data));
     } catch (err) {
       console.log(err);
     } finally {

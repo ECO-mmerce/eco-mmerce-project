@@ -27,21 +27,15 @@ export default function ProductDetails({ socket }) {
 
   const handleChat = () => {
     // dispatch(setChatWith(sellerId, sellerName))
-    dispatch(setChatWith({ id: 1, name: 'Ini nama seller' })); // get id and name from product.sellerId & product.sellerName
+    const sellerName = `${product.UsersProducts[0].User.firstName} ${product.UsersProducts[0].User.lastName}`;
+    dispatch(
+      setChatWith({ id: product.UsersProducts[0].User.id, name: sellerName })
+    ); // get id and name from product.sellerId & product.sellerName
     socket.emit('joinRoom', {
-      sellerId: 1, //product.sellerId
+      sellerId: product.UsersProducts[0].User.id, //product.sellerId
       buyerId: user_id,
     });
     history.push('/chat'); // push ke chat doang
-  };
-
-  const handleSeller = () => {
-    dispatch(setChatWith({ id: 3, name: 'Ini nama buyer' })); // dapet dari hasil getAll chat
-    socket.emit('joinRoom', {
-      sellerId: user_id,
-      buyerId: 3,
-    });
-    history.push('/chat');
   };
 
   if (isLoading) {
@@ -51,7 +45,6 @@ export default function ProductDetails({ socket }) {
   return (
     <section className="text-gray-600 body-font overflow-hidden">
       <button onClick={handleChat}>Go To Chat</button>
-      <button onClick={handleSeller}>Go To Chat Seller</button>
       <div className="container px-5 py-24 mx-auto">
         <div className="lg:w-4/5 mx-auto flex flex-wrap">
           <img
@@ -76,9 +69,12 @@ export default function ProductDetails({ socket }) {
             <h2 className="text-sm title-font text-gray-500 tracking-widest mb-1">
               {product?.Category?.name}
             </h2>
-            {product?.UsersProducts?.map((el) => {
+            {product?.UsersProducts?.map((el, i) => {
               return (
-                <h2 className="text-sm title-font text-gray-500 text-transform: uppercase; tracking-widest">
+                <h2
+                  key={'seller-detail-' + i}
+                  className="text-sm title-font text-gray-500 text-transform: uppercase; tracking-widest"
+                >
                   By : {`${el.User.firstName} ${el.User.lastName}`}
                 </h2>
               );
