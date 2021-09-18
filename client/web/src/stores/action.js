@@ -140,6 +140,7 @@ export function checkToken() {
 export function fetchMessages(buyerId, sellerId) {
   return async function (dispatch, getState) {
     try {
+      // http://baseurl/chats .GET
     } catch (err) {}
   };
 }

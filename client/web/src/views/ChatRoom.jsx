@@ -61,7 +61,7 @@ export default function ChatRoom({ socket }) {
         buyerId: user_role === 'buyer' ? user_id : params.targetId,
         sellerId: user_role === 'buyer' ? params.targetId : user_id,
         message: chat,
-        name: user_firstName + ' ' + user_lastName,
+        fullName: user_firstName + ' ' + user_lastName,
       },
     });
   };
@@ -73,7 +73,7 @@ export default function ChatRoom({ socket }) {
         {messages.map((message, i) => {
           return (
             <li key={'chatmessage-' + i}>
-              {message.name}|{message.message}
+              {message.fullName}|{message.message}
             </li>
           );
         })}
