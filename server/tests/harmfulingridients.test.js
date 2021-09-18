@@ -2,16 +2,12 @@ const app = require('../app');
 const { HarmfulIngridient } = require('../models');
 const request = require('supertest');
 
-const appJSON = 'application/json';
-
-const data = [
-  { name: 'bahan1', createdAt: new Date(), updatedAt: new Date() },
-  { name: 'bahan2', createdAt: new Date(), updatedAt: new Date() },
-];
+const data = [{ name: 'ingridient1' }, { name: 'ingridient2' }];
 
 beforeAll((done) => {
   HarmfulIngridient.bulkCreate(data)
-    .then(() => {
+    .then((resp) => {
+      console.log(resp.body);
       done();
     })
     .catch((err) => {
@@ -32,11 +28,10 @@ afterAll((done) => {
     });
 });
 
-describe('GET /harmfulingridients [success]', () => {
+describe('GET /ingridients [success]', () => {
   test('Should return {id, name} [200]', (done) => {
     request(app)
-      .get('/harmfulingridients')
-      .expect('Accept', appJSON)
+      .get('/ingridients')
       .then((response) => {
         expect(response.status).toBe(200);
         expect(response.body).toEqual(
