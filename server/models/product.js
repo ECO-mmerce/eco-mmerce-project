@@ -114,6 +114,15 @@ module.exports = (sequelize, DataTypes) => {
           },
         },
       },
+      harmfuIngridient: {
+        allowNull: false,
+        type: DataTypes.ARRAY(DataTypes.TEXT),
+        validate: {
+          notEmpty: {
+            msg: 'Harmful ingridient cannot be empty',
+          },
+        },
+      },
     },
     {
       sequelize,
