@@ -20,6 +20,7 @@ module.exports = {
             'Decyl Glucoside',
             'Bentonite',
           ],
+          harmfulIngridient: [],
           UserId: 1, // seller
           picture: 'picture',
           CategoryId: 1,
@@ -41,6 +42,7 @@ module.exports = {
             'Ethylhexylglycerin',
             'Beta-Glucan',
           ],
+          harmfulIngridient: [],
           UserId: 1, // seller
           picture: 'picture',
           CategoryId: 1,
