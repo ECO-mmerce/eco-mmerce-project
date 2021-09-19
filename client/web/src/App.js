@@ -9,6 +9,8 @@ import { io } from 'socket.io-client';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Home from './views/Home';
+import Cart from './components/Cart';
+import History from './views/History';
 import Login from './views/Login';
 import Register from './views/Register';
 import AddNewProduct from './views/AddNewProduct';
@@ -43,6 +45,12 @@ function App() {
           </Route>
           <Route path="/products">
             <Products />
+          </Route>
+          <Route path="/cart">
+            <Cart />
+          </Route>
+          <Route path="/history">
+            <History />
           </Route>
           <Route path="/dashboard">
             <UserDashboard />

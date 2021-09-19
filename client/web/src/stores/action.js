@@ -7,6 +7,8 @@ import {
   USER_SET,
   PRODUCTS_SET,
   PRODUCT_SET,
+  CART_SET,
+  HISTORY_SET,
   CHATLIST_SET,
 } from './actionType';
 import { toast } from 'react-toastify';
@@ -72,6 +74,20 @@ export function setProduct(payload) {
     type: PRODUCT_SET,
     payload: payload,
   };
+}
+
+export function setCart(payload) {
+  return {
+    type: CART_SET,
+    payload: payload,
+  };
+}
+
+export function setHistory(payload) {
+  return {
+    type: HISTORY_SET,
+    payload: payload,
+  }
 }
 
 export function setChatList(chatList) {
@@ -208,17 +224,33 @@ export function fetchProducts() {
 
 export function fetchProduct(id) {
   return async function (dispatch, getState) {
-    console.log('MASOK ACTION');
     try {
       dispatch(setIsLoading(true));
       const response = await fetch(baseUrl + `/buyers/products/${id}`);
       const data = await response.json();
-      console.log(data);
+ 
       dispatch(setProduct(data));
     } catch (err) {
       console.log(err);
     } finally {
       dispatch(setIsLoading(false));
+    }
+  };
+}
+
+
+export function fetchCart() {
+  return async function (dispatch, getState) {
+    try {
+      const response = await fetch(baseUrl + '/buyers/carts', {
+        headers: {
+          access_token: localStorage.access_token,
+        },
+      });
+      const data = await response.json();
+      dispatch(setCart(data));
+    } catch (err) {
+      console.log(err);
     }
   };
 }
@@ -233,12 +265,107 @@ export function fetchChatList() {
         },
       });
       const data = await response.json();
-      console.log(data, '===== ini chatlist');
       dispatch(setChatList(data));
     } catch (err) {
       console.log(err);
     } finally {
-      dispatch(setIsLoading(false));
+      dispatch(setIsLoading(false))
+    }
+}
+
+export function addCart(id) {
+  return async function (dispatch, getState) {
+    try {
+      const response = await fetch(baseUrl + '/buyers/carts', {
+        method: 'POST',
+        headers: {
+          access_token: localStorage.access_token,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ ProductId: id }),
+      });
+
+      const cart = await response.json();
+
+      if (response.status === 201) {
+        dispatch(fetchCart());
+        toast.success(cart.message, toastOptions);
+      } else {
+        toast.error('Something went wrong !', toastOptions);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+}
+
+export function removeQty(id) {
+  return async function (dispatch, getState) {
+    try {
+      const response = await fetch(baseUrl + `/buyers/carts/${id}`, {
+        method: 'DELETE',
+        headers: {
+          access_token: localStorage.access_token,
+          'Content-Type': 'application/json',
+        },
+      });
+
+      const cart = await response.json();
+
+      if (response.status === 200) {
+        dispatch(fetchCart());
+        toast.success(cart.message, toastOptions);
+      } else {
+        toast.error('Something went wrong !', toastOptions);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+}
+
+export function checkOutCart() {
+  return async function (dispatch, getState) {
+    try {
+      const response = await fetch(baseUrl + '/buyers/carts/checkout', {
+        method: 'POST',
+        headers: {
+          access_token: localStorage.access_token,
+        },
+      });
+
+      const { message } = await response.json();
+
+      if (response.status === 200) {
+        dispatch(setCart([]));
+        toast.success(message, toastOptions);
+      } else {
+        toast.error(message, toastOptions);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+}
+
+export function fetchHistory() {
+  return async function (dispatch, getState) {
+    try {
+      const response = await fetch(baseUrl + '/buyers/history', {
+        headers: {
+          access_token: localStorage.access_token,
+        },
+      });
+
+      const data = await response.json();
+
+      if (response.status === 200) {
+        dispatch(setHistory(data));
+      } else {
+        toast.error('Something Went Wrong', toastOptions);
+      }
+    } catch (err) {
+      console.log(err);
     }
   };
 }

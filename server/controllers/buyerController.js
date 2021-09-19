@@ -9,7 +9,7 @@ const {
   Category,
   Cart,
   UsersProduct,
-  Chat,
+  History,
 } = require('../models');
 const _ = require('lodash');
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
@@ -220,7 +220,8 @@ class BuyerController {
   static async getCarts(req, res, next) {
     try {
       const carts = await Cart.findAll({
-        where: { UserId: req.user.id }, //buyer
+        where: { UserId: req.user.id },
+        order: [['id', 'asc']], //buyer
         attributes: {
           exclude: ['ProductId', 'UserId', 'createdAt', 'updatedAt'],
         },
@@ -267,12 +268,14 @@ class BuyerController {
       });
 
       const newCarts = JSON.parse(JSON.stringify(carts));
+      let test = [];
       for (let key in newCarts) {
         let count = 0;
         let currentId = newCarts[key].Product.id;
         for (let key2 in newCarts) {
           if (newCarts[key2].Product.id === currentId) count++;
         }
+        test.push(newCarts[key]);
         newCarts[key].Product.qty = count;
       }
 
@@ -294,6 +297,99 @@ class BuyerController {
       });
 
       res.status(201).json({ message: 'Product is added to cart' });
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  static async removeQty(req, res, next) {
+    try {
+      const { id: UserId } = req.user;
+      const { id: ProductId } = req.params;
+      // console.log(req.params, `INI PARAMS`);
+
+      const { id: deletedCart } = await Cart.findOne({
+        where: { UserId, ProductId },
+        attributes: ['id'],
+      });
+
+      const data = await Cart.destroy({
+        where: { id: deletedCart },
+      });
+
+      if (data === 0) {
+        throw { name: 'Not Found', message: 'ID not found !' };
+      } else {
+        res
+          .status(200)
+          .json({ message: 'Product has been removed from the cart' });
+      }
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  static async deletedCart(req, res, next) {
+    try {
+      console.log('hehe');
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  static async checkOut(req, res, next) {
+    try {
+      const { id: UserId } = req.user;
+
+      const currentCart = await Cart.findAll({
+        where: { UserId },
+        attributes: ['ProductId', 'UserId'],
+      });
+
+      await currentCart.forEach((el) => {
+        History.create({
+          ProductId: el.ProductId,
+          UserId: el.UserId,
+        });
+      });
+
+      const checkedOut = await Cart.destroy({ where: { UserId } });
+      if (checkedOut === 0) {
+        throw {
+          name: 'Bad Request',
+          message: "You don't have any products in your cart.",
+        };
+      } else {
+        res.status(200).json({ message: 'Checkout successfully!' });
+      }
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  static async getHistory(req, res, next) {
+    try {
+      const { id: UserId } = req.user;
+      const seeHistory = await History.findAll({
+        where: { UserId },
+        attributes: ['ProductId', 'UserId', 'createdAt'],
+        include: [
+          {
+            model: Product,
+            attributes: ['name', 'picture', 'price'],
+            include: {
+              model: Category,
+              attributes: ['name'],
+            },
+          },
+          {
+            model: User,
+            attributes: ['firstName', 'lastName'],
+          },
+        ],
+      });
+
+      res.status(200).json(seeHistory);
     } catch (err) {
       next(err);
     }
