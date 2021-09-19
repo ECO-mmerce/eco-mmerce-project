@@ -34,7 +34,7 @@ function errorHandler(err, req, res, next) {
       res.status(400).json(errResponse);
       break;
     default:
-      res.status(500).json(serverErr);
+      res.status(500).json(err.message);
       break;
   }
 }

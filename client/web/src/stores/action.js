@@ -394,3 +394,45 @@ export function fetchHistory() {
     }
   };
 }
+
+export function googleLogin(payload, role) {
+  return async function (dispatch, getState) {
+    try {
+      console.log(payload);
+      // dispatch(setIsLoading(true));
+      const response = await fetch(baseUrl + `/${role}s/login/google`, {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Headers':
+            'Origin, X-Requested-With, Content-Type, Accept',
+        },
+        credentials: 'same-origin',
+        mode: 'cors',
+        body: JSON.stringify({ idToken: payload.tokenId }),
+      });
+      const data = await response.json();
+      console.log(data);
+      if (response.status === 200 || response.status === 201) {
+        console.log(data);
+        localStorage.access_token = data.access_token;
+        localStorage.user_id = data.id;
+        localStorage.user_firstName = data.firstName;
+        localStorage.user_lastName = data.lastName;
+        localStorage.user_role = data.role;
+        localStorage.user_picture = data.picture;
+        dispatch(setUser(data));
+        dispatch(setIsLogin(true));
+        toast.success('Logged in', toastOptions);
+      } else {
+        toast.error(data.message, toastOptions);
+      }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      dispatch(setIsLoading(false));
+    }
+  };
+}

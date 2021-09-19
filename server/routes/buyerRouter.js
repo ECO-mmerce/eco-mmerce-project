@@ -7,6 +7,7 @@ const uploadImage = require('../middlewares/imagekit');
 const upload = require('../middlewares/multer');
 
 router.post('/login', BuyerController.loginBuyer);
+router.post('/login/google', BuyerController.googleLoginBuyer);
 router.post(
   '/register',
   upload.single('picture'),

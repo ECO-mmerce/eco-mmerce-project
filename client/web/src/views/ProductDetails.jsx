@@ -29,12 +29,12 @@ export default function ProductDetails({ socket }) {
 
   const handleChat = () => {
     // dispatch(setChatWith(sellerId, sellerName))
-    const sellerName = `${product.UsersProducts[0].User.firstName} ${product.UsersProducts[0].User.lastName}`;
+    const sellerName = `${product?.UsersProducts[0]?.User?.firstName} ${product?.UsersProducts[0]?.User?.lastName}`;
     dispatch(
-      setChatWith({ id: product.UsersProducts[0].User.id, name: sellerName })
+      setChatWith({ id: product?.UsersProducts[0]?.User?.id, name: sellerName })
     ); // get id and name from product.sellerId & product.sellerName
     socket.emit('joinRoom', {
-      sellerId: product.UsersProducts[0].User.id, //product.sellerId
+      sellerId: product?.UsersProducts[0]?.User.id, //product.sellerId
       buyerId: user_id,
     });
     history.push('/chat'); // push ke chat doang
