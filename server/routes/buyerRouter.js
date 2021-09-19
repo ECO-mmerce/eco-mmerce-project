@@ -23,7 +23,7 @@ router.use(authorizationBuyer);
 router.get('/carts', BuyerController.getCarts);
 router.post('/carts', BuyerController.createCart);
 router.get('/history', BuyerController.getHistory);
-// router.delete('/carts', BuyerController.deleteCart);
+router.delete('/carts', BuyerController.deleteCart);
 router.delete('/carts/:id', BuyerController.removeQty);
 router.post('/carts/checkout', BuyerController.checkOut);
 

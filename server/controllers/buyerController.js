@@ -109,7 +109,7 @@ class BuyerController {
       const filterBrand = brand ? { name: brand } : {};
       const filterCategory = CategoryId ? { id: CategoryId } : {};
       const products = await Product.findAll({
-        order: [['id', 'ASC']],
+        order: [['createdAt', 'ASC']],
         include: [
           {
             model: UsersProduct,
@@ -221,7 +221,7 @@ class BuyerController {
     try {
       const carts = await Cart.findAll({
         where: { UserId: req.user.id },
-        order: [['id', 'asc']], //buyer
+        order: [['id', 'ASC']], //buyer
         attributes: {
           exclude: ['ProductId', 'UserId', 'createdAt', 'updatedAt'],
         },
@@ -306,7 +306,6 @@ class BuyerController {
     try {
       const { id: UserId } = req.user;
       const { id: ProductId } = req.params;
-      // console.log(req.params, `INI PARAMS`);
 
       const { id: deletedCart } = await Cart.findOne({
         where: { UserId, ProductId },
@@ -329,9 +328,20 @@ class BuyerController {
     }
   }
 
-  static async deletedCart(req, res, next) {
+  static async deleteCart(req, res, next) {
     try {
-      console.log('hehe');
+      const { id: UserId } = req.user;
+      const { ProductId } = req.body;
+
+      const data = await Cart.destroy({
+        where: { UserId, ProductId },
+      });
+
+      if (data === 0) {
+        throw { name: 'Not Found', message: 'ID not found' };
+      } else {
+        res.status(200).json({ message: 'Deleted From your cart' });
+      }
     } catch (err) {
       next(err);
     }

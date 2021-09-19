@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { removeQty } from '../stores/action';
+import { removeQty, deleteCart } from '../stores/action';
 import { addCart } from '../stores/action';
 
 export default function CartItem({ data }) {
@@ -35,7 +35,7 @@ export default function CartItem({ data }) {
       </tdata>
       <tdata>{getPriceForQty(data.Product.price, data.Product.qty)}</tdata>
       <button
-        onClick={() => dispatch(removeQty(data.Product.id))}
+        onClick={() => dispatch(deleteCart(data.Product.id))}
         className="bg-red-400 text-white px-3 py-1 rounded-lg"
       >
         delete

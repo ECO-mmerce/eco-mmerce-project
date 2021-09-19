@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
-import { fetchProduct } from '../stores/action';
-import { setChatWith } from '../stores/action';
+import { fetchProduct, setChatWith, addCart } from '../stores/action';
 
 export default function ProductDetails({ socket }) {
-  const { user_id } = useSelector(({ user_id }) => {
+  const { user_id, user_role } = useSelector(({ user_id, user_role }) => {
     return {
       user_id,
+      user_role,
     };
   });
   const product = useSelector((state) => state.product);
@@ -19,11 +19,13 @@ export default function ProductDetails({ socket }) {
   const { id: productId } = useParams();
 
   useEffect(() => {
-    console.log(productId, `MASOK EFFECT`);
     dispatch(fetchProduct(productId));
   }, []);
 
-  console.log(product, productId, `INI DI DETAIL`);
+  const addToCart = (e, id) => {
+    e.preventDefault();
+    dispatch(addCart(id));
+  };
 
   const handleChat = () => {
     // dispatch(setChatWith(sellerId, sellerName))
@@ -44,7 +46,10 @@ export default function ProductDetails({ socket }) {
 
   return (
     <section className="text-gray-600 body-font overflow-hidden">
-      <button onClick={handleChat}>Go To Chat</button>
+      {user_role === 'buyer' ? (
+        <button onClick={handleChat}>Go To Chat</button>
+      ) : null}
+
       <div className="container px-5 py-24 mx-auto">
         <div className="lg:w-4/5 mx-auto flex flex-wrap">
           <img
@@ -89,8 +94,11 @@ export default function ProductDetails({ socket }) {
               <span className="title-font font-medium text-2xl text-gray-900">
                 Rp {product?.price?.toLocaleString('id-ID')}, 00
               </span>
-              <button className="flex ml-auto text-white bg-green-500 border-0 py-2 px-6 focus:outline-none hover:bg-green-600 rounded">
-                add to bag
+              <button
+                onClick={(e) => addToCart(e, product.id)}
+                className="flex ml-auto text-white bg-green-500 border-0 py-2 px-6 focus:outline-none hover:bg-green-600 rounded"
+              >
+                Add to Cart
               </button>
               <button className="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-4">
                 <svg
