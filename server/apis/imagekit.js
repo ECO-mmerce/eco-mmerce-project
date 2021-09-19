@@ -1,11 +1,11 @@
-const axios = require("axios").default
+const axios = require('axios').default;
 
 const axiosInstance = axios.create({
-  baseURL: "https://upload.imagekit.io/api/v1/files",
+  baseURL: 'https://upload.imagekit.io/api/v1/files',
   auth: {
     username: process.env.IMAGEKIT_PRIVATE,
-    password: ""
-  }
-})
+    password: '',
+  },
+});
 
-module.exports = axiosInstance
+module.exports = axiosInstance;
