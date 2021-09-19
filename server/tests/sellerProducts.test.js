@@ -44,6 +44,7 @@ const ingridient = ['a', 'b'];
 const UserId = ''; // ambil dari beforeAll
 // const picture = 'picture'; // ambil dari user creator
 const CategoryId = 1;
+const harmfulIngridient = ['a'];
 const brand = 'brandName';
 
 const emptyName = '';
@@ -69,6 +70,7 @@ const productSuccess = {
   UserId,
   picture,
   CategoryId,
+  harmfulIngridient,
   brand,
 };
 const productEmptyName = {
@@ -82,6 +84,7 @@ const productEmptyName = {
   UserId,
   picture,
   CategoryId,
+  harmfulIngridient,
   brand,
 };
 const productEmptyPrice = {
@@ -95,6 +98,7 @@ const productEmptyPrice = {
   UserId,
   picture,
   CategoryId,
+  harmfulIngridient,
   brand,
 };
 const productEmptyStock = {
@@ -108,6 +112,7 @@ const productEmptyStock = {
   UserId,
   picture,
   CategoryId,
+  harmfulIngridient,
   brand,
 };
 const productEmptyWeight = {
@@ -121,6 +126,7 @@ const productEmptyWeight = {
   UserId,
   picture,
   CategoryId,
+  harmfulIngridient,
   brand,
 };
 const productEmptyStatus = {
@@ -134,6 +140,7 @@ const productEmptyStatus = {
   UserId,
   picture,
   CategoryId,
+  harmfulIngridient,
   brand,
 };
 const productEmptyDescription = {
@@ -147,6 +154,7 @@ const productEmptyDescription = {
   UserId,
   picture,
   CategoryId,
+  harmfulIngridient,
   brand,
 };
 const productEmptyIngridient = {
@@ -160,6 +168,7 @@ const productEmptyIngridient = {
   UserId,
   picture,
   CategoryId,
+  harmfulIngridient,
   brand,
 };
 const productEmptyPicture = {
@@ -173,6 +182,7 @@ const productEmptyPicture = {
   UserId,
   picture: emptyPicture,
   CategoryId,
+  harmfulIngridient,
   brand,
 };
 const productEmptyCategoryId = {
@@ -186,6 +196,7 @@ const productEmptyCategoryId = {
   UserId,
   picture,
   CategoryId: emptyCategoryId,
+  harmfulIngridient,
   brand,
 };
 const productEmptyBrand = {
@@ -199,6 +210,7 @@ const productEmptyBrand = {
   UserId,
   picture,
   CategoryId,
+  harmfulIngridient,
   brand: emptyBrand,
 };
 
@@ -220,13 +232,13 @@ beforeAll(async () => {
     role: seller.role,
   });
 
-  // const seller2 = await User.create(sellerCreator2);
-  // sellerId2 = seller2.id;
-  // sellerToken2 = signToken({
-  //   id: seller2.id,
-  //   email: seller2.email,
-  //   role: seller2.role,
-  // });
+  const seller2 = await User.create(sellerCreator2);
+  sellerId2 = seller2.id;
+  sellerToken2 = signToken({
+    id: seller2.id,
+    email: seller2.email,
+    role: seller2.role,
+  });
 
   const product = await Product.create(
     {
@@ -240,6 +252,7 @@ beforeAll(async () => {
       UserId: seller.id,
       picture,
       CategoryId: category.id,
+      harmfulIngridient,
       Brands: { name: brand },
     },
     { include: [Brand] }
@@ -249,7 +262,6 @@ beforeAll(async () => {
   await UsersProduct.create({
     ProductId: product.id,
     UserId: seller.id,
-    status: 'apa hayo',
   });
 });
 
@@ -815,6 +827,7 @@ describe('GET /sellers/products/:id [failed]', () => {
       .get(`/sellers/products/${notFoundProductId}`)
       .set('access_token', sellerToken)
       .then((response) => {
+        console.log(response.body, '<<<<<<<<<<<<<<<<<<<<<<<');
         expect(response.status).toBe(404);
         expect(response.body).toEqual(
           expect.objectContaining({

@@ -1,5 +1,4 @@
 const { Chat, User } = require('../models');
-const { Sequelize } = require('sequelize');
 
 class ChatController {
   static async getChat(req, res, next) {
@@ -32,7 +31,6 @@ class ChatController {
         group: ['Chat.SellerId', 'Chat.BuyerId', 'User.id'],
       });
 
-      console.log(chat);
       res.status(200).json(chat);
     } catch (err) {
       next(err);
