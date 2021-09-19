@@ -6,3 +6,5 @@ export const MESSAGES_SET = 'MESSAGES/SET';
 export const CHATWITH_SET = 'CHATWITH/SET';
 export const PRODUCTS_SET = 'PRODUCTS/SET';
 export const PRODUCT_SET = 'PRODUCT/SET';
+export const CART_SET = 'CART/SET';
+export const HISTORY_SET = 'HISTORY/SET';
