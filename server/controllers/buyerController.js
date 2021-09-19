@@ -58,14 +58,16 @@ class BuyerController {
       });
       let payload = ticket.getPayload();
 
-      console.log(payload, `INI PAYLOAD`);
+      let splittedName = payload.name.split(' ');
+      let firstName = splittedName[0];
+      let lastName = splittedName[1];
 
       const [user, created] = await User.findOrCreate({
         where: { email: payload.email },
         defaults: {
           email: payload.email,
-          firstName: payload.given_name,
-          lastName: payload.name,
+          firstName: firstName,
+          lastName: lastName === null || !lastName ? '' : lastName,
           phoneNumber: 'unknown',
           picture: payload.picture,
           password: payload.email,
