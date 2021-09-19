@@ -278,7 +278,7 @@ describe('POST /buyers/login [success]', () => {
       .set('Accept', appJSON)
       .send(userLogin)
       .then((response) => {
-        expect(response.status).toBe(200); // BUG
+        expect(response.status).toBe(200);
         expect(response.body).toHaveProperty('id', expect.any(Number));
         expect(response.body).toHaveProperty('firstName');
         expect(response.body).toHaveProperty('lastName');
@@ -510,40 +510,5 @@ describe('POST /sellers/login [fail] [401]', () => {
       .catch((err) => {
         done(err);
       });
-  });
-});
-
-describe('GET /sellers/products [success]', () => {
-  test('Should return {id, firstName, lastName, role, Category, Brand} [200]', (done) => {
-    request(app)
-      .get('/sellers/products')
-      .expect('Accept', appJSON)
-      .expect(response.body)
-      .toEqual(
-        expect.arrayContaining([
-          expect.objectContaining({
-            id: expect.any(Number),
-            name: expect.any(String),
-            price: expect.any(Number),
-            stock: expect.any(Number),
-            weight: expect.any(Number),
-            status: expect.any(String),
-            description: expect.any(String),
-            ingridient: expect.arrayContaining([]),
-            picture: expect.any(String),
-            Category: expect.objectContaining({
-              id: expect.any(Number),
-              name: expect.any(String),
-            }),
-            Brand: expect.arrayContaining([
-              expect.objectContaining({
-                id: expect.any(Number),
-                ProductId: expect.any(Number),
-                BrandId: expect.any(Number),
-              }),
-            ]),
-          }),
-        ])
-      );
   });
 });

@@ -9,6 +9,7 @@ import {
   PRODUCT_SET,
   CART_SET,
   HISTORY_SET,
+  CHATLIST_SET,
 } from './actionType';
 import { toast } from 'react-toastify';
 
@@ -86,6 +87,13 @@ export function setHistory(payload) {
   return {
     type: HISTORY_SET,
     payload: payload,
+  }
+}
+
+export function setChatList(chatList) {
+  return {
+    type: CHATLIST_SET,
+    payload: chatList,
   };
 }
 
@@ -220,7 +228,7 @@ export function fetchProduct(id) {
       dispatch(setIsLoading(true));
       const response = await fetch(baseUrl + `/buyers/products/${id}`);
       const data = await response.json();
-      console.log(data);
+ 
       dispatch(setProduct(data));
     } catch (err) {
       console.log(err);
@@ -229,6 +237,7 @@ export function fetchProduct(id) {
     }
   };
 }
+
 
 export function fetchCart() {
   return async function (dispatch, getState) {
@@ -244,6 +253,24 @@ export function fetchCart() {
       console.log(err);
     }
   };
+}
+
+export function fetchChatList() {
+  return async function (dispatch, getState) {
+    try {
+      dispatch(setIsLoading(true));
+      const response = await fetch(baseUrl + '/sellers/chats', {
+        headers: {
+          access_token: localStorage.access_token,
+        },
+      });
+      const data = await response.json();
+      dispatch(setChatList(data));
+    } catch (err) {
+      console.log(err);
+    } finally {
+      dispatch(setIsLoading(false))
+    }
 }
 
 export function addCart(id) {

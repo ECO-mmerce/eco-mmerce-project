@@ -8,3 +8,4 @@ export const PRODUCTS_SET = 'PRODUCTS/SET';
 export const PRODUCT_SET = 'PRODUCT/SET';
 export const CART_SET = 'CART/SET';
 export const HISTORY_SET = 'HISTORY/SET';
+export const CHATLIST_SET = 'CHATLIST/SET';

@@ -9,6 +9,7 @@ import {
   PRODUCT_SET,
   CART_SET,
   HISTORY_SET,
+  CHATLIST_SET,
 } from './actionType';
 
 const initialState = {
@@ -27,6 +28,7 @@ const initialState = {
   product: {},
   cart: [],
   history: [],
+  chatList: [],
 };
 
 export default function reducer(state = initialState, action) {
@@ -85,6 +87,11 @@ export default function reducer(state = initialState, action) {
       return {
         ...state,
         history: action.payload,
+      }
+    case CHATLIST_SET:
+      return {
+        ...state,
+        chatList: action.payload,
       };
     default:
       return state;

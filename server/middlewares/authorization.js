@@ -9,7 +9,7 @@ async function authorization(req, res, next) {
     } else {
       throw {
         name: 'Forbidden',
-        message: "You don't have an access to do this !",
+        message: "You don't have an access to do this!",
       };
     }
   } catch (err) {
@@ -26,7 +26,7 @@ async function authorizationBuyer(req, res, next) {
     } else {
       throw {
         name: 'Forbidden',
-        message: "You don't have an access to do this !",
+        message: "You don't have an access to do this!",
       };
     }
   } catch (err) {
