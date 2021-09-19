@@ -9,7 +9,6 @@ const {
   UsersProduct,
   Chat,
 } = require('../models');
-const product = require('../models/product');
 
 class SellerController {
   static async loginSeller(req, res, next) {
@@ -190,7 +189,6 @@ class SellerController {
       const sellerProduct = await UsersProduct.create({
         ProductId: newProduct.id,
         UserId: id,
-        status: 'apa hayo',
       });
 
       res.status(201).json({ message: 'Successfully added product' });
