@@ -1,7 +1,15 @@
 const { signToken } = require('../helpers/jwt');
 const { checkPassword } = require('../helpers/bcrypt');
 const _ = require('lodash');
-const { Product, User, Brand, Category, UsersProduct, Chat } = require('../models');
+const {
+  Product,
+  User,
+  Brand,
+  Category,
+  UsersProduct,
+  Chat,
+} = require('../models');
+const product = require('../models/product');
 
 class SellerController {
   static async loginSeller(req, res, next) {
@@ -79,7 +87,7 @@ class SellerController {
             attributes: { exclude: ['createdAt', 'updatedAt'] },
             through: {
               attributes: {
-                exclude: ['createdAt', 'updatedAt'],
+                exclude: ['ProductId', 'BrandId', 'createdAt', 'updatedAt'],
               },
             },
           },
@@ -88,6 +96,8 @@ class SellerController {
           exclude: [
             'weight',
             'status',
+            'UserId',
+            'CategoryId',
             'description',
             'ingridient',
             'createdAt',
@@ -119,26 +129,23 @@ class SellerController {
             attributes: { exclude: ['createdAt', 'updatedAt'] },
             through: {
               attributes: {
-                exclude: ['createdAt', 'updatedAt'],
+                exclude: ['ProductId', 'BrandId', 'createdAt', 'updatedAt'],
               },
             },
           },
         ],
         attributes: {
-          exclude: ['createdAt', 'updatedAt'],
+          exclude: ['CategoryId', 'createdAt', 'updatedAt'],
         },
       });
 
       if (product === null) {
-        throw { name: 'Bad Request', message: 'ID not found !' };
-      } else if (product.UserId !== UserId) {
         throw {
-          name: 'Forbidden',
-          message: "You don't have an access to do this !",
+          name: 'Bad Request',
+          message: `Product with ID ${id} is not found!`,
         };
-      } else {
-        res.status(200).json(product);
       }
+      res.status(200).json(product);
     } catch (err) {
       next(err);
     }
@@ -206,6 +213,7 @@ class SellerController {
         ingridient,
         picture,
         CategoryId,
+        brand,
       } = req.body;
 
       const updatedProduct = await Product.update(
@@ -219,16 +227,26 @@ class SellerController {
           ingridient,
           picture,
           CategoryId,
+          Brands: { name: brand },
         },
-        { where: [{ id }, { UserId }], returning: true }
+        {
+          include: [Brand],
+          where: [{ id }, { UserId }],
+          returning: true,
+        }
       );
 
       console.log(updatedProduct);
 
       if (updatedProduct[0] === 0) {
-        throw { name: 'Not Found', message: 'ID not found !' };
+        throw {
+          name: 'Not Found',
+          message: `Product with ID ${id} is not found!`,
+        };
       } else {
-        res.status(200).json(updatedProduct[1]);
+        res.status(200).json({
+          message: `Product with ID ${id} has been successfully updated!`,
+        });
       }
     } catch (err) {
       next(err);
@@ -238,13 +256,17 @@ class SellerController {
   static async deleteProduct(req, res, next) {
     try {
       const { id } = req.params;
+      const { id: UserId } = req.user;
 
-      const deletedProduct = await Product.destroy({ where: { id } });
+      const deletedProduct = await Product.destroy({ where: { id, UserId } });
       if (deletedProduct === 0) {
-        throw { name: 'Not Found', message: 'ID not found !' };
+        throw {
+          name: 'Not Found',
+          message: `Product with ID ${id} is not found!`,
+        };
       } else {
         res.status(200).json({
-          message: `Product with Id ${id} has been successfully deleted!`,
+          message: `Product with ID ${id} has been successfully deleted!`,
         });
       }
     } catch (err) {

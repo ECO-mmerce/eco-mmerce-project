@@ -15,10 +15,10 @@ async function authentication(req, res, next) {
         };
         next();
       } else {
-        throw { name: 'Unauthorized', message: `You are not authorized !` };
+        throw { name: 'Unauthorized', message: `You are not authorized!` };
       }
     } else {
-      throw { name: 'Unauthorized', message: `You are not authorized !` };
+      throw { name: 'Unauthorized', message: `You are not authorized!` };
     }
   } catch (err) {
     next(err);
