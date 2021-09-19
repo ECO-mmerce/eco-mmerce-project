@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
-import { login, setIsRegister } from '../stores/action';
+import { googleLogin, login, setIsRegister } from '../stores/action';
+import { GoogleLogin } from 'react-google-login';
 
 const roles = ['buyers', 'sellers'];
 
@@ -46,6 +47,11 @@ export default function Login() {
     setEmail(e.currentTarget.value);
   };
 
+  const responseGoogle = (response) => {
+    console.log(response, `INI RESPONSE`);
+    dispatch(googleLogin(response, 'buyer'));
+  };
+
   const handlePassword = (e) => {
     setPassword(e.currentTarget.value);
   };
@@ -86,6 +92,16 @@ export default function Login() {
             Login
           </button>
         </form>
+        {location.pathname.includes('/seller') ? null : (
+          <GoogleLogin
+            clientId="164658214505-2t0d8gtpcjn6jl331mj2ccdi9lb9f4g1.apps.googleusercontent.com"
+            buttonText="Login"
+            isSignedIn={true}
+            onSuccess={responseGoogle}
+            onFailure={responseGoogle}
+            cookiePolicy={'single_host_origin'}
+          />
+        )}
       </div>
     </section>
   );

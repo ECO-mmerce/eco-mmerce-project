@@ -4,8 +4,12 @@ import { Link, useHistory, useLocation } from 'react-router-dom';
 import { setIsLogin, setUser } from '../stores/action';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
+import { GoogleLogout, useGoogleLogout } from 'react-google-login';
 
 export default function Navbar() {
+  const clientId =
+    '164658214505-2t0d8gtpcjn6jl331mj2ccdi9lb9f4g1.apps.googleusercontent.com';
+
   const { user_firstName, user_lastName, user_picture } = useSelector(
     ({ user_firstName, user_lastName, user_picture }) => {
       return {
@@ -16,22 +20,7 @@ export default function Navbar() {
     }
   );
 
-  const dispatch = useDispatch();
-  const history = useHistory();
-  const location = useLocation();
-
-  const toastOptions = {
-    position: 'bottom-right',
-    theme: 'light',
-  };
-
-  const goToLoginPage = (e) => {
-    e.preventDefault();
-    history.push('/login');
-  };
-
-  const logOut = (e) => {
-    e.preventDefault();
+  const logOut = () => {
     dispatch(
       setUser({
         id: 0,
@@ -46,6 +35,25 @@ export default function Navbar() {
 
     toast.success('Logged out', toastOptions);
     history.push('/');
+  };
+
+  const { signOut } = useGoogleLogout({
+    clientId,
+    onFailure: logOut,
+    onLogoutSuccess: logOut,
+  });
+
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const location = useLocation();
+
+  const toastOptions = {
+    position: 'bottom-right',
+    theme: 'light',
+  };
+
+  const goToLoginPage = () => {
+    history.push('/login');
   };
 
   return (
@@ -146,8 +154,8 @@ export default function Navbar() {
           className="flex text-xl items-center mx-4"
           onClick={
             localStorage.getItem('access_token')
-              ? (e) => logOut(e)
-              : (e) => goToLoginPage(e)
+              ? () => signOut()
+              : () => goToLoginPage()
           }
         >
           {localStorage.getItem('access_token') ? (

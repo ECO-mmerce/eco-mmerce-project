@@ -20,30 +20,47 @@ export default function MiniProduct({ products }) {
             src={products.picture}
             alt="content"
           />
-          <h3 className="tracking-widest text-green-500 text-xs font-medium title-font">
-            {products.Brands[0].name.toUpperCase()}
-          </h3>
+          {products?.Brands.map((el) => {
+            return (
+              <h3 className="tracking-widest text-green-500 text-xs font-medium title-font">
+                {el.name}
+              </h3>
+            );
+          })}
           <h2 className="text-lg text-gray-900 font-medium title-font">
             {products.name}
           </h2>
           <p className="text-sm text-gray-900 font-style: italic; title-font mb-2">
             <i>{products.Category.name}</i>
           </p>
-          <p className="text-md text-gray-900 title-font mb-4">
-            {products.UsersProducts[0].User.firstName +
-              products.UsersProducts[0].User.lastName}
-          </p>
+          {products?.UsersProducts?.map((el) => {
+            return (
+              <p className="text-md text-gray-900 title-font mb-4">
+                {`${el.User.firstName} ${el.User.lastName}`}
+              </p>
+            );
+          })}
           <p className="leading-relaxed text-base mb-4">
             Rp {products.price.toLocaleString('id-ID')}, 00
           </p>
         </Link>
-        <button
-          type="button"
-          onClick={(e) => addToCart(e, products.id)}
-          className="bg-green-400 hover:bg-green-600 text-white font-bold p-2 w-32 rounded-lg"
-        >
-          Add to Cart
-        </button>
+        {localStorage.access_token ? (
+          <button
+            type="button"
+            onClick={(e) => addToCart(e, products.id)}
+            className="bg-green-400 hover:bg-green-600 text-white font-bold p-2 w-32 rounded-lg"
+          >
+            Add to Cart
+          </button>
+        ) : (
+          <Link
+            // onClick={(e) => addToCart(e, products.id)}
+            to="/login"
+            className="bg-green-400 hover:bg-green-600 text-white font-bold p-2 w-32 rounded-lg"
+          >
+            Add to Cart
+          </Link>
+        )}
       </div>
     </div>
   );

@@ -58,15 +58,18 @@ class BuyerController {
       });
       let payload = ticket.getPayload();
 
+      console.log(payload, `INI PAYLOAD`);
+
       const [user, created] = await User.findOrCreate({
         where: { email: payload.email },
         defaults: {
           email: payload.email,
           firstName: payload.given_name,
-          lastName: payload.family_name,
+          lastName: payload.name,
           phoneNumber: 'unknown',
           picture: payload.picture,
           password: payload.email,
+          role: 'buyer',
         },
       });
       const access_token = signToken({
@@ -74,7 +77,14 @@ class BuyerController {
         email: user.email,
         role: user.role,
       });
-      res.status(201).json({ access_token });
+      res.status(201).json({
+        access_token,
+        id: user.id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        role: user.role,
+        picture: user.picture,
+      });
     } catch (err) {
       next(err);
     }
@@ -109,7 +119,7 @@ class BuyerController {
       const filterBrand = brand ? { name: brand } : {};
       const filterCategory = CategoryId ? { id: CategoryId } : {};
       const products = await Product.findAll({
-        order: [['createdAt', 'ASC']],
+        order: [['id', 'ASC']],
         include: [
           {
             model: UsersProduct,
@@ -174,7 +184,7 @@ class BuyerController {
             model: UsersProduct,
             attributes: {
               exclude: [
-                'ProductId',
+                // 'ProductId',
                 'UserId',
                 // 'status',
                 'createdAt',
@@ -221,7 +231,7 @@ class BuyerController {
     try {
       const carts = await Cart.findAll({
         where: { UserId: req.user.id },
-        order: [['id', 'ASC']], //buyer
+        order: [['createdAt', 'ASC']], //buyer
         attributes: {
           exclude: ['ProductId', 'UserId', 'createdAt', 'updatedAt'],
         },

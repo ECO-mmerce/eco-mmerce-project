@@ -117,7 +117,7 @@ module.exports = (sequelize, DataTypes) => {
           },
         },
       },
-      harmfuIngridient: {
+      harmfulIngridient: {
         allowNull: false,
         type: DataTypes.ARRAY(DataTypes.TEXT),
         validate: {
