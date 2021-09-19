@@ -87,7 +87,7 @@ export function setHistory(payload) {
   return {
     type: HISTORY_SET,
     payload: payload,
-  }
+  };
 }
 
 export function setChatList(chatList) {
@@ -228,7 +228,7 @@ export function fetchProduct(id) {
       dispatch(setIsLoading(true));
       const response = await fetch(baseUrl + `/buyers/products/${id}`);
       const data = await response.json();
- 
+
       dispatch(setProduct(data));
     } catch (err) {
       console.log(err);
@@ -237,7 +237,6 @@ export function fetchProduct(id) {
     }
   };
 }
-
 
 export function fetchCart() {
   return async function (dispatch, getState) {
@@ -269,8 +268,9 @@ export function fetchChatList() {
     } catch (err) {
       console.log(err);
     } finally {
-      dispatch(setIsLoading(false))
+      dispatch(setIsLoading(false));
     }
+  };
 }
 
 export function addCart(id) {
@@ -285,13 +285,13 @@ export function addCart(id) {
         body: JSON.stringify({ ProductId: id }),
       });
 
-      const cart = await response.json();
+      const { message } = await response.json();
 
       if (response.status === 201) {
         dispatch(fetchCart());
-        toast.success(cart.message, toastOptions);
+        toast.success(message, toastOptions);
       } else {
-        toast.error('Something went wrong !', toastOptions);
+        toast.error(message, toastOptions);
       }
     } catch (err) {
       console.log(err);
@@ -306,17 +306,42 @@ export function removeQty(id) {
         method: 'DELETE',
         headers: {
           access_token: localStorage.access_token,
-          'Content-Type': 'application/json',
         },
       });
 
-      const cart = await response.json();
+      const { message } = await response.json();
 
       if (response.status === 200) {
         dispatch(fetchCart());
-        toast.success(cart.message, toastOptions);
+        toast.success(message, toastOptions);
       } else {
-        toast.error('Something went wrong !', toastOptions);
+        toast.error(message, toastOptions);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+}
+
+export function deleteCart(id) {
+  return async function (dispatch, getState) {
+    try {
+      const response = await fetch(baseUrl + '/buyers/carts', {
+        method: 'DELETE',
+        headers: {
+          access_token: localStorage.access_token,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ ProductId: id }),
+      });
+
+      const { message } = await response.json();
+
+      if (response.status === 200) {
+        dispatch(fetchCart());
+        toast.success(message, toastOptions);
+      } else {
+        toast.error(message, toastOptions);
       }
     } catch (err) {
       console.log(err);
@@ -362,7 +387,7 @@ export function fetchHistory() {
       if (response.status === 200) {
         dispatch(setHistory(data));
       } else {
-        toast.error('Something Went Wrong', toastOptions);
+        toast.error(data.message, toastOptions);
       }
     } catch (err) {
       console.log(err);
