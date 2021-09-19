@@ -278,7 +278,7 @@ describe('POST /buyers/login [success]', () => {
       .set('Accept', appJSON)
       .send(userLogin)
       .then((response) => {
-        expect(response.status).toBe(200); // BUG
+        expect(response.status).toBe(200);
         expect(response.body).toHaveProperty('id', expect.any(Number));
         expect(response.body).toHaveProperty('firstName');
         expect(response.body).toHaveProperty('lastName');
