@@ -1,4 +1,4 @@
-async function detectIngredients(req,res,next) {
+async function detectIngredients(req, res, next) {
   // Imports the Google Cloud client library
   const vision = require('@google-cloud/vision');
 
@@ -8,34 +8,51 @@ async function detectIngredients(req,res,next) {
   try {
     // Performs text detection on the image file
 
-    if(req.files){
-      const [result] = await anotate.textDetection(req.files.ingredients[0].buffer);
+    if (req.files) {
+      const [result] = await anotate.textDetection(
+        req.files.ingredients[0].buffer
+      );
       const texts = result.textAnnotations;
-      let found = false
-      let output = ''
-    
+      let isFound = false;
+      let output = '';
+
       texts.forEach((text, i) => {
-        if(i !== 0){
-          if(text.description.toLowerCase().includes('ingredients') || text.description.toLowerCase().includes('komposisi') || text.description.toLowerCase().includes('composition')){
-            found = true
+        if (i !== 0) {
+          if (
+            text.description.toLowerCase().includes('ingredient') ||
+            text.description.toLowerCase().includes('ingredients') ||
+            text.description.toLowerCase().includes('composition') ||
+            text.description.toLowerCase().includes('compositions') ||
+            text.description.toLowerCase().includes('komposisi')
+          ) {
+            isFound = true;
           }
-          if(found === true) {
-            output += text.description + ' '
-            if(text.description.includes('.')){
-              found = false
+
+          if (isFound === true) {
+            output += text.description + ' ';
+            if (text.description.includes('.')) {
+              isFound = false;
             }
           }
         }
-      })
-      output = output.toLowerCase().split(', ')
-      req.body.ingridient = output
-      next()
+      });
 
+      if (isFound === false)
+        throw {
+          name: 'Bad Request',
+          message: `Uploaded picture didn't contain ingridients`,
+        };
+
+      output = output.toLowerCase().split(', ');
+      output[0] = output[0].split(' ').slice(1).join(' ');
+      req.body.ingridient = output;
+
+      next();
     }
-  }
-  catch(error) {
-    console.log(error);
+  } catch (error) {
+    // console.log(error);
+    next(error);
   }
 }
 
-module.exports = detectIngredients
+module.exports = detectIngredients;

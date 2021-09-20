@@ -25,8 +25,8 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: 'Brand',
-      addHooks: {
-        beforeCreate: (brand, _) => {
+      hooks: {
+        beforeCreate: (brand) => {
           brand.name = brand.name
             .split(' ')
             .map((el) => _.capitalize(el))
