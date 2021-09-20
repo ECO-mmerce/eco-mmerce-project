@@ -4,6 +4,9 @@ const getDate = require('../helpers/getDate');
 
 async function uploadImage(req, res, next) {
   try {
+    // console.log(req.baseUrl); // /sellers
+    // console.log(req.url); // register
+    // console.log(req.originalUrl); // /sellers/register
     if (req.file) {
       const fileName = 'image_' + getDate();
       const data = new FormData();
@@ -18,7 +21,7 @@ async function uploadImage(req, res, next) {
 
       req.imgUrl = response.data.url;
       next();
-    } else if(req.files.image){
+    } else if (req.url === '/products' && req.files.image) {
       console.log(req.files.image);
       const fileName = 'image_' + getDate();
       const data = new FormData();
@@ -32,6 +35,9 @@ async function uploadImage(req, res, next) {
       });
 
       req.body.picture = response.data.url;
+      next();
+    } else {
+      // User register without prof pic
       next();
     }
   } catch (err) {
