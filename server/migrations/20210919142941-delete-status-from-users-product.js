@@ -5,10 +5,5 @@ module.exports = {
     await queryInterface.removeColumn('UsersProducts', 'status');
   },
 
-  down: async (queryInterface, Sequelize) => {
-    await queryInterface.addColumn('UsersProducts', 'status', {
-      allowNull: false,
-      type: Sequelize.STRING,
-    });
-  },
+  down: async (queryInterface, Sequelize) => {},
 };
