@@ -1,5 +1,7 @@
 const { OAuth2Client } = require(`google-auth-library`);
 
+const midtransAPI = require('../apis/midtrans');
+
 const { signToken } = require('../helpers/jwt');
 const { checkPassword } = require('../helpers/bcrypt');
 const {
@@ -366,24 +368,76 @@ class BuyerController {
       const currentCart = await Cart.findAll({
         where: { UserId },
         attributes: ['ProductId', 'UserId'],
+        include: [
+          {
+            model: Product,
+            attributes: ['price'],
+          },
+        ],
       });
 
-      await currentCart.forEach((el) => {
-        History.create({
-          ProductId: el.ProductId,
-          UserId: el.UserId,
-        });
+      // Total price
+      let gross_amount = 0;
+      currentCart.forEach((cart) => {
+        gross_amount += cart.Product.price;
       });
 
-      const checkedOut = await Cart.destroy({ where: { UserId } });
-      if (checkedOut === 0) {
-        throw {
-          name: 'Bad Request',
-          message: "You don't have any products in your cart.",
-        };
-      } else {
-        res.status(200).json({ message: 'Checkout successfully!' });
-      }
+      // Customer details
+      const user = await User.findOne({
+        where: {
+          id: UserId,
+        },
+      });
+
+      const customer_details = {
+        first_name: user.firstName,
+        last_name: user.lastName,
+        email: user.email,
+        phone: user.phoneNumber,
+      };
+
+      // Invoice number
+      const order_id =
+        'Order-' + user.firstName + user.email + '-Code-' + Date.now();
+
+      const parameter = {
+        transaction_details: {
+          order_id,
+          gross_amount: String(gross_amount),
+        },
+        credit_card: {
+          secure: true,
+        },
+        customer_details,
+      };
+
+      const { data } = await midtransAPI.post('/', parameter, {
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+      });
+
+      console.log(data);
+
+      res.status(201).json(data);
+
+      // await currentCart.forEach((el) => {
+      //   History.create({
+      //     ProductId: el.ProductId,
+      //     UserId: el.UserId,
+      //   });
+      // });
+
+      // const checkedOut = await Cart.destroy({ where: { UserId } });
+      // if (checkedOut === 0) {
+      //   throw {
+      //     name: 'Bad Request',
+      //     message: "You don't have any products in your cart.",
+      //   };
+      // } else {
+      //   res.status(200).json({ message: 'Checkout successfully!' });
+      // }
     } catch (err) {
       next(err);
     }

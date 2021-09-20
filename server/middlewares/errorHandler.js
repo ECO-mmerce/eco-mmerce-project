@@ -3,7 +3,7 @@ const serverErr = {
 };
 
 function errorHandler(err, req, res, next) {
-  console.log(err);
+  console.log(err.response?.data);
   if (res.headersSent) {
     return next(err);
   }
@@ -26,12 +26,12 @@ function errorHandler(err, req, res, next) {
       break;
     case 'SequelizeValidationError':
       const errResponse = err.errors.map((error) => {
-        return {
-          message: error.message,
-        };
+        return error.message;
       });
 
-      res.status(400).json(errResponse);
+      const responseMsg = errResponse.join(', ');
+
+      res.status(400).json({ message: responseMsg });
       break;
     default:
       res.status(500).json(err.message);
