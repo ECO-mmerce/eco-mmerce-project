@@ -271,6 +271,7 @@ export function fetchChatList() {
     } finally {
       dispatch(setIsLoading(false))
     }
+  }
 }
 
 export function addCart(id) {
