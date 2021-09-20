@@ -37,13 +37,13 @@ async function detectIngredients(req, res, next) {
         }
       });
 
-      if (isFound === false)
-        throw {
-          name: 'Bad Request',
-          message: `Uploaded picture didn't contain ingridients`,
-        };
+      // Panduuu, ini gimana ya caranya supaya bisa throw ini???
+      //   throw {
+      //     name: 'Bad Request',
+      //     message: `Uploaded picture didn't contain ingridients`,
+      //   };
 
-      output = output.toLowerCase().split(', ');
+      output = output.split(', ');
       output[0] = output[0].split(' ').slice(1).join(' ');
       req.body.ingridient = output;
 
