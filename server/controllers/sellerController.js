@@ -215,7 +215,7 @@ class SellerController {
           CategoryId,
         },
         {
-          where: [{ id }, { UserId }],
+          where: { id, UserId },
           returning: true,
         }
       );

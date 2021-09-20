@@ -11,8 +11,6 @@ export default function ProductCard({ products }) {
     dispatch(addCart(id));
   };
 
-  console.log(products.id, `INI ID PRODUK`);
-
   return (
     <div className=" p-4 bg-white hover:grow hover:shadow-md rounded-lg ">
       <Link
