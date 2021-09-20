@@ -4,6 +4,7 @@ async function authorization(req, res, next) {
   try {
     const { id } = req.user;
     const verifyUser = await User.findOne({ where: id });
+
     if (verifyUser.role === 'seller') {
       next();
     } else {

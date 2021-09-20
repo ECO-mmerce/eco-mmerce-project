@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import MiniProduct from '../components/MiniProduct';
 import { fetchProducts } from '../stores/action';
 import { useDispatch, useSelector } from 'react-redux';
+import Transition from '../components/Transition';
 
 export default function Home() {
   const dispatch = useDispatch();
@@ -10,6 +11,10 @@ export default function Home() {
   useEffect(() => {
     dispatch(fetchProducts());
   }, []);
+
+  if (products.length === 0) {
+    return <Transition />;
+  }
 
   return (
     <section>

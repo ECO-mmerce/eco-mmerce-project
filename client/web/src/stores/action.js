@@ -10,6 +10,8 @@ import {
   CART_SET,
   HISTORY_SET,
   CHATLIST_SET,
+  SELLER_PRODUCTS_SET,
+  SELLER_PRODUCT_DETAIL_SET,
 } from './actionType';
 import { toast } from 'react-toastify';
 
@@ -94,6 +96,20 @@ export function setChatList(chatList) {
   return {
     type: CHATLIST_SET,
     payload: chatList,
+  };
+}
+
+export function setSellerProducts(payload) {
+  return {
+    type: SELLER_PRODUCTS_SET,
+    payload: payload,
+  };
+}
+
+export function setSellerProduct(payload) {
+  return {
+    type: SELLER_PRODUCT_DETAIL_SET,
+    payload: payload,
   };
 }
 
@@ -248,6 +264,98 @@ export function fetchCart() {
       });
       const data = await response.json();
       dispatch(setCart(data));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+}
+
+export function fetchSellerProducts() {
+  return async function (dispatch, getState) {
+    try {
+      const response = await fetch(baseUrl + '/sellers/products', {
+        headers: {
+          access_token: localStorage.access_token,
+        },
+      });
+      const data = await response.json();
+
+      dispatch(setSellerProducts(data));
+
+      console.log(data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+}
+
+export function fetchSellerProduct(id) {
+  return async function (dispatch, getState) {
+    try {
+      const response = await fetch(baseUrl + `/sellers/products/${id}`, {
+        headers: {
+          access_token: localStorage.access_token,
+        },
+      });
+      const data = await response.json();
+
+      dispatch(setSellerProduct(data));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+}
+
+export function editSellerProduct(id, payload) {
+  return async function (dispatch, getState) {
+    try {
+      const response = await fetch(baseUrl + `/sellers/products/${id}`, {
+        method: 'PUT',
+        headers: {
+          access_token: localStorage.access_token,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+
+      const { message } = await response.json();
+
+      if (response.status === 200) {
+        dispatch(fetchSellerProducts());
+        toast.success(message, toastOptions);
+      } else {
+        toast.error(message, toastOptions);
+      }
+      // console.log(data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+}
+
+export function addProduct(payload) {
+  return async function (dispatch, getState) {
+    try {
+      const response = await fetch(baseUrl + '/sellers/products', {
+        method: 'POST',
+        headers: {
+          access_token: localStorage.access_token,
+          Accept: 'application/json',
+          'Content-Type': 'multipart/form-data',
+        },
+        data: payload,
+      });
+
+      const { message } = response.json();
+
+      // console.log({message});
+
+      if (response.status === 200) {
+        dispatch(fetchSellerProducts());
+        toast.success(message, toastOptions);
+      } else {
+        toast.error(message, toastOptions);
+      }
     } catch (err) {
       console.log(err);
     }

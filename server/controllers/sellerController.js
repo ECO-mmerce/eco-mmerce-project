@@ -229,12 +229,10 @@ class SellerController {
         },
         {
           include: [Brand],
-          where: [{ id }, { UserId }],
+          where: { id, UserId },
           returning: true,
         }
       );
-
-      console.log(updatedProduct);
 
       if (updatedProduct[0] === 0) {
         throw {

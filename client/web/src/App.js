@@ -21,6 +21,8 @@ import Orders from './views/Orders';
 import { checkToken } from './stores/action';
 import ChatRoom from './views/ChatRoom';
 import SellerDashboard from './views/SellerDashboard';
+import SellerProductDetail from './views/SellerProductDetail';
+import EditProduct from './views/EditProduct';
 
 const socket = io('http://localhost:4000');
 
@@ -75,6 +77,12 @@ function App() {
           </Route>
           <Route path="/seller/addproduct">
             <AddNewProduct />
+          </Route>
+          <Route path="/seller/products/edit/:id">
+            <EditProduct />
+          </Route>
+          <Route path="/seller/products/:id">
+            <SellerProductDetail />
           </Route>
           <Route path="/seller/orders">
             <Orders />
