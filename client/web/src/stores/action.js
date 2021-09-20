@@ -359,13 +359,16 @@ export function checkOutCart() {
         },
       });
 
-      const { message } = await response.json();
+      // const { message } = await response.json();
+      const data = await response.json();
 
-      if (response.status === 200) {
-        dispatch(setCart([]));
-        toast.success(message, toastOptions);
+      if (response.status === 201) {
+        // dispatch(setCart([]));
+        // toast.success(message, toastOptions);
+
+        return data;
       } else {
-        toast.error(message, toastOptions);
+        toast.error(data.message, toastOptions);
       }
     } catch (err) {
       console.log(err);

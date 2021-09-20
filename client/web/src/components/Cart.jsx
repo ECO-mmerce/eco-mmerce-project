@@ -24,7 +24,9 @@ export default function Cart() {
   console.log(cart, `INI CART`);
 
   const checkOut = () => {
-    dispatch(checkOutCart());
+    dispatch(checkOutCart()).then((returnedValue) => {
+      window.snap.pay(returnedValue.token);
+    });
   };
 
   return (
