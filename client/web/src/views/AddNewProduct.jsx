@@ -19,7 +19,7 @@ export default function AddNewProduct() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
+    // console.log(formAddProduct.current);
     const formData = new FormData(formAddProduct.current);
 
     dispatch(addProduct(formData));
@@ -60,7 +60,8 @@ export default function AddNewProduct() {
               <input
                 className="w-full px-2 py-1 rounded bg-gray-200"
                 type="text"
-                onChange={(e) => setName(e.target.value)}
+                id="name"
+                name="name"
               />
             </div>
             <div className="flex flex-col items-start mb-10">
@@ -69,7 +70,8 @@ export default function AddNewProduct() {
                 className="px-2 py-1 rounded w-full bg-gray-200"
                 type="number"
                 placeholder="Price"
-                onChange={(e) => setPrice(e.target.value)}
+                id="price"
+                name="price"
               />
             </div>
             <div className="flex flex-col items-start mb-10">
@@ -78,7 +80,8 @@ export default function AddNewProduct() {
                 className="px-2 py-1 rounded w-full bg-gray-200"
                 type="text"
                 placeholder="Brand"
-                onChange={(e) => setBrand(e.target.value)}
+                id="brand"
+                name="brand"
               />
             </div>
             <div className="flex gap-5 w-full">
@@ -87,14 +90,24 @@ export default function AddNewProduct() {
                 className="w-1/2 px-2 py-1 rounded bg-gray-200"
                 type="number"
                 placeholder="Stock"
-                onChange={(e) => setStock(e.target.value)}
+                id="stock"
+                name="stock"
               />
               <label>Weight</label>
               <input
                 className="w-1/2 px-2 py-1 rounded bg-gray-200"
                 type="number"
+                id="weight"
+                name="weight"
                 placeholder="Weight"
-                onChange={(e) => setWeight(e.target.value)}
+              />
+              <label>Category</label>
+              <input
+                className="w-1/2 px-2 py-1 rounded bg-gray-200"
+                type="number"
+                id="category"
+                name="category"
+                placeholder="Category ID"
               />
             </div>
             <div className="flex flex-col items-start my-5">
@@ -102,7 +115,8 @@ export default function AddNewProduct() {
               <textarea
                 className="bg-gray-200 rounded-lg w-full"
                 rows="5"
-                onChange={(e) => setDescription(e.target.value)}
+                id="description"
+                name="description"
               ></textarea>
             </div>
             <div className="flex gap-5">
@@ -112,7 +126,8 @@ export default function AddNewProduct() {
                   className="px-2 py-1 rounded bg-gray-200 w-full"
                   type="file"
                   placeholder="Picture"
-                  onChange={(e) => setPicture(e.target.value)}
+                  id="image"
+                  name="image"
                 />
               </div>
               <div className="flex flex-col items-start mb-5">
@@ -121,7 +136,8 @@ export default function AddNewProduct() {
                   className="px-2 py-1 rounded bg-gray-200 w-full"
                   type="file"
                   placeholder="Picture"
-                  onChange={(e) => setIngridient(e.target.value)}
+                  id="ingredients"
+                  name="ingredients"
                 />
               </div>
             </div>

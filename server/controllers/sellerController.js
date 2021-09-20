@@ -166,6 +166,8 @@ class SellerController {
         brand,
       } = req.body;
 
+      console.log(req.body, `INI BODY`);
+
       const { id } = req.user;
 
       const newProduct = await Product.create(
