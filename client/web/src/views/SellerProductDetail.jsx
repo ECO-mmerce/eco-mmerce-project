@@ -1,16 +1,23 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchSellerProduct } from '../stores/action';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useHistory } from 'react-router-dom';
+import { deleteSellerProduct } from '../stores/action';
 
 export default function SellerProductDetail() {
   const dispatch = useDispatch();
+  const history = useHistory();
   const sellerProduct = useSelector((state) => state.sellerProduct);
   const { id } = useParams();
 
   useEffect(() => {
     dispatch(fetchSellerProduct(id));
   }, []);
+
+  const deleteProduct = (id) => {
+    dispatch(deleteSellerProduct(id));
+    history.push('/seller');
+  };
 
   return (
     <section className="text-gray-600 body-font overflow-hidden">
@@ -64,6 +71,12 @@ export default function SellerProductDetail() {
               >
                 Edit Product
               </Link>
+              <button
+                onClick={() => deleteProduct(sellerProduct.id)}
+                className="flex ml-auto text-white bg-green-500 border-0 py-2 px-6 focus:outline-none hover:bg-green-600 rounded"
+              >
+                Delete Product
+              </button>
               <button className="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-4">
                 <svg
                   fill="currentColor"

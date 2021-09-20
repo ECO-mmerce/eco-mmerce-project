@@ -22,7 +22,10 @@ export default function MiniProduct({ products }) {
           />
           {products?.Brands.map((el) => {
             return (
-              <h3 className="tracking-widest text-green-500 text-xs font-medium title-font">
+              <h3
+                key={el.id}
+                className="tracking-widest text-green-500 text-xs font-medium title-font"
+              >
                 {el.name}
               </h3>
             );
@@ -35,7 +38,7 @@ export default function MiniProduct({ products }) {
           </p>
           {products?.UsersProducts?.map((el) => {
             return (
-              <p className="text-md text-gray-900 title-font mb-4">
+              <p key={el.id} className="text-md text-gray-900 title-font mb-4">
                 {`${el.User.firstName} ${el.User.lastName}`}
               </p>
             );

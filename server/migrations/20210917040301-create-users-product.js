@@ -15,6 +15,8 @@ module.exports = {
           model: 'Products',
           key: 'id',
         },
+        onUpdate: 'cascade',
+        onDelete: 'cascade',
       },
       UserId: {
         allowNull: false,
@@ -23,6 +25,8 @@ module.exports = {
           model: 'Users',
           key: 'id',
         },
+        onUpdate: 'cascade',
+        onDelete: 'cascade',
       },
       status: {
         allowNull: false,

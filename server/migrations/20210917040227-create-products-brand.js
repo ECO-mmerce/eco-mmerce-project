@@ -15,6 +15,8 @@ module.exports = {
           model: 'Products',
           key: 'id',
         },
+        onUpdate: 'cascade',
+        onDelete: 'cascade',
       },
       BrandId: {
         allowNull: false,
@@ -23,6 +25,8 @@ module.exports = {
           model: 'Brands',
           key: 'id',
         },
+        onUpdate: 'cascade',
+        onDelete: 'cascade',
       },
       createdAt: {
         allowNull: false,

@@ -335,20 +335,43 @@ export function editSellerProduct(id, payload) {
 
 export function addProduct(payload) {
   return async function (dispatch, getState) {
+    console.log(payload.get('image'));
     try {
+      // console.log(payload);
       const response = await fetch(baseUrl + '/sellers/products', {
         method: 'POST',
         headers: {
           access_token: localStorage.access_token,
-          Accept: 'application/json',
-          'Content-Type': 'multipart/form-data',
         },
         data: payload,
       });
-
-      const { message } = response.json();
-
+      const { message } = await response.json();
+      console.log(response);
       // console.log({message});
+      if (response.status === 200) {
+        dispatch(fetchSellerProducts());
+        toast.success(message, toastOptions);
+      } else {
+        toast.error(message, toastOptions);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+}
+
+export function deleteSellerProduct(id) {
+  return async function (dispatch, getState) {
+    try {
+      const response = await fetch(baseUrl + `/sellers/products/${id}`, {
+        method: 'DELETE',
+        headers: {
+          access_token: localStorage.access_token,
+        },
+      });
+
+      const { message } = await response.json();
+      // console.log(data);
 
       if (response.status === 200) {
         dispatch(fetchSellerProducts());

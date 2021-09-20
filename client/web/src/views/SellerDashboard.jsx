@@ -46,13 +46,21 @@ export default function SellerDashboard({ socket }) {
       </section>
 
       <section className="text-gray-600 py-24 px-5 body-font flex h-screen overflow-y-scroll">
-        <div className="container px-5  mx-auto">
-          <div className="flex flex-wrap grid grid-cols-4 gap-5">
-            {sellerProducts.map((product) => {
-              return <SellerProductCard key={product.id} products={product} />;
-            })}
+        {sellerProducts?.length === 0 ? (
+          <h1 className="mx-auto">
+            It's Empty ;) Come add your products by click the green button !
+          </h1>
+        ) : (
+          <div className="container px-5  mx-auto">
+            <div className="flex flex-wrap grid grid-cols-4 gap-5">
+              {sellerProducts?.map((product) => {
+                return (
+                  <SellerProductCard key={product.id} products={product} />
+                );
+              })}
+            </div>
           </div>
-        </div>
+        )}
       </section>
     </>
   );
