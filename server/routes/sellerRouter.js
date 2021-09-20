@@ -24,10 +24,13 @@ router.get('/chats', ChatController.getBuyerChat);
 router.get('/products', SellerController.getAllProducts);
 router.post(
   '/products',
-  upload.fields([{name: 'ingredients', maxCount: 1}, {name:'image',maxCount: 1}]),
+  upload.fields([
+    { name: 'ingredients', maxCount: 1 },
+    { name: 'image', maxCount: 1 },
+  ]),
   detectIngredients,
-  uploadImage,
   checkIngredients,
+  uploadImage,
   SellerController.createProduct
 );
 router.get('/products/:id', SellerController.getProduct);

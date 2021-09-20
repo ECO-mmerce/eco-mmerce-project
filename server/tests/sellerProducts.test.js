@@ -4,240 +4,106 @@ const request = require('supertest');
 const { signToken } = require('../helpers/jwt');
 
 const appJSON = 'application/json';
+const formData = 'multipart/form-data';
 
-const categoryCreator = {
-  name: 'Skincare',
-};
-
-const firstName = 'firstName';
-const lastName = 'lastName';
-const phoneNumber = '123';
-const picture = 'picture';
-const password = 'password';
-
-const sellerCreator = {
-  firstName,
-  lastName,
-  email: 'seller@mail.com',
-  phoneNumber,
-  picture,
-  role: 'seller',
-  password,
-};
-const sellerCreator2 = {
-  firstName,
-  lastName,
-  email: 'seller2@mail.com',
-  phoneNumber,
-  picture,
-  role: 'seller2',
-  password,
-};
+const ingredients = `${__dirname}/product.jpg`;
+const image = `${__dirname}/cover.png`;
 
 const name = 'name';
 const price = 123;
-const stock = 2;
 const weight = 2.4;
-const status = 'eco';
+const stock = 2;
 const description = 'description';
-const ingridient = ['a', 'b'];
-const UserId = ''; // ambil dari beforeAll
-// const picture = 'picture'; // ambil dari user creator
 const CategoryId = 1;
-const harmfulIngridient = ['a'];
 const brand = 'brandName';
 
-const emptyName = '';
-const emptyPrice = '';
-const emptyStock = '';
-const emptyWeight = '';
-const emptyStatus = '';
-const emptyDescription = '';
-const emptyIngridient = [];
-// const emptyUserId = ''; // no need, auth sudah di handle di users.test.js
-const emptyPicture = '';
-const emptyCategoryId = '';
-const emptyBrand = '';
+const status = '0';
+const ingridient = ['a', 'b'];
+const harmfulIngridient = ['a'];
+const picture = 'picture';
+// const UserId = 1
 
 const productSuccess = {
   name,
   price,
-  stock,
   weight,
-  status,
+  stock,
   description,
-  ingridient,
-  UserId,
-  picture,
   CategoryId,
-  harmfulIngridient,
-  brand,
 };
 const productEmptyName = {
-  name: emptyName,
+  name: '',
   price,
-  stock,
   weight,
-  status,
+  stock,
   description,
-  ingridient,
-  UserId,
-  picture,
   CategoryId,
-  harmfulIngridient,
-  brand,
 };
 const productEmptyPrice = {
   name,
-  price: emptyPrice,
+  price: '',
+  weight,
   stock,
-  weight,
-  status,
   description,
-  ingridient,
-  UserId,
-  picture,
   CategoryId,
-  harmfulIngridient,
-  brand,
-};
-const productEmptyStock = {
-  name,
-  price,
-  stock: emptyStock,
-  weight,
-  status,
-  description,
-  ingridient,
-  UserId,
-  picture,
-  CategoryId,
-  harmfulIngridient,
-  brand,
 };
 const productEmptyWeight = {
   name,
   price,
+  weight: '',
   stock,
-  weight: emptyWeight,
-  status,
   description,
-  ingridient,
-  UserId,
-  picture,
   CategoryId,
-  harmfulIngridient,
-  brand,
 };
-const productEmptyStatus = {
+const productEmptyStock = {
   name,
   price,
-  stock,
   weight,
-  status: emptyStatus,
+  stock: '',
   description,
-  ingridient,
-  UserId,
-  picture,
   CategoryId,
-  harmfulIngridient,
-  brand,
 };
 const productEmptyDescription = {
   name,
   price,
-  stock,
   weight,
-  status,
-  description: emptyDescription,
-  ingridient,
-  UserId,
-  picture,
-  CategoryId,
-  harmfulIngridient,
-  brand,
-};
-const productEmptyIngridient = {
-  name,
-  price,
   stock,
-  weight,
-  status,
-  description,
-  ingridient: emptyIngridient,
-  UserId,
-  picture,
+  description: '',
   CategoryId,
-  harmfulIngridient,
-  brand,
-};
-const productEmptyPicture = {
-  name,
-  price,
-  stock,
-  weight,
-  status,
-  description,
-  ingridient,
-  UserId,
-  picture: emptyPicture,
-  CategoryId,
-  harmfulIngridient,
-  brand,
 };
 const productEmptyCategoryId = {
   name,
   price,
-  stock,
   weight,
-  status,
-  description,
-  ingridient,
-  UserId,
-  picture,
-  CategoryId: emptyCategoryId,
-  harmfulIngridient,
-  brand,
-};
-const productEmptyBrand = {
-  name,
-  price,
   stock,
-  weight,
-  status,
   description,
-  ingridient,
-  UserId,
-  picture,
-  CategoryId,
-  harmfulIngridient,
-  brand: emptyBrand,
+  CategoryId: '',
 };
 
 let sellerToken = '';
-let sellerToken2 = '';
-let sellerId = '';
-let sellerId2 = '';
-let productData = {};
+let sellerId = 0;
+let categoryId = 0;
+let productId = 0;
 const notFoundProductId = 10;
 
 beforeAll(async () => {
-  const category = await Category.create(categoryCreator);
+  const category = await Category.create({ name: 'category name' });
+  categoryId = category.id;
 
-  const seller = await User.create(sellerCreator);
+  const seller = await User.create({
+    firstName: 'firstName',
+    lastName: 'lastName',
+    email: 'seller@mail.com',
+    phoneNumber: 123,
+    picture: 'sellerPicture',
+    role: 'seller',
+    password: 'password',
+  });
   sellerId = seller.id;
   sellerToken = signToken({
     id: seller.id,
     email: seller.email,
     role: seller.role,
-  });
-
-  const seller2 = await User.create(sellerCreator2);
-  sellerId2 = seller2.id;
-  sellerToken2 = signToken({
-    id: seller2.id,
-    email: seller2.email,
-    role: seller2.role,
   });
 
   const product = await Product.create(
@@ -248,16 +114,16 @@ beforeAll(async () => {
       weight,
       status,
       description,
+      harmfulIngridient,
       ingridient,
       UserId: seller.id,
       picture,
       CategoryId: category.id,
-      harmfulIngridient,
       Brands: { name: brand },
     },
     { include: [Brand] }
   );
-  productData.id = product.id;
+  productId = product.id;
 
   await UsersProduct.create({
     ProductId: product.id,
@@ -288,15 +154,22 @@ afterAll(async () => {
   });
 });
 
-// Test sellers/products THIS
-
 describe('POST /sellers/products [success]', () => {
   test('Should return [{message: Successfully added product}] [201]', (done) => {
     request(app)
       .post('/sellers/products')
+      .set('Content-Type', formData)
       .set('Accept', appJSON)
       .set('access_token', sellerToken)
-      .send(productSuccess)
+      .attach('ingredients', ingredients)
+      .attach('image', image)
+      .field('name', name)
+      .field('price', price)
+      .field('weight', weight)
+      .field('stock', stock)
+      .field('description', description)
+      .field('CategoryId', categoryId)
+      .field('brand', brand)
       .then((response) => {
         expect(response.status).toBe(201);
         expect(response.body).toHaveProperty('message', expect.any(String));
@@ -307,120 +180,21 @@ describe('POST /sellers/products [success]', () => {
 });
 
 describe('POST /sellers/products [failed]', () => {
-  test('Should return [{message: Name cannot be empty}] [400]', (done) => {
-    request(app)
-      .post('/sellers/products')
-      .set('Accept', appJSON)
-      .set('access_token', sellerToken)
-      .send(productEmptyName)
-      .then((response) => {
-        expect(response.status).toBe(400);
-        expect.arrayContaining([
-          expect.objectContaining({
-            message: 'Name cannot be empty',
-          }),
-        ]);
-        done();
-      })
-      .catch((err) => done(err));
-  });
-
-  test('Should return [{message: Price cannot be empty}] [400]', (done) => {
-    request(app)
-      .post('/sellers/products')
-      .set('Accept', appJSON)
-      .set('access_token', sellerToken)
-      .send(productEmptyPrice)
-      .then((response) => {
-        expect(response.status).toBe(400);
-        expect.arrayContaining([
-          expect.objectContaining({
-            message: 'Price cannot be empty',
-          }),
-        ]);
-        done();
-      })
-      .catch((err) => done(err));
-  });
-
-  test('Should return [{message: Stock cannot be empty}] [400]', (done) => {
-    request(app)
-      .post('/sellers/products')
-      .set('Accept', appJSON)
-      .set('access_token', sellerToken)
-      .send(productEmptyStock)
-      .then((response) => {
-        expect(response.status).toBe(400);
-        expect.arrayContaining([
-          expect.objectContaining({
-            message: 'Stock cannot be empty',
-          }),
-        ]);
-        done();
-      })
-      .catch((err) => done(err));
-  });
-
-  test('Should return [{message: Weight cannot be empty}] [400]', (done) => {
-    request(app)
-      .post('/sellers/products')
-      .set('Accept', appJSON)
-      .set('access_token', sellerToken)
-      .send(productEmptyWeight)
-      .then((response) => {
-        expect(response.status).toBe(400);
-        expect.arrayContaining([
-          expect.objectContaining({
-            message: 'Weight cannot be empty',
-          }),
-        ]);
-        done();
-      })
-      .catch((err) => done(err));
-  });
-
-  test('Should return [{message: Status cannot be empty}] [400]', (done) => {
-    request(app)
-      .post('/sellers/products')
-      .set('Accept', appJSON)
-      .set('access_token', sellerToken)
-      .send(productEmptyStatus)
-      .then((response) => {
-        expect(response.status).toBe(400);
-        expect.arrayContaining([
-          expect.objectContaining({
-            message: 'Status cannot be empty',
-          }),
-        ]);
-        done();
-      })
-      .catch((err) => done(err));
-  });
-
-  test('Should return [{message: Description cannot be empty}] [400]', (done) => {
-    request(app)
-      .post('/sellers/products')
-      .set('Accept', appJSON)
-      .set('access_token', sellerToken)
-      .send(productEmptyDescription)
-      .then((response) => {
-        expect(response.status).toBe(400);
-        expect.arrayContaining([
-          expect.objectContaining({
-            message: 'Description cannot be empty',
-          }),
-        ]);
-        done();
-      })
-      .catch((err) => done(err));
-  });
-
   test('Should return [{message: Ingridient cannot be empty}] [400]', (done) => {
     request(app)
       .post('/sellers/products')
+      .set('Content-Type', formData)
       .set('Accept', appJSON)
       .set('access_token', sellerToken)
-      .send(productEmptyIngridient)
+      .attach('ingredients', '')
+      .attach('image', image)
+      .field('name', name)
+      .field('price', price)
+      .field('weight', weight)
+      .field('stock', stock)
+      .field('description', description)
+      .field('CategoryId', categoryId)
+      .field('brand', brand)
       .then((response) => {
         expect(response.status).toBe(400);
         expect.arrayContaining([
@@ -436,9 +210,18 @@ describe('POST /sellers/products [failed]', () => {
   test('Should return [{message: Picture cannot be empty}] [400]', (done) => {
     request(app)
       .post('/sellers/products')
+      .set('Content-Type', formData)
       .set('Accept', appJSON)
       .set('access_token', sellerToken)
-      .send(productEmptyPicture)
+      .attach('ingredients', ingredients)
+      .attach('image', '')
+      .field('name', name)
+      .field('price', price)
+      .field('weight', weight)
+      .field('stock', stock)
+      .field('description', description)
+      .field('CategoryId', categoryId)
+      .field('brand', brand)
       .then((response) => {
         expect(response.status).toBe(400);
         expect.arrayContaining([
@@ -451,12 +234,156 @@ describe('POST /sellers/products [failed]', () => {
       .catch((err) => done(err));
   });
 
+  test('Should return [{message: Name cannot be empty}] [400]', (done) => {
+    request(app)
+      .post('/sellers/products')
+      .set('Content-Type', formData)
+      .set('Accept', appJSON)
+      .set('access_token', sellerToken)
+      .attach('ingredients', ingredients)
+      .attach('image', image)
+      .field('name', '')
+      .field('price', price)
+      .field('weight', weight)
+      .field('stock', stock)
+      .field('description', description)
+      .field('CategoryId', categoryId)
+      .field('brand', brand)
+      .then((response) => {
+        expect(response.status).toBe(400);
+        expect.arrayContaining([
+          expect.objectContaining({
+            message: 'Name cannot be empty',
+          }),
+        ]);
+        done();
+      })
+      .catch((err) => done(err));
+  });
+
+  test('Should return [{message: Price cannot be empty}] [400]', (done) => {
+    request(app)
+      .post('/sellers/products')
+      .set('Content-Type', formData)
+      .set('Accept', appJSON)
+      .set('access_token', sellerToken)
+      .attach('ingredients', ingredients)
+      .attach('image', image)
+      .field('name', name)
+      .field('price', '')
+      .field('weight', weight)
+      .field('stock', stock)
+      .field('description', description)
+      .field('CategoryId', categoryId)
+      .field('brand', brand)
+      .then((response) => {
+        expect(response.status).toBe(400);
+        expect.arrayContaining([
+          expect.objectContaining({
+            message: 'Price cannot be empty',
+          }),
+        ]);
+        done();
+      })
+      .catch((err) => done(err));
+  });
+
+  test('Should return [{message: Stock cannot be empty}] [400]', (done) => {
+    request(app)
+      .post('/sellers/products')
+      .set('Content-Type', formData)
+      .set('Accept', appJSON)
+      .set('access_token', sellerToken)
+      .attach('ingredients', ingredients)
+      .attach('image', image)
+      .field('name', name)
+      .field('price', price)
+      .field('weight', weight)
+      .field('stock', '')
+      .field('description', description)
+      .field('CategoryId', categoryId)
+      .field('brand', brand)
+      .then((response) => {
+        expect(response.status).toBe(400);
+        expect.arrayContaining([
+          expect.objectContaining({
+            message: 'Stock cannot be empty',
+          }),
+        ]);
+        done();
+      })
+      .catch((err) => done(err));
+  });
+
+  test('Should return [{message: Weight cannot be empty}] [400]', (done) => {
+    request(app)
+      .post('/sellers/products')
+      .set('Content-Type', formData)
+      .set('Accept', appJSON)
+      .set('access_token', sellerToken)
+      .attach('ingredients', ingredients)
+      .attach('image', image)
+      .field('name', name)
+      .field('price', price)
+      .field('weight', '')
+      .field('stock', stock)
+      .field('description', description)
+      .field('CategoryId', categoryId)
+      .field('brand', brand)
+      .then((response) => {
+        expect(response.status).toBe(400);
+        expect.arrayContaining([
+          expect.objectContaining({
+            message: 'Weight cannot be empty',
+          }),
+        ]);
+        done();
+      })
+      .catch((err) => done(err));
+  });
+
+  test('Should return [{message: Description cannot be empty}] [400]', (done) => {
+    request(app)
+      .post('/sellers/products')
+      .set('Content-Type', formData)
+      .set('Accept', appJSON)
+      .set('access_token', sellerToken)
+      .attach('ingredients', ingredients)
+      .attach('image', image)
+      .field('name', name)
+      .field('price', price)
+      .field('weight', weight)
+      .field('stock', stock)
+      .field('description', '')
+      .field('CategoryId', categoryId)
+      .field('brand', brand)
+      .then((response) => {
+        expect(response.status).toBe(400);
+        expect.arrayContaining([
+          expect.objectContaining({
+            message: 'Description cannot be empty',
+          }),
+        ]);
+        done();
+      })
+      .catch((err) => done(err));
+  });
+
   test('Should return [{message: CategoryId cannot be empty}] [400]', (done) => {
     request(app)
       .post('/sellers/products')
+      .set('Content-Type', formData)
       .set('Accept', appJSON)
       .set('access_token', sellerToken)
-      .send(productEmptyCategoryId)
+      .attach('ingredients', ingredients)
+      .attach('image', image)
+      .field('name', name)
+      .field('price', price)
+      .field('weight', weight)
+      .field('stock', stock)
+      .field('description', description)
+      .field('CategoryId', '')
+      .field('brand', brand)
       .then((response) => {
         expect(response.status).toBe(400);
         expect.arrayContaining([
@@ -472,9 +399,18 @@ describe('POST /sellers/products [failed]', () => {
   test('Should return [{message: Brand name cannot be empty}] [400]', (done) => {
     request(app)
       .post('/sellers/products')
+      .set('Content-Type', formData)
       .set('Accept', appJSON)
       .set('access_token', sellerToken)
-      .send(productEmptyBrand)
+      .attach('ingredients', ingredients)
+      .attach('image', image)
+      .field('name', name)
+      .field('price', price)
+      .field('weight', weight)
+      .field('stock', stock)
+      .field('description', description)
+      .field('CategoryId', categoryId)
+      .field('brand', '')
       .then((response) => {
         expect(response.status).toBe(400);
         expect.arrayContaining([
@@ -491,7 +427,7 @@ describe('POST /sellers/products [failed]', () => {
 describe('UPDATE /sellers/products/:id [success]', () => {
   test('Should return [{message: Product with ID ${id} has been successfully updated!}] [200]', (done) => {
     request(app)
-      .put(`/sellers/products/${productData.id}`)
+      .put(`/sellers/products/${productId}`)
       .set('Accept', appJSON)
       .set('access_token', sellerToken)
       .send(productSuccess)
@@ -507,7 +443,7 @@ describe('UPDATE /sellers/products/:id [success]', () => {
 describe('UPDATE /sellers/products/:id [failed]', () => {
   test(`Should return {message: You are not authorized!} [401]`, (done) => {
     request(app)
-      .get(`/sellers/products/${productData.id}`)
+      .get(`/sellers/products/${productId}`)
       .set('Accept', appJSON)
       .send(productSuccess)
       .then((response) => {
@@ -542,7 +478,7 @@ describe('UPDATE /sellers/products/:id [failed]', () => {
 
   test('Should return [{message: Name cannot be empty}] [400]', (done) => {
     request(app)
-      .put(`/sellers/products/${productData.id}`)
+      .put(`/sellers/products/${productId}`)
       .set('Accept', appJSON)
       .set('access_token', sellerToken)
       .send(productEmptyName)
@@ -560,7 +496,7 @@ describe('UPDATE /sellers/products/:id [failed]', () => {
 
   test('Should return [{message: Price cannot be empty}] [400]', (done) => {
     request(app)
-      .put(`/sellers/products/${productData.id}`)
+      .put(`/sellers/products/${productId}`)
       .set('Accept', appJSON)
       .set('access_token', sellerToken)
       .send(productEmptyPrice)
@@ -578,7 +514,7 @@ describe('UPDATE /sellers/products/:id [failed]', () => {
 
   test('Should return [{message: Stock cannot be empty}] [400]', (done) => {
     request(app)
-      .put(`/sellers/products/${productData.id}`)
+      .put(`/sellers/products/${productId}`)
       .set('Accept', appJSON)
       .set('access_token', sellerToken)
       .send(productEmptyStock)
@@ -596,7 +532,7 @@ describe('UPDATE /sellers/products/:id [failed]', () => {
 
   test('Should return [{message: Weight cannot be empty}] [400]', (done) => {
     request(app)
-      .put(`/sellers/products/${productData.id}`)
+      .put(`/sellers/products/${productId}`)
       .set('Accept', appJSON)
       .set('access_token', sellerToken)
       .send(productEmptyWeight)
@@ -612,27 +548,9 @@ describe('UPDATE /sellers/products/:id [failed]', () => {
       .catch((err) => done(err));
   });
 
-  test('Should return [{message: Status cannot be empty}] [400]', (done) => {
-    request(app)
-      .put(`/sellers/products/${productData.id}`)
-      .set('Accept', appJSON)
-      .set('access_token', sellerToken)
-      .send(productEmptyStatus)
-      .then((response) => {
-        expect(response.status).toBe(400);
-        expect.arrayContaining([
-          expect.objectContaining({
-            message: 'Status cannot be empty',
-          }),
-        ]);
-        done();
-      })
-      .catch((err) => done(err));
-  });
-
   test('Should return [{message: Description cannot be empty}] [400]', (done) => {
     request(app)
-      .put(`/sellers/products/${productData.id}`)
+      .put(`/sellers/products/${productId}`)
       .set('Accept', appJSON)
       .set('access_token', sellerToken)
       .send(productEmptyDescription)
@@ -648,45 +566,9 @@ describe('UPDATE /sellers/products/:id [failed]', () => {
       .catch((err) => done(err));
   });
 
-  test('Should return [{message: Ingridient cannot be empty}] [400]', (done) => {
-    request(app)
-      .put(`/sellers/products/${productData.id}`)
-      .set('Accept', appJSON)
-      .set('access_token', sellerToken)
-      .send(productEmptyIngridient)
-      .then((response) => {
-        expect(response.status).toBe(400);
-        expect.arrayContaining([
-          expect.objectContaining({
-            message: 'Ingridient cannot be empty',
-          }),
-        ]);
-        done();
-      })
-      .catch((err) => done(err));
-  });
-
-  test('Should return [{message: Picture cannot be empty}] [400]', (done) => {
-    request(app)
-      .put(`/sellers/products/${productData.id}`)
-      .set('Accept', appJSON)
-      .set('access_token', sellerToken)
-      .send(productEmptyPicture)
-      .then((response) => {
-        expect(response.status).toBe(400);
-        expect.arrayContaining([
-          expect.objectContaining({
-            message: 'Picture cannot be empty',
-          }),
-        ]);
-        done();
-      })
-      .catch((err) => done(err));
-  });
-
   test('Should return [{message: CategoryId cannot be empty}] [400]', (done) => {
     request(app)
-      .put(`/sellers/products/${productData.id}`)
+      .put(`/sellers/products/${productId}`)
       .set('Accept', appJSON)
       .set('access_token', sellerToken)
       .send(productEmptyCategoryId)
@@ -701,28 +583,10 @@ describe('UPDATE /sellers/products/:id [failed]', () => {
       })
       .catch((err) => done(err));
   });
-
-  test('Should return [{message: Brand name cannot be empty}] [400]', (done) => {
-    request(app)
-      .put(`/sellers/products/${productData.id}`)
-      .set('Accept', appJSON)
-      .set('access_token', sellerToken)
-      .send(productEmptyBrand)
-      .then((response) => {
-        expect(response.status).toBe(400);
-        expect.arrayContaining([
-          expect.objectContaining({
-            message: 'Brand name cannot be empty',
-          }),
-        ]);
-        done();
-      })
-      .catch((err) => done(err));
-  });
 });
 
 describe('GET /sellers/products [success]', () => {
-  test('Should return {id, name, price, stock, picture, Category, Brands} [200]', (done) => {
+  test('Should return [{id, name, price, stock, picture, Category, Brands}] [200]', (done) => {
     request(app)
       .get('/sellers/products')
       .set('Accept', appJSON)
@@ -750,15 +614,19 @@ describe('GET /sellers/products [success]', () => {
             }),
           ])
         );
-      });
+        done();
+      })
+      .catch((err) => done(err));
   });
 });
+
 describe('GET /sellers/products [failed]', () => {
   test('Should return {message: You are not authorized!} [401]', (done) => {
     request(app)
       .get('/sellers/products')
       .set('Accept', appJSON)
       .then((response) => {
+        expect(response.status).toBe(401);
         expect(response.body).toEqual(
           expect.objectContaining({
             message: 'You are not authorized!',
@@ -773,13 +641,14 @@ describe('GET /sellers/products [failed]', () => {
 describe('GET /sellers/products/:id [success]', () => {
   test('Should return {id, name, price, stock, weight, status, description, ingridient, picture, UserId, Category, Brands} [200]', (done) => {
     request(app)
-      .get(`/sellers/products/${productData.id}`)
+      .get(`/sellers/products/${productId}`)
       .set('access_token', sellerToken)
       .set('Accept', appJSON)
       .then((response) => {
+        expect(response.status).toBe(200);
         expect(response.body).toEqual(
           expect.objectContaining({
-            id: expect.any(Number),
+            id: productId,
             name: expect.any(String),
             price: expect.any(Number),
             stock: expect.any(Number),
@@ -787,6 +656,7 @@ describe('GET /sellers/products/:id [success]', () => {
             status: expect.any(String),
             description: expect.any(String),
             ingridient: expect.arrayContaining([expect.any(String)]),
+            harmfulIngridient: expect.arrayContaining([expect.any(String)]),
             picture: expect.any(String),
             UserId: sellerId,
             Category: expect.objectContaining({
@@ -806,12 +676,14 @@ describe('GET /sellers/products/:id [success]', () => {
       .catch((err) => done(err));
   });
 });
+
 describe('GET /sellers/products/:id [failed]', () => {
   test('Should return {message: You are not authorized!} [401]', (done) => {
     request(app)
-      .get(`/sellers/products/${productData.id}`)
+      .get(`/sellers/products/${productId}`)
       .set('Accept', appJSON)
       .then((response) => {
+        expect(response.status).toBe(401);
         expect(response.body).toEqual(
           expect.objectContaining({
             message: 'You are not authorized!',
@@ -827,36 +699,40 @@ describe('GET /sellers/products/:id [failed]', () => {
       .get(`/sellers/products/${notFoundProductId}`)
       .set('access_token', sellerToken)
       .then((response) => {
-        console.log(response.body, '<<<<<<<<<<<<<<<<<<<<<<<');
         expect(response.status).toBe(404);
         expect(response.body).toEqual(
           expect.objectContaining({
             message: `Product with ID ${notFoundProductId} is not found!`,
           })
         );
-      });
+        done();
+      })
+      .catch((err) => done(err));
   });
 });
 
 describe('DELETE /sellers/products/:id [success]', () => {
   test('Should return {message: Product with ID ${id} has been successfully deleted!} [200]', (done) => {
     request(app)
-      .delete(`/sellers/products/${productData.id}`)
+      .delete(`/sellers/products/${productId}`)
       .set('access_token', sellerToken)
       .then((response) => {
         expect(response.status).toBe(200);
         expect(response.body).toEqual(
           expect.objectContaining({
-            message: `Product with ID ${productData.id} has been successfully deleted!`,
+            message: `Product with ID ${productId} has been successfully deleted!`,
           })
         );
-      });
+        done();
+      })
+      .catch((err) => done(err));
   });
 });
+
 describe('DELETE /sellers/products/:id [failed]', () => {
   test('Should return {message: You are not authorized!} [401]', (done) => {
     request(app)
-      .delete(`/sellers/products/${productData.id}`)
+      .delete(`/sellers/products/${productId}`)
       .then((response) => {
         expect(response.status).toBe(401);
         expect(response.body).toEqual(
@@ -864,7 +740,9 @@ describe('DELETE /sellers/products/:id [failed]', () => {
             message: `You are not authorized!`,
           })
         );
-      });
+        done();
+      })
+      .catch((err) => done(err));
   });
 
   test('Should return {message: Product with ID ${id} is not found!} [404]', (done) => {
@@ -878,8 +756,8 @@ describe('DELETE /sellers/products/:id [failed]', () => {
             message: `Product with ID ${notFoundProductId} is not found!`,
           })
         );
-      });
+        done();
+      })
+      .catch((err) => done(err));
   });
 });
-
-// Test buyers/products THIS

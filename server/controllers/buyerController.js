@@ -129,9 +129,8 @@ class BuyerController {
             model: UsersProduct,
             attributes: {
               exclude: [
-                'ProductId',
+                // 'ProductId',
                 'UserId',
-                // 'status',
                 'createdAt',
                 'updatedAt',
               ],
@@ -162,9 +161,9 @@ class BuyerController {
         attributes: {
           exclude: [
             'weight',
-            'status',
             'description',
             'ingridient',
+            'harmfulIngridient',
             'CategoryId',
             'UserId',
             'createdAt',
@@ -190,7 +189,6 @@ class BuyerController {
               exclude: [
                 // 'ProductId',
                 'UserId',
-                // 'status',
                 'createdAt',
                 'updatedAt',
               ],
@@ -222,7 +220,10 @@ class BuyerController {
       });
 
       if (product === null) {
-        throw { name: 'Not Found', message: 'ID not found !' };
+        throw {
+          name: 'Not Found',
+          message: `Product with ID ${id} is not found!`,
+        };
       } else {
         res.status(200).json(product);
       }
@@ -310,7 +311,7 @@ class BuyerController {
         ProductId,
       });
 
-      res.status(201).json({ message: 'Product is added to cart' });
+      res.status(201).json({ message: 'Successfully added product to cart!' });
     } catch (err) {
       next(err);
     }
@@ -331,11 +332,12 @@ class BuyerController {
       });
 
       if (data === 0) {
-        throw { name: 'Not Found', message: 'ID not found !' };
+        throw {
+          name: 'Not Found',
+          message: `Product with ID ${ProductId} is not found!`,
+        };
       } else {
-        res
-          .status(200)
-          .json({ message: 'Product has been removed from the cart' });
+        res.status(200).json({ message: 'Product has been reduced by one' });
       }
     } catch (err) {
       next(err);
@@ -352,9 +354,14 @@ class BuyerController {
       });
 
       if (data === 0) {
-        throw { name: 'Not Found', message: 'ID not found' };
+        throw {
+          name: 'Not Found',
+          message: `Product with ID ${ProductId} is not found!`,
+        };
       } else {
-        res.status(200).json({ message: 'Deleted From your cart' });
+        res
+          .status(200)
+          .json({ message: 'Products has been removed from cart' });
       }
     } catch (err) {
       next(err);

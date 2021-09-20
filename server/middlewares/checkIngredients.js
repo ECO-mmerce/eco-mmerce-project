@@ -1,28 +1,37 @@
-const {HarmfulIngridient} = require('../models')
+const { HarmfulIngridient } = require('../models');
 
-async function checkIngredients(req,res,next) {
-  let {ingridient} = req.body
-  if(ingridient){
+async function checkIngredients(req, res, next) {
+  let { ingridient } = req.body;
+  if (ingridient) {
     try {
-      console.log('asdasd');
-
-      let score = 0
-      let harmfulIngridients = await HarmfulIngridient.findAll()
-      ingridient.forEach(ingredient => {
-        if(ingredient) {
-          harmfulIngridients.forEach(harmfulIngridient => {
-            if(ingredient.includes(harmfulIngridient.name.toLowerCase())) {
-              score ++
+      let score = 0;
+      let bodyHarmfulIngridient = [];
+      let harmfulIngridients = await HarmfulIngridient.findAll();
+      ingridient.forEach((ingredient) => {
+        if (ingredient) {
+          harmfulIngridients.forEach((harmfulIngridient) => {
+            if (ingredient.includes(harmfulIngridient.name.toLowerCase())) {
+              score++;
+              bodyHarmfulIngridient.push(harmfulIngridient.name);
             }
-          })
+          });
         }
       });
-      req.body.status = score
-      next()
-    }
-    catch(error){
-      console.log(error);
+
+      if (score > 3)
+        throw {
+          name: 'Bad Request',
+          message: `Rejected! Eco-mmerce cannot tolerate your dangerous product`,
+        };
+
+      req.body.status = score;
+      req.body.harmfulIngridient = bodyHarmfulIngridient;
+
+      next();
+    } catch (error) {
+      // console.log(error);
+      next(error);
     }
   }
 }
-module.exports = checkIngredients
+module.exports = checkIngredients;
