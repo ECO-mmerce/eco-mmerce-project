@@ -4,7 +4,6 @@ const request = require('supertest');
 const { signToken } = require('../helpers/jwt');
 
 const appJSON = 'application/json';
-const formData = 'multipart/form-data';
 
 const categoryCreator = {
   name: 'Skincare',
@@ -13,7 +12,6 @@ const categoryCreator = {
 const firstName = 'firstName';
 const lastName = 'lastName';
 const phoneNumber = '123';
-const password = 'password';
 
 const sellerCreator = {
   firstName,
@@ -22,7 +20,7 @@ const sellerCreator = {
   phoneNumber,
   picture: 'picture',
   role: 'seller',
-  password,
+  password: 'sellerPassword',
 };
 const buyerCreator = {
   firstName,
@@ -31,11 +29,8 @@ const buyerCreator = {
   phoneNumber,
   picture: 'picture',
   role: 'buyer',
-  password,
+  password: 'buyerPassword',
 };
-
-const ingredients = `${__dirname}/product.jpg`;
-const image = `${__dirname}/cover.png`;
 
 const name = 'name';
 const price = 123;
@@ -48,12 +43,12 @@ const brand = 'brandName';
 const status = 0;
 const ingridient = ['a', 'b'];
 const harmfulIngridient = ['a', 'b'];
-const picture = `${__dirname}/profile.jpg`;
+const picture = 'picture';
 
-let sellerId = 0;
 let buyerId = 0;
 let buyerToken = '';
 const productData = {};
+const notFoundProductId = 10;
 
 beforeAll(async () => {
   const category = await Category.create(categoryCreator);
@@ -118,7 +113,7 @@ afterAll(async () => {
 });
 
 describe('GET /buyers/products [success]', () => {
-  test('Should return [{id, name, price, stock, picture, harmfulIngridient, UsersProducts, Category, Brands}] [200]', (done) => {
+  test('Should return [{id, name, price, stock, status, picture, UsersProducts, Category, Brands}] [200]', (done) => {
     request(app)
       .get('/buyers/products')
       .set('Accept', appJSON)
@@ -132,7 +127,7 @@ describe('GET /buyers/products [success]', () => {
               price: expect.any(Number),
               stock: expect.any(Number),
               picture: expect.any(String),
-              harmfulIngridient: expect.arrayContaining([expect.any(String)]),
+              status: expect.any(String),
               UsersProducts: expect.arrayContaining([
                 expect.objectContaining({
                   ProductId: expect.any(Number),
@@ -171,41 +166,39 @@ describe('GET /buyers/products/:id [success]', () => {
       .then((response) => {
         expect(response.status).toBe(200);
         expect(response.body).toEqual(
-          expect.arrayContaining([
-            expect.objectContaining({
-              id: productData.id,
-              name: expect.any(String),
-              price: expect.any(Number),
-              stock: expect.any(Number),
-              weight: expect.any(Number),
-              status: expect.any(String),
-              description: expect.any(String),
-              ingridient: expect.arrayContaining([expect.any(String)]),
-              picture: expect.any(String),
-              harmfulIngridient: expect.arrayContaining([expect.any(String)]),
-              UsersProducts: expect.arrayContaining([
-                expect.objectContaining({
-                  ProductId: expect.any(Number),
-                  User: expect.objectContaining({
-                    id: expect.any(Number),
-                    firstName: expect.any(String),
-                    lastName: expect.any(String),
-                    role: expect.any(String),
-                  }),
+          expect.objectContaining({
+            id: productData.id,
+            name: expect.any(String),
+            price: expect.any(Number),
+            stock: expect.any(Number),
+            weight: expect.any(Number),
+            status: expect.any(String),
+            description: expect.any(String),
+            ingridient: expect.arrayContaining([expect.any(String)]),
+            picture: expect.any(String),
+            harmfulIngridient: expect.arrayContaining([expect.any(String)]),
+            UsersProducts: expect.arrayContaining([
+              expect.objectContaining({
+                ProductId: expect.any(Number),
+                User: expect.objectContaining({
+                  id: expect.any(Number),
+                  firstName: expect.any(String),
+                  lastName: expect.any(String),
+                  role: expect.any(String),
                 }),
-              ]),
-              Category: expect.objectContaining({
+              }),
+            ]),
+            Category: expect.objectContaining({
+              id: expect.any(Number),
+              name: expect.any(String),
+            }),
+            Brands: expect.arrayContaining([
+              expect.objectContaining({
                 id: expect.any(Number),
                 name: expect.any(String),
               }),
-              Brands: expect.arrayContaining([
-                expect.objectContaining({
-                  id: expect.any(Number),
-                  name: expect.any(String),
-                }),
-              ]),
-            }),
-          ])
+            ]),
+          })
         );
         done();
       })
@@ -239,7 +232,7 @@ describe('POST /buyers/carts [success]', () => {
         ProductId: productData.id,
       })
       .then((response) => {
-        expect(reponse.status).toBe(201);
+        expect(response.status).toBe(201);
         expect(response.body).toEqual(
           expect.objectContaining({
             message: 'Successfully added product to cart!',
@@ -276,7 +269,7 @@ describe('GET /buyers/carts [success]', () => {
       .set('access_token', buyerToken)
       .set('Accept', appJSON)
       .then((response) => {
-        expect(reponse.status).toBe(200);
+        expect(response.status).toBe(200);
         expect(response.body).toEqual(
           expect.arrayContaining([
             expect.objectContaining({
@@ -334,7 +327,7 @@ describe('DELETE /buyers/carts [success]', () => {
       .set('Accept', appJSON)
       .send({ ProductId: productData.id })
       .then((response) => {
-        expect(reponse.status).toBe(200);
+        expect(response.status).toBe(200);
         expect(response.body).toEqual(
           expect.objectContaining({
             message: 'Products has been removed from cart',
@@ -353,7 +346,7 @@ describe('DELETE /buyers/carts [failed]', () => {
       .set('Accept', appJSON)
       .send({ ProductId: productData.id })
       .then((response) => {
-        expect(reponse.status).toBe(401);
+        expect(response.status).toBe(401);
         expect(response.body).toEqual(
           expect.objectContaining({
             message: 'You are not authorized!',
@@ -364,14 +357,14 @@ describe('DELETE /buyers/carts [failed]', () => {
       .catch((err) => done(err));
   });
 
-  test('Should return {message: Product with ID ${id} is not found!} [200]', (done) => {
+  test('Should return {message: Product with ID ${id} is not found!} [404]', (done) => {
     request(app)
       .delete('/buyers/carts')
       .set('access_token', buyerToken)
       .set('Accept', appJSON)
       .send({ ProductId: productData.id })
       .then((response) => {
-        expect(response.status).toBe(200);
+        expect(response.status).toBe(404);
         expect(response.body).toEqual(
           expect.objectContaining({
             message: 'Product with ID ${id} is not found!',

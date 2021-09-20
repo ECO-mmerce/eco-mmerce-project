@@ -20,7 +20,6 @@ module.exports = {
         allowNull: false,
         unique: true,
         type: Sequelize.STRING,
-        unique: true,
       },
       phoneNumber: {
         allowNull: false,
