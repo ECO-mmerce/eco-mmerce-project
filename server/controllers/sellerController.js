@@ -140,7 +140,7 @@ class SellerController {
 
       if (product === null) {
         throw {
-          name: 'Bad Request',
+          name: 'Not Found',
           message: `Product with ID ${id} is not found!`,
         };
       }
@@ -157,10 +157,11 @@ class SellerController {
         price,
         stock,
         weight,
-        status,
+        status, // middleware
         description,
-        ingridient,
-        picture,
+        ingridient, // middleware
+        harmfulIngridient, // middleware
+        picture, // middleware
         CategoryId,
         brand,
       } = req.body;
@@ -177,6 +178,7 @@ class SellerController {
           UserId: id,
           description,
           ingridient,
+          harmfulIngridient,
           picture,
           CategoryId,
           Brands: { name: brand },
@@ -201,18 +203,7 @@ class SellerController {
     try {
       const { id } = req.params;
       const { id: UserId } = req.user;
-      const {
-        name,
-        price,
-        stock,
-        weight,
-        status,
-        description,
-        ingridient,
-        picture,
-        CategoryId,
-        brand,
-      } = req.body;
+      const { name, price, stock, weight, description, CategoryId } = req.body;
 
       const updatedProduct = await Product.update(
         {
@@ -220,21 +211,14 @@ class SellerController {
           price,
           stock,
           weight,
-          status,
           description,
-          ingridient,
-          picture,
           CategoryId,
-          Brands: { name: brand },
         },
         {
-          include: [Brand],
           where: [{ id }, { UserId }],
           returning: true,
         }
       );
-
-      console.log(updatedProduct);
 
       if (updatedProduct[0] === 0) {
         throw {
