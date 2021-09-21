@@ -37,17 +37,17 @@ async function detectIngredients(req, res, next) {
         }
       });
 
-      // Panduuu, ini gimana ya caranya supaya bisa throw ini???
-      //   throw {
-      //     name: 'Bad Request',
-      //     message: `Uploaded picture didn't contain ingridients`,
-      //   };
-
-      output = output.split(', ');
-      output[0] = output[0].split(' ').slice(1).join(' ');
-      req.body.ingridient = output;
-
-      next();
+      if (output.length === 0) {
+        let err = new Error();
+        err.name = 'Bad Request';
+        err.message = `Uploaded picture didn't contain ingridients`;
+        next(err);
+      } else {
+        output = output.toLowerCase().split(', ');
+        output[0] = output[0].split(' ').slice(1).join(' ');
+        req.body.ingridient = output;
+        next();
+      }
     }
   } catch (error) {
     // console.log(error);
