@@ -30,28 +30,32 @@ export default function Cart() {
   };
 
   return (
-    <div className="flex flex-col items-start w-10/12 bg-green-400 rounded-xl mb-10">
-      <h1 className="text-5xl font-bold my-5 px-5 text-white">My Cart</h1>
-      <div className="w-full bg-white p-7 rounded-xl">
-        {cart.length !== 0 ? (
-          cart.map((el) => {
-            return <CartItem key={el.Product.id} data={el} />;
-          })
-        ) : (
-          <h1>It's empty, go shopping now EcoHippies !</h1>
-        )}
+    <div className="h-screen">
+      <div className="flex justify-center mt-10">
+        <div className="flex flex-col items-start w-10/12 bg-green-400 rounded-xl mb-10">
+          <h1 className="text-5xl font-bold my-5 px-5 text-white">My Cart</h1>
+          <div className="w-full bg-white p-7 rounded-xl">
+            {cart.length !== 0 ? (
+              cart.map((el) => {
+                return <CartItem key={el.Product.id} data={el} />;
+              })
+            ) : (
+              <h1>It's empty, go shopping now EcoHippies !</h1>
+            )}
 
-        <div className="w-full h-1 bg-gray-600 rounded-xl my-5"></div>
-        <div className="flex flex-col items-end gap-3">
-          <h3 className="text-2xl font-semibold">
-            total: {getTotalPrice(cart)}
-          </h3>
-          <button
-            onClick={() => checkOut()}
-            className="text-2xl bg-green-400 px-3 py-1 rounded-lg text-white"
-          >
-            Checkout
-          </button>
+            <div className="w-full h-1 bg-gray-600 rounded-xl my-5"></div>
+            <div className="flex flex-col items-end gap-3">
+              <h3 className="text-2xl font-semibold">
+                total: {getTotalPrice(cart)}
+              </h3>
+              <button
+                onClick={() => checkOut()}
+                className="text-2xl bg-green-400 px-3 py-1 rounded-lg text-white"
+              >
+                Checkout
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>

@@ -105,8 +105,8 @@ export default function AddNewProduct() {
               <input
                 className="w-1/2 px-2 py-1 rounded bg-gray-200"
                 type="number"
-                id="category"
-                name="category"
+                id="CategoryId"
+                name="CategoryId"
                 placeholder="Category ID"
               />
             </div>

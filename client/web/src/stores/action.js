@@ -335,15 +335,15 @@ export function editSellerProduct(id, payload) {
 
 export function addProduct(payload) {
   return async function (dispatch, getState) {
-    console.log(payload.get('image'));
+    console.log(payload.category);
     try {
-      // console.log(payload);
+      console.log(payload);
       const response = await fetch(baseUrl + '/sellers/products', {
         method: 'POST',
         headers: {
           access_token: localStorage.access_token,
         },
-        data: payload,
+        body: payload,
       });
       const { message } = await response.json();
       console.log(response);

@@ -32,36 +32,41 @@ export default function SellerDashboard({ socket }) {
 
   return (
     <>
-      <section className="px-10 flex flex-col items-center my-10">
-        <h1 style={{ fontSize: 36 }}>MY PRODUCTS</h1>
-        <Link
-          to={`/seller/addproduct`}
-          className="mx-auto mt-6 text-white bg-green-500 border-0 py-2 px-6 focus:outline-none hover:bg-green-600 rounded"
-        >
-          Add Product
-        </Link>
-        <div>
-          {user_role === 'seller' ? <ChatList socket={socket} /> : null}
+      <section className="px-10 flex flex-col items-center my-10 px-64">
+        <div className="flex flex-col gap-5 mb-10 w-full">
+          <h1 className="text-2xl" style={{ fontSize: 36 }}>CHATS</h1>
+          <div>
+            {user_role === 'seller' ? <ChatList socket={socket} /> : null}
+          </div>
         </div>
+        <div className="flex justify-between items-center w-full mb-5">
+          <h1 style={{ fontSize: 36 }}>MY PRODUCTS</h1>
+          <Link
+            to={`/seller/addproduct`}
+            className="text-white bg-green-500 py-2 px-6 focus:outline-none hover:bg-green-600 rounded"
+          >
+            Add Product
+          </Link>
+        </div>
+        <section className="text-gray-600 body-font flex">
+          {sellerProducts?.length === 0 ? (
+            <h1 className="mx-auto">
+              It's Empty ;) Come add your products by click the green button !
+            </h1>
+          ) : (
+            <div className="container px-5  mx-auto">
+              <div className="flex flex-wrap grid grid-cols-4 gap-5">
+                {sellerProducts?.map((product) => {
+                  return (
+                    <SellerProductCard key={product.id} products={product} />
+                  );
+                })}
+              </div>
+            </div>
+          )}
+        </section>
       </section>
 
-      <section className="text-gray-600 py-24 px-5 body-font flex h-screen overflow-y-scroll">
-        {sellerProducts?.length === 0 ? (
-          <h1 className="mx-auto">
-            It's Empty ;) Come add your products by click the green button !
-          </h1>
-        ) : (
-          <div className="container px-5  mx-auto">
-            <div className="flex flex-wrap grid grid-cols-4 gap-5">
-              {sellerProducts?.map((product) => {
-                return (
-                  <SellerProductCard key={product.id} products={product} />
-                );
-              })}
-            </div>
-          </div>
-        )}
-      </section>
     </>
   );
 }
