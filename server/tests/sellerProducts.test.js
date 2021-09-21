@@ -425,7 +425,7 @@ describe('POST /sellers/products [failed]', () => {
 });
 
 describe('UPDATE /sellers/products/:id [success]', () => {
-  test('Should return [{message: Product with ID ${id} has been successfully updated!}] [200]', (done) => {
+  test('Should return {message: Product has been successfully updated!} [200]', (done) => {
     request(app)
       .put(`/sellers/products/${productId}`)
       .set('Accept', appJSON)
@@ -433,7 +433,11 @@ describe('UPDATE /sellers/products/:id [success]', () => {
       .send(productSuccess)
       .then((response) => {
         expect(response.status).toBe(200);
-        expect(response.body).toHaveProperty('message', expect.any(String));
+        expect(response.body).toEqual(
+          expect.objectContaining({
+            message: 'Product has been successfully updated!',
+          })
+        );
         done();
       })
       .catch((err) => done(err));
@@ -458,7 +462,7 @@ describe('UPDATE /sellers/products/:id [failed]', () => {
       .catch((err) => done(err));
   });
 
-  test('Should return {message: Product with ID ${id} is not found!} [404]', (done) => {
+  test('Should return {message: Product is not found!} [404]', (done) => {
     request(app)
       .put(`/sellers/products/${notFoundProductId}`)
       .set('Accept', appJSON)
@@ -468,7 +472,7 @@ describe('UPDATE /sellers/products/:id [failed]', () => {
         expect(response.status).toBe(404);
         expect(response.body).toEqual(
           expect.objectContaining({
-            message: `Product with ID ${notFoundProductId} is not found!`,
+            message: `Product is not found!`,
           })
         );
         done();
@@ -694,7 +698,7 @@ describe('GET /sellers/products/:id [failed]', () => {
       .catch((err) => done(err));
   });
 
-  test('Should return {message: Product with ID ${id} is not found!} [404]', (done) => {
+  test('Should return {message: Product is not found!} [404]', (done) => {
     request(app)
       .get(`/sellers/products/${notFoundProductId}`)
       .set('access_token', sellerToken)
@@ -702,7 +706,7 @@ describe('GET /sellers/products/:id [failed]', () => {
         expect(response.status).toBe(404);
         expect(response.body).toEqual(
           expect.objectContaining({
-            message: `Product with ID ${notFoundProductId} is not found!`,
+            message: `Product is not found!`,
           })
         );
         done();
@@ -712,7 +716,7 @@ describe('GET /sellers/products/:id [failed]', () => {
 });
 
 describe('DELETE /sellers/products/:id [success]', () => {
-  test('Should return {message: Product with ID ${id} has been successfully deleted!} [200]', (done) => {
+  test('Should return {message: Product has been successfully deleted!} [200]', (done) => {
     request(app)
       .delete(`/sellers/products/${productId}`)
       .set('access_token', sellerToken)
@@ -720,7 +724,7 @@ describe('DELETE /sellers/products/:id [success]', () => {
         expect(response.status).toBe(200);
         expect(response.body).toEqual(
           expect.objectContaining({
-            message: `Product with ID ${productId} has been successfully deleted!`,
+            message: `Product has been successfully deleted!`,
           })
         );
         done();
@@ -745,7 +749,7 @@ describe('DELETE /sellers/products/:id [failed]', () => {
       .catch((err) => done(err));
   });
 
-  test('Should return {message: Product with ID ${id} is not found!} [404]', (done) => {
+  test('Should return {message: Product is not found!} [404]', (done) => {
     request(app)
       .delete(`/sellers/products/${notFoundProductId}`)
       .set('access_token', sellerToken)
@@ -753,7 +757,7 @@ describe('DELETE /sellers/products/:id [failed]', () => {
         expect(response.status).toBe(404);
         expect(response.body).toEqual(
           expect.objectContaining({
-            message: `Product with ID ${notFoundProductId} is not found!`,
+            message: `Product is not found!`,
           })
         );
         done();

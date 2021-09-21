@@ -7,7 +7,7 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "jest --runInBand --detectOpenHandles --forceExit --testTimeout=1000000",
+    "test": "jest --runInBand --detectOpenHandles --forceExit --testTimeout=1000000 --coverage",
     "start": "node server.js",
     "dev": "nodemon server.js"
   },

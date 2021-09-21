@@ -37,17 +37,18 @@ async function detectIngredients(req, res, next) {
         }
       });
 
-      if(output.length === 0){
-        let err = new Error()
-        err.name = 'Bad Request'
-        err.message = `Uploaded picture didn't contain ingridients`
-        next(err)
-      }else {
-        output = output.toLowerCase().split(', ')
+      if (output.length === 0) {
+        let err = new Error();
+        err.name = 'Bad Request';
+        err.message = `Uploaded picture didn't contain ingridients`;
+        next(err);
+      } else {
+        output = output.toLowerCase().split(', ');
         output[0] = output[0].split(' ').slice(1).join(' ');
-        req.body.ingridient = output
-        next()
+        req.body.ingridient = output;
+        next();
       }
+      
     }
   } catch (error) {
     // console.log(error);
