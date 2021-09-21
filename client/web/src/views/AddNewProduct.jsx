@@ -1,27 +1,55 @@
 import React, { useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { addProduct } from '../stores/action';
+import { addProduct, setIsLoading } from '../stores/action';
 import { useDispatch } from 'react-redux';
+
 import Input from '@material-tailwind/react/Input';
 import Button from '@material-tailwind/react/Button';
 import Textarea from '@material-tailwind/react/Textarea';
+import Modal from '@material-tailwind/react/Modal';
+import ModalHeader from '@material-tailwind/react/ModalHeader';
+import ModalBody from '@material-tailwind/react/ModalBody';
+import ModalFooter from '@material-tailwind/react/ModalFooter';
+import { toast } from 'react-toastify';
 
 export default function AddNewProduct() {
   const history = useHistory();
   const formAddProduct = useRef(null);
   const dispatch = useDispatch();
   const [productImage, setProductImage] = useState('');
+  const [showModal, setShowModal] = useState(false);
   const [ingredientsImage, setIngredientsImage] = useState('');
+
+  const toastOptions = {
+    position: 'bottom-right',
+    theme: 'light',
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setShowModal(true);
+  };
+
+  const uploadProduct = (e) => {
+    e.preventDefault();
     const formData = new FormData(formAddProduct.current);
 
-    dispatch(addProduct(formData)).then((data) => {
-      if (data) {
-        history.push('/seller');
-      }
-    });
+    if (formData) {
+      setShowModal(false);
+      toast.error('All the required field must be filled !', toastOptions);
+    } else {
+      setShowModal(false);
+      dispatch(addProduct(formData)).then((data) => {
+        if (data) {
+          history.push('/seller');
+        }
+      });
+    }
+  };
+
+  const cancelBtn = (e) => {
+    e.preventDefault();
+    setShowModal(false);
   };
 
   const getProductImage = (e) => {
@@ -57,7 +85,6 @@ export default function AddNewProduct() {
           <form
             ref={formAddProduct}
             encType="multipart/form-data"
-            onSubmit={handleSubmit}
             className="flex flex-col text-md my-5"
           >
             <div className="flex flex-col items-start mb-5">
@@ -206,14 +233,49 @@ export default function AddNewProduct() {
               ) : null}
             </div>
 
+            <Modal
+              size="sm"
+              active={showModal}
+              toggler={() => setShowModal(false)}
+            >
+              <ModalHeader toggler={() => setShowModal(false)}>
+                Upload Product
+              </ModalHeader>
+              <ModalBody>
+                <p className="text-base leading-relaxed text-gray-600 font-normal">
+                  Are you sure ? All uploaded pictures cannot be edited, but you
+                  can edit other stuff later.
+                </p>
+              </ModalBody>
+              <ModalFooter>
+                <Button
+                  color="red"
+                  buttonType="button"
+                  onClick={(e) => cancelBtn(e)}
+                  ripple="dark"
+                >
+                  Cancel
+                </Button>
+
+                <Button
+                  color="green"
+                  onClick={(e) => uploadProduct(e)}
+                  ripple="light"
+                >
+                  Proceed
+                </Button>
+              </ModalFooter>
+            </Modal>
+
             <Button
-              type="submit"
+              type="button"
               color="green"
               buttonType="filled"
               size="lg"
               block={false}
               iconOnly={false}
               ripple="light"
+              onClick={(e) => handleSubmit(e)}
             >
               Add Product
             </Button>

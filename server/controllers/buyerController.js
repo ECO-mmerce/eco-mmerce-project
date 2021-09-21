@@ -424,22 +424,27 @@ class BuyerController {
         },
       });
 
-      await currentCart.forEach((el) => {
-        History.create({
-          ProductId: el.ProductId,
-          UserId: el.UserId,
+      if (data) {
+        res.status(201).json(data);
+        await currentCart.forEach((el) => {
+          History.create({
+            ProductId: el.ProductId,
+            UserId: el.UserId,
+          });
         });
-      });
 
-      const checkedOut = await Cart.destroy({ where: { UserId } });
-      if (checkedOut === 0) {
+        const checkedOut = await Cart.destroy({ where: { UserId } });
+        if (checkedOut === 0) {
+          throw {
+            name: 'Bad Request',
+            message: "You don't have any products in your cart.",
+          };
+        }
+      } else {
         throw {
-          name: 'Bad Request',
-          message: "You don't have any products in your cart.",
+          message: 'Internal Server Error',
         };
       }
-
-      res.status(201).json(data);
     } catch (err) {
       next(err);
     }
@@ -468,15 +473,14 @@ class BuyerController {
       next(err);
     }
   }
-  static async ingredientsCheck(req,res,next) {
-    if(req.body.ingridient){
-      res.status(200).json({ingridients: req.body})
-    }
-    else {
-      const err = new Error()
-      err.name = 'Bad Request'
-      err.message = `server can't read your product's ingredients, please retake the photo`
-      next(err)
+  static async ingredientsCheck(req, res, next) {
+    if (req.body.ingridient) {
+      res.status(200).json({ ingridients: req.body });
+    } else {
+      const err = new Error();
+      err.name = 'Bad Request';
+      err.message = `server can't read your product's ingredients, please retake the photo`;
+      next(err);
     }
   }
 }
