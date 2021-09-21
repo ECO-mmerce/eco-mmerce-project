@@ -1,5 +1,7 @@
 const router = require('express').Router();
 
+const checkIngredients = require('../../../ref/eco-mmerce-project/server/middlewares/checkIngredients.js');
+const detectIngredients = require('../../../ref/eco-mmerce-project/server/middlewares/cloudVision.js');
 const BuyerController = require('../controllers/buyerController.js');
 const authentication = require('../middlewares/authentication.js');
 const { authorizationBuyer } = require('../middlewares/authorization.js');
@@ -17,6 +19,16 @@ router.post(
 
 router.get('/products', BuyerController.getProducts);
 router.get('/products/:id', BuyerController.getProduct);
+router.post(
+  '/checkIngredients',
+  upload.fields([
+    { name: 'ingredients', maxCount: 1 },
+  ]),
+  // test,
+  detectIngredients, 
+  checkIngredients,
+  BuyerController.ingredientsCheck
+)
 
 router.use(authentication);
 router.use(authorizationBuyer);

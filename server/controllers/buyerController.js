@@ -470,6 +470,17 @@ class BuyerController {
       next(err);
     }
   }
+  static async ingredientsCheck(req,res,next) {
+    if(req.body.ingridient){
+      res.status(200).json({ingridients: req.body})
+    }
+    else {
+      const err = new Error()
+      err.name = 'Bad Request'
+      err.message = `server can't read your product's ingredients, please retake the photo`
+      next(err)
+    }
+  }
 }
 
 module.exports = BuyerController;
