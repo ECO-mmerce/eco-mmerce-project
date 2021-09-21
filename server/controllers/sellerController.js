@@ -141,7 +141,7 @@ class SellerController {
       if (product === null) {
         throw {
           name: 'Not Found',
-          message: `Product with ID ${id} is not found!`,
+          message: `Product is not found!`,
         };
       }
       res.status(200).json(product);

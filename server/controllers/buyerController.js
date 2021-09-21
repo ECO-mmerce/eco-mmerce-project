@@ -322,24 +322,23 @@ class BuyerController {
       const { id: UserId } = req.user;
       const { id: ProductId } = req.params;
 
-      const { id: deletedCart } = await Cart.findOne({
+      const firstCart = await Cart.findOne({
         where: { UserId, ProductId },
         attributes: ['id'],
       });
 
-      const data = await Cart.destroy({
-        where: { id: deletedCart },
-      });
-
-      if (data === 0) {
+      if (!firstCart) {
         throw {
           name: 'Not Found',
-          message: `Product
-           is not found!`,
+          message: `Product is not found!`,
         };
-      } else {
-        res.status(200).json({ message: 'Product has been reduced by one' });
       }
+
+      await Cart.destroy({
+        where: { id: firstCart.id },
+      });
+
+      res.status(200).json({ message: 'Product has been reduced by one' });
     } catch (err) {
       next(err);
     }
@@ -350,20 +349,18 @@ class BuyerController {
       const { id: UserId } = req.user;
       const { ProductId } = req.body;
 
-      const data = await Cart.destroy({
+      const deletedCarts = await Cart.destroy({
         where: { UserId, ProductId },
       });
 
-      if (data === 0) {
+      if (!deletedCarts) {
         throw {
           name: 'Not Found',
           message: `Product is not found!`,
         };
-      } else {
-        res
-          .status(200)
-          .json({ message: 'Products has been removed from cart' });
       }
+
+      res.status(200).json({ message: 'Products has been removed from cart' });
     } catch (err) {
       next(err);
     }
@@ -395,6 +392,7 @@ class BuyerController {
         where: {
           id: UserId,
         },
+        attributes: ['firstName', 'lastName', 'email', 'phoneNumber'],
       });
 
       const customer_details = {
@@ -426,23 +424,22 @@ class BuyerController {
         },
       });
 
-      if (data) {
-        res.status(201).json(data);
-        await currentCart.forEach((el) => {
-          History.create({
-            ProductId: el.ProductId,
-            UserId: el.UserId,
-          });
+      await currentCart.forEach((el) => {
+        History.create({
+          ProductId: el.ProductId,
+          UserId: el.UserId,
         });
+      });
 
-        const checkedOut = await Cart.destroy({ where: { UserId } });
-        if (checkedOut === 0) {
-          throw {
-            name: 'Bad Request',
-            message: "You don't have any products in your cart.",
-          };
-        }
+      const checkedOut = await Cart.destroy({ where: { UserId } });
+      if (checkedOut === 0) {
+        throw {
+          name: 'Bad Request',
+          message: "You don't have any products in your cart.",
+        };
       }
+
+      res.status(201).json(data);
     } catch (err) {
       next(err);
     }
@@ -457,7 +454,7 @@ class BuyerController {
         include: [
           {
             model: Product,
-            attributes: ['name', 'picture', 'price'],
+            attributes: ['name', 'status', 'picture', 'price'],
             include: {
               model: Category,
               attributes: ['name'],
@@ -469,6 +466,17 @@ class BuyerController {
       res.status(200).json(seeHistory);
     } catch (err) {
       next(err);
+    }
+  }
+  static async ingredientsCheck(req,res,next) {
+    if(req.body.ingridient){
+      res.status(200).json({ingridients: req.body})
+    }
+    else {
+      const err = new Error()
+      err.name = 'Bad Request'
+      err.message = `server can't read your product's ingredients, please retake the photo`
+      next(err)
     }
   }
 }

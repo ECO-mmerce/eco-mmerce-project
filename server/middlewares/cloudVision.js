@@ -47,6 +47,7 @@ async function detectIngredients(req, res, next) {
         req.body.ingridient = output;
         next();
       }
+      
     }
   } catch (error) {
     console.log(error);
