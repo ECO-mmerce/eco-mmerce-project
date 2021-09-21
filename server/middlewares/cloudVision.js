@@ -3,7 +3,6 @@ async function detectIngredients(req, res, next) {
   const vision = require('@google-cloud/vision');
   // Creates a client
   const anotate = new vision.ImageAnnotatorClient();
-
   try {
     // Performs text detection on the image file
 

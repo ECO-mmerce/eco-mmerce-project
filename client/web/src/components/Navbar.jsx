@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import { setIsLogin, setUser } from '../stores/action';
@@ -9,18 +9,17 @@ import { GoogleLogout, useGoogleLogout } from 'react-google-login';
 export default function Navbar() {
   const clientId =
     '164658214505-2t0d8gtpcjn6jl331mj2ccdi9lb9f4g1.apps.googleusercontent.com';
-
-  const { user_firstName, user_lastName, user_picture, user_role } =
-    useSelector(
-      ({ user_firstName, user_lastName, user_picture, user_role }) => {
-        return {
-          user_firstName,
-          user_lastName,
-          user_picture,
-          user_role,
-        };
-      }
-    );
+  const { user_firstName, user_lastName, user_picture, isLogin, user_role} = useSelector(
+    ({ user_firstName, user_lastName, user_picture, isLogin, user_role}) => {
+      return {
+        user_firstName,
+        user_lastName,
+        user_picture,
+        isLogin,
+        user_role
+      };
+    }
+  );
 
   const logOut = () => {
     dispatch(
@@ -58,9 +57,39 @@ export default function Navbar() {
     history.push('/login');
   };
 
+  const [dropdownActive, setDropdownActive] = useState(false)
+  function handleDropdown(e) {
+    setDropdownActive(!dropdownActive)
+  }
+
+  let dropdownOptions
+
+  if(!isLogin){
+    dropdownOptions = (
+      <div className="flex flex-col gap-2">
+        <Link to="/login" >login</Link>
+        <Link to="/register" >register</Link>
+      </div>
+    )
+  }else if(user_role === 'seller'){
+    dropdownOptions = (
+      <div className="flex flex-col gap-2">
+        <Link to="/seller/orders" >orders</Link>
+        <Link to="/seller/addproduct" >add products</Link>
+        <button onClick={logOut}>logout</button>
+      </div>
+    )
+  }else {
+    dropdownOptions = (
+      <div className="flex flex-col gap-2">
+        <button onClick={logOut}>logout</button>
+      </div>
+    )
+  }
   return (
-    <div className="h-20 w-screen px-7 mx-2 flex items-center justify-between text-gray-800">
+    <div className="h-20 w-full px-7 flex items-center justify-between text-gray-800">
       <div className="h-full flex items-center">
+        {/* LOGO TO HOMEPAGE */}
         <Link to="/" className="h-full">
           <img
             className="h-full hover:grow"
@@ -68,6 +97,7 @@ export default function Navbar() {
             alt="eco-mmerce-logo"
           />
         </Link>
+        {/* SEARCH */}
         <form className="bg-white shadow-inner py-2 px-3 text-xl rounded-lg mx-4 flex items-center">
           <input
             className="bg-white"
@@ -88,6 +118,7 @@ export default function Navbar() {
             </svg>
           </button>
         </form>
+        {/* CATEGORIES */}
         <button className="flex items-center mx-2">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -102,8 +133,10 @@ export default function Navbar() {
         </button>
       </div>
       <div className="flex">
-        {location.pathname.includes('/seller') || user_role === 'seller' ? (
-          <Link to="/seller" className="flex text-xl items-center mx-4">
+
+        {/* SELLER */}
+        {user_role === 'buyer' ? null : (
+          <Link to="/seller" className="flex text-xl items-center ml-4">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
@@ -116,7 +149,7 @@ export default function Navbar() {
             </svg>
             <h2 className="mx-1">Seller</h2>
           </Link>
-        ) : null}
+        )}
 
         {localStorage.access_token ? (
           <Link to="/history" className="flex text-xl items-center mx-4">
@@ -134,51 +167,51 @@ export default function Navbar() {
             </svg>
             <h2 className="mx-1">History</h2>
           </Link>
-        ) : null}
-
-        <button
-          className="flex text-xl items-center mx-4"
-          onClick={
-            localStorage.getItem('access_token')
-              ? () => signOut()
-              : () => goToLoginPage()
-          }
-        >
-          {localStorage.getItem('access_token') ? (
-            user_picture ? (
-              <>
-                <img src={user_picture} width="26" alt="user_picture" />
-                <span>{`${user_firstName} ${user_lastName}`}</span>
-              </>
-            ) : (
-              <>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  height="24"
-                  fill="currentColor"
-                  className="bi bi-person-square"
-                  viewBox="0 0 16 16"
-                >
-                  <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
-                  <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm12 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1v-1c0-1-1-4-6-4s-6 3-6 4v1a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12z" />
-                </svg>
-                <span>{`${user_firstName} ${user_lastName}`}</span>
-              </>
-            )
-          ) : (
+        ) : (
+          <Link to="/login" className="flex text-xl items-center mx-4">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              height="24"
+              width="16"
+              height="16"
               fill="currentColor"
-              className="bi bi-person-square"
+              class="bi bi-clock-history"
               viewBox="0 0 16 16"
             >
-              <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
-              <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm12 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1v-1c0-1-1-4-6-4s-6 3-6 4v1a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12z" />
+              <path d="M8.515 1.019A7 7 0 0 0 8 1V0a8 8 0 0 1 .589.022l-.074.997zm2.004.45a7.003 7.003 0 0 0-.985-.299l.219-.976c.383.086.76.2 1.126.342l-.36.933zm1.37.71a7.01 7.01 0 0 0-.439-.27l.493-.87a8.025 8.025 0 0 1 .979.654l-.615.789a6.996 6.996 0 0 0-.418-.302zm1.834 1.79a6.99 6.99 0 0 0-.653-.796l.724-.69c.27.285.52.59.747.91l-.818.576zm.744 1.352a7.08 7.08 0 0 0-.214-.468l.893-.45a7.976 7.976 0 0 1 .45 1.088l-.95.313a7.023 7.023 0 0 0-.179-.483zm.53 2.507a6.991 6.991 0 0 0-.1-1.025l.985-.17c.067.386.106.778.116 1.17l-1 .025zm-.131 1.538c.033-.17.06-.339.081-.51l.993.123a7.957 7.957 0 0 1-.23 1.155l-.964-.267c.046-.165.086-.332.12-.501zm-.952 2.379c.184-.29.346-.594.486-.908l.914.405c-.16.36-.345.706-.555 1.038l-.845-.535zm-.964 1.205c.122-.122.239-.248.35-.378l.758.653a8.073 8.073 0 0 1-.401.432l-.707-.707z" />
+              <path d="M8 1a7 7 0 1 0 4.95 11.95l.707.707A8.001 8.001 0 1 1 8 0v1z" />
+              <path d="M7.5 3a.5.5 0 0 1 .5.5v5.21l3.248 1.856a.5.5 0 0 1-.496.868l-3.5-2A.5.5 0 0 1 7 9V3.5a.5.5 0 0 1 .5-.5z" />
             </svg>
-          )}
-        </button>
-        {localStorage.access_token && user_role !== 'seller' ? (
+            <h2 className="mx-1">History</h2>
+          </Link>
+        )}
+        {/* DROPDOWN */}
+        <div className="relative w-40">
+          <button onClick={handleDropdown} className="flex text-xl items-center mx-4">
+            {user_firstName? <span className="mr-3">{`${user_firstName}`}</span>: <span className="mr-3">Guest</span>} 
+            {user_picture ? (
+              <img src={user_picture} alt="user_picture" className="w-full rounded-full" />
+            ) : (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="24"
+                fill="currentColor"
+                className="bi bi-person-square"
+                viewBox="0 0 16 16"
+              >
+                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
+                <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm12 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1v-1c0-1-1-4-6-4s-6 3-6 4v1a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12z" />
+              </svg>
+            )}
+
+          </button>
+          {dropdownActive ? (
+            <div className="w-full absolute text-xl mt-3 py-2 px-3 flex flex-col gap-2 bg-gray-100 rounded-b-lg">
+              {dropdownOptions}
+            </div>
+          ) : (null)}
+        </div>
+        {/* CART */}
+        {localStorage.access_token ? (
           <Link to="/cart" className="flex text-xl items-center mx-4">
             <svg
               xmlns="http://www.w3.org/2000/svg"

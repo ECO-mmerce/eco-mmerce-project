@@ -31,19 +31,20 @@ export default function ChatList() {
 
   return (
     <div>
-      <ul>
+      <div className="grid grid-cols-5 gap-3">
         {chatList.map((chatItem, i) => {
           const buyerName = `${chatItem.User.firstName} ${chatItem.User.lastName}`;
           return (
-            <li
+            <button
+              className="bg-green-500 px-4 py-1 text-white rounded hover:bg-green-600"
               onClick={goToChatRoom(chatItem.BuyerId, buyerName)}
               key={'chatitem-' + i}
             >
               {buyerName}
-            </li>
+            </button>
           );
         })}
-      </ul>
+      </div>
     </div>
   );
 }
