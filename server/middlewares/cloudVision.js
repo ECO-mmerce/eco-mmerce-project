@@ -2,7 +2,6 @@ async function detectIngredients(req, res, next) {
   // Imports the Google Cloud client library
   const vision = require('@google-cloud/vision');
   // Creates a client
-  console.log(req.files, `INI DI CLOUDVISION`);
   const anotate = new vision.ImageAnnotatorClient();
 
   try {
@@ -51,7 +50,7 @@ async function detectIngredients(req, res, next) {
       
     }
   } catch (error) {
-    // console.log(error);
+    console.log(error);
     next(error);
   }
 }

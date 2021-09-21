@@ -424,8 +424,6 @@ class BuyerController {
         },
       });
 
-      // console.log(data);
-
       await currentCart.forEach((el) => {
         History.create({
           ProductId: el.ProductId,
