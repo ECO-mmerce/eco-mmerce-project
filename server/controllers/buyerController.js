@@ -196,7 +196,7 @@ class BuyerController {
             include: [
               {
                 model: User, // seller
-                attributes: ['id', 'firstName', 'lastName', 'role'],
+                attributes: ['id', 'firstName', 'lastName', 'role', 'picture'],
               },
             ],
           },
@@ -222,7 +222,7 @@ class BuyerController {
       if (product === null) {
         throw {
           name: 'Not Found',
-          message: `Product with ID ${id} is not found!`,
+          message: `Product is not found!`,
         };
       } else {
         res.status(200).json(product);
@@ -322,23 +322,23 @@ class BuyerController {
       const { id: UserId } = req.user;
       const { id: ProductId } = req.params;
 
-      const { id: deletedCart } = await Cart.findOne({
+      const firstCart = await Cart.findOne({
         where: { UserId, ProductId },
         attributes: ['id'],
       });
 
-      const data = await Cart.destroy({
-        where: { id: deletedCart },
-      });
-
-      if (data === 0) {
+      if (!firstCart) {
         throw {
           name: 'Not Found',
-          message: `Product with ID ${ProductId} is not found!`,
+          message: `Product is not found!`,
         };
-      } else {
-        res.status(200).json({ message: 'Product has been reduced by one' });
       }
+
+      await Cart.destroy({
+        where: { id: firstCart.id },
+      });
+
+      res.status(200).json({ message: 'Product has been reduced by one' });
     } catch (err) {
       next(err);
     }
@@ -349,20 +349,18 @@ class BuyerController {
       const { id: UserId } = req.user;
       const { ProductId } = req.body;
 
-      const data = await Cart.destroy({
+      const deletedCarts = await Cart.destroy({
         where: { UserId, ProductId },
       });
 
-      if (data === 0) {
+      if (!deletedCarts) {
         throw {
           name: 'Not Found',
-          message: `Product with ID ${ProductId} is not found!`,
+          message: `Product is not found!`,
         };
-      } else {
-        res
-          .status(200)
-          .json({ message: 'Products has been removed from cart' });
       }
+
+      res.status(200).json({ message: 'Products has been removed from cart' });
     } catch (err) {
       next(err);
     }
@@ -394,6 +392,7 @@ class BuyerController {
         where: {
           id: UserId,
         },
+        attributes: ['firstName', 'lastName', 'email', 'phoneNumber'],
       });
 
       const customer_details = {
@@ -425,26 +424,22 @@ class BuyerController {
         },
       });
 
-      console.log(data);
+      await currentCart.forEach((el) => {
+        History.create({
+          ProductId: el.ProductId,
+          UserId: el.UserId,
+        });
+      });
+
+      const checkedOut = await Cart.destroy({ where: { UserId } });
+      if (checkedOut === 0) {
+        throw {
+          name: 'Bad Request',
+          message: "You don't have any products in your cart.",
+        };
+      }
 
       res.status(201).json(data);
-
-      // await currentCart.forEach((el) => {
-      //   History.create({
-      //     ProductId: el.ProductId,
-      //     UserId: el.UserId,
-      //   });
-      // });
-
-      // const checkedOut = await Cart.destroy({ where: { UserId } });
-      // if (checkedOut === 0) {
-      //   throw {
-      //     name: 'Bad Request',
-      //     message: "You don't have any products in your cart.",
-      //   };
-      // } else {
-      //   res.status(200).json({ message: 'Checkout successfully!' });
-      // }
     } catch (err) {
       next(err);
     }
@@ -459,15 +454,11 @@ class BuyerController {
         include: [
           {
             model: Product,
-            attributes: ['name', 'picture', 'price'],
+            attributes: ['name', 'status', 'picture', 'price'],
             include: {
               model: Category,
               attributes: ['name'],
             },
-          },
-          {
-            model: User,
-            attributes: ['firstName', 'lastName'],
           },
         ],
       });
@@ -478,7 +469,6 @@ class BuyerController {
     }
   }
   static async ingredientsCheck(req,res,next) {
-    // console.log(req.body);
     if(req.body.ingridient){
       res.status(200).json({ingridients: req.body})
     }

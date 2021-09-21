@@ -9,7 +9,6 @@ import { GoogleLogout, useGoogleLogout } from 'react-google-login';
 export default function Navbar() {
   const clientId =
     '164658214505-2t0d8gtpcjn6jl331mj2ccdi9lb9f4g1.apps.googleusercontent.com';
-
   const { user_firstName, user_lastName, user_picture, isLogin, user_role} = useSelector(
     ({ user_firstName, user_lastName, user_picture, isLogin, user_role}) => {
       return {
@@ -134,6 +133,7 @@ export default function Navbar() {
         </button>
       </div>
       <div className="flex">
+
         {/* SELLER */}
         {user_role === 'buyer' ? null : (
           <Link to="/seller" className="flex text-xl items-center ml-4">
@@ -150,7 +150,7 @@ export default function Navbar() {
             <h2 className="mx-1">Seller</h2>
           </Link>
         )}
-        {/* HISTORY */}
+
         {localStorage.access_token ? (
           <Link to="/history" className="flex text-xl items-center mx-4">
             <svg
@@ -223,19 +223,7 @@ export default function Navbar() {
               <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5z" />
             </svg>
           </Link>
-        ) : (
-          <Link to="/login" className="flex text-xl items-center mx-4">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              height="24"
-              fill="currentColor"
-              className="bi bi-bag"
-              viewBox="0 0 16 16"
-            >
-              <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5z" />
-            </svg>
-          </Link>
-        )}
+        ) : null}
       </div>
     </div>
   );

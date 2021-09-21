@@ -280,7 +280,9 @@ export function fetchSellerProducts() {
       });
       const data = await response.json();
 
-      dispatch(setSellerProducts(data));
+      if (Array.isArray(data)) {
+        dispatch(setSellerProducts(data));
+      }
 
       console.log(data);
     } catch (err) {
@@ -308,6 +310,7 @@ export function fetchSellerProduct(id) {
 
 export function editSellerProduct(id, payload) {
   return async function (dispatch, getState) {
+    // console.log(payload.CategoryId);
     try {
       const response = await fetch(baseUrl + `/sellers/products/${id}`, {
         method: 'PUT',
@@ -317,16 +320,13 @@ export function editSellerProduct(id, payload) {
         },
         body: JSON.stringify(payload),
       });
-
       const { message } = await response.json();
-
       if (response.status === 200) {
         dispatch(fetchSellerProducts());
         toast.success(message, toastOptions);
       } else {
         toast.error(message, toastOptions);
       }
-      // console.log(data);
     } catch (err) {
       console.log(err);
     }
@@ -335,22 +335,21 @@ export function editSellerProduct(id, payload) {
 
 export function addProduct(payload) {
   return async function (dispatch, getState) {
-    console.log(payload.category);
     try {
-      console.log(payload);
       const response = await fetch(baseUrl + '/sellers/products', {
         method: 'POST',
         headers: {
+          Accept: 'application/json',
           access_token: localStorage.access_token,
         },
         body: payload,
       });
       const { message } = await response.json();
-      console.log(response);
-      // console.log({message});
-      if (response.status === 200) {
+
+      if (response.status === 201) {
         dispatch(fetchSellerProducts());
         toast.success(message, toastOptions);
+        return true;
       } else {
         toast.error(message, toastOptions);
       }
@@ -490,13 +489,10 @@ export function checkOutCart() {
         },
       });
 
-      // const { message } = await response.json();
       const data = await response.json();
 
       if (response.status === 201) {
-        // dispatch(setCart([]));
-        // toast.success(message, toastOptions);
-
+        toast.success(data, toastOptions);
         return data;
       } else {
         toast.error(data.message, toastOptions);

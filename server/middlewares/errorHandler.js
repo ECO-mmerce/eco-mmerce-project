@@ -3,7 +3,7 @@ const serverErr = {
 };
 
 function errorHandler(err, req, res, next) {
-  console.log(err.response?.data);
+  // console.log(err, 'pooooooooooooooooooo');
   if (res.headersSent) {
     return next(err);
   }
@@ -34,7 +34,8 @@ function errorHandler(err, req, res, next) {
       res.status(400).json({ message: responseMsg });
       break;
     default:
-      res.status(500).json(err.message);
+      // res.status(500).json(serverErr);
+      res.status(500).json({ message: err.message });
       break;
   }
 }

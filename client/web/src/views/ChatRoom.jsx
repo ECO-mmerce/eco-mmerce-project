@@ -3,8 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import ChatBox from '../components/chatbox';
 import { addMessage, fetchMessages } from '../stores/action';
+import SocketContext from '../config/socket';
 
-export default function ChatRoom({ socket }) {
+export default function ChatRoom() {
   const {
     user_id,
     user_firstName,
@@ -36,11 +37,24 @@ export default function ChatRoom({ socket }) {
   );
   const [chat, setChat] = useState('');
 
+  const socket = React.useContext(SocketContext);
   const history = useHistory();
   const dispatch = useDispatch();
 
+  const handleSocketMessage = (message) => {
+    dispatch(addMessage(message));
+  };
+
   useEffect(() => {
+    // Fetch message history
     dispatch(fetchMessages());
+
+    // listen to socket server
+    socket.on('message', handleSocketMessage);
+
+    return () => {
+      socket.off('message', handleSocketMessage);
+    };
   }, []);
 
   useEffect(() => {
@@ -57,6 +71,7 @@ export default function ChatRoom({ socket }) {
 
   const handleSend = (e) => {
     e.preventDefault()
+  const handleSend = () => {
     socket.emit('chat', {
       message: {
         BuyerId: user_role === 'buyer' ? user_id : chatWithId,

@@ -185,7 +185,7 @@ describe('POST /buyers/register [fail]', () => {
       });
   });
 
-  test('Should return [{message: "Invalid email format"}] [400]', (done) => {
+  test('Should return {message: "Invalid email format"} [400]', (done) => {
     request(app)
       .post('/buyers/register')
       .set('Accept', appJSON)
@@ -193,7 +193,7 @@ describe('POST /buyers/register [fail]', () => {
       .then((response) => {
         expect(response.status).toBe(400);
         expect(response.body).toEqual(
-          expect.arrayContaining([{ message: 'Invalid email format' }])
+          expect.objectContaining({ message: 'Invalid email format' })
         );
         done();
       })
@@ -202,7 +202,7 @@ describe('POST /buyers/register [fail]', () => {
       });
   });
 
-  test('Should return [{message: "Email cannot be empty"}] [400]', (done) => {
+  test('Should return {message: "Email cannot be empty, Invalid email format"} [400]', (done) => {
     request(app)
       .post('/buyers/register')
       .set('Accept', appJSON)
@@ -210,7 +210,9 @@ describe('POST /buyers/register [fail]', () => {
       .then((response) => {
         expect(response.status).toBe(400);
         expect(response.body).toEqual(
-          expect.arrayContaining([{ message: 'Email cannot be empty' }])
+          expect.objectContaining({
+            message: 'Email cannot be empty, Invalid email format',
+          })
         );
         done();
       })
@@ -219,7 +221,7 @@ describe('POST /buyers/register [fail]', () => {
       });
   });
 
-  test('Should return [{message: "First name cannot be empty"}] [400]', (done) => {
+  test('Should return {message: "First name cannot be empty"} [400]', (done) => {
     request(app)
       .post('/buyers/register')
       .set('Accept', appJSON)
@@ -227,7 +229,7 @@ describe('POST /buyers/register [fail]', () => {
       .then((response) => {
         expect(response.status).toBe(400);
         expect(response.body).toEqual(
-          expect.arrayContaining([{ message: 'First name cannot be empty' }])
+          expect.objectContaining({ message: 'First name cannot be empty' })
         );
         done();
       })
@@ -236,7 +238,7 @@ describe('POST /buyers/register [fail]', () => {
       });
   });
 
-  test('Should return [{message: "Phone number cannot be empty}] [400]', (done) => {
+  test('Should return {message: "Phone number cannot be empty} [400]', (done) => {
     request(app)
       .post('/buyers/register')
       .set('Accept', appJSON)
@@ -244,7 +246,7 @@ describe('POST /buyers/register [fail]', () => {
       .then((response) => {
         expect(response.status).toBe(400);
         expect(response.body).toEqual(
-          expect.arrayContaining([{ message: 'Phone number cannot be empty' }])
+          expect.objectContaining({ message: 'Phone number cannot be empty' })
         );
         done();
       })
@@ -253,7 +255,7 @@ describe('POST /buyers/register [fail]', () => {
       });
   });
 
-  test('Should return [{message: "Password cannot be empty"}] [400]', (done) => {
+  test('Should return {message: "Password cannot be empty"} [400]', (done) => {
     request(app)
       .post('/buyers/register')
       .set('Accept', appJSON)
@@ -261,7 +263,7 @@ describe('POST /buyers/register [fail]', () => {
       .then((response) => {
         expect(response.status).toBe(400);
         expect(response.body).toEqual(
-          expect.arrayContaining([{ message: 'Password cannot be empty' }])
+          expect.objectContaining({ message: 'Password cannot be empty' })
         );
         done();
       })
@@ -367,7 +369,7 @@ describe('POST /sellers/register [fail]', () => {
       });
   });
 
-  test('Should return [{message: "Invalid email format"}] [400]', (done) => {
+  test('Should return {message: "Invalid email format"} [400]', (done) => {
     request(app)
       .post('/sellers/register')
       .set('Accept', appJSON)
@@ -375,7 +377,7 @@ describe('POST /sellers/register [fail]', () => {
       .then((response) => {
         expect(response.status).toBe(400);
         expect(response.body).toEqual(
-          expect.arrayContaining([{ message: 'Invalid email format' }])
+          expect.objectContaining({ message: 'Invalid email format' })
         );
         done();
       })
@@ -384,7 +386,7 @@ describe('POST /sellers/register [fail]', () => {
       });
   });
 
-  test('Should return [{message: "Email cannot be empty"}] [400]', (done) => {
+  test('Should return {message: "Email cannot be empty, Invalid email format"} [400]', (done) => {
     request(app)
       .post('/sellers/register')
       .set('Accept', appJSON)
@@ -392,7 +394,9 @@ describe('POST /sellers/register [fail]', () => {
       .then((response) => {
         expect(response.status).toBe(400);
         expect(response.body).toEqual(
-          expect.arrayContaining([{ message: 'Email cannot be empty' }])
+          expect.objectContaining({
+            message: 'Email cannot be empty, Invalid email format',
+          })
         );
         done();
       })
@@ -401,7 +405,7 @@ describe('POST /sellers/register [fail]', () => {
       });
   });
 
-  test('Should return [{message: "First name cannot be empty"}] [400]', (done) => {
+  test('Should return {message: "First name cannot be empty"} [400]', (done) => {
     request(app)
       .post('/sellers/register')
       .set('Accept', appJSON)
@@ -409,7 +413,7 @@ describe('POST /sellers/register [fail]', () => {
       .then((response) => {
         expect(response.status).toBe(400);
         expect(response.body).toEqual(
-          expect.arrayContaining([{ message: 'First name cannot be empty' }])
+          expect.objectContaining({ message: 'First name cannot be empty' })
         );
         done();
       })
@@ -418,7 +422,7 @@ describe('POST /sellers/register [fail]', () => {
       });
   });
 
-  test('Should return [{message: "Phone number cannot be empty}] [400]', (done) => {
+  test('Should return {message: "Phone number cannot be empty} [400]', (done) => {
     request(app)
       .post('/sellers/register')
       .set('Accept', appJSON)
@@ -426,7 +430,7 @@ describe('POST /sellers/register [fail]', () => {
       .then((response) => {
         expect(response.status).toBe(400);
         expect(response.body).toEqual(
-          expect.arrayContaining([{ message: 'Phone number cannot be empty' }])
+          expect.objectContaining({ message: 'Phone number cannot be empty' })
         );
         done();
       })
@@ -435,7 +439,7 @@ describe('POST /sellers/register [fail]', () => {
       });
   });
 
-  test('Should return [{message: "Password cannot be empty"}] [400]', (done) => {
+  test('Should return {message: "Password cannot be empty"} [400]', (done) => {
     request(app)
       .post('/sellers/register')
       .set('Accept', appJSON)
@@ -443,7 +447,7 @@ describe('POST /sellers/register [fail]', () => {
       .then((response) => {
         expect(response.status).toBe(400);
         expect(response.body).toEqual(
-          expect.arrayContaining([{ message: 'Password cannot be empty' }])
+          expect.objectContaining({ message: 'Password cannot be empty' })
         );
         done();
       })
