@@ -2,8 +2,9 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { fetchChatList, setChatWith } from '../stores/action';
+import SocketContext from '../config/socket';
 
-export default function ChatList({ socket }) {
+export default function ChatList() {
   const { chatList, user_id } = useSelector(({ chatList, user_id }) => {
     return {
       chatList,
@@ -11,6 +12,7 @@ export default function ChatList({ socket }) {
     };
   });
 
+  const socket = React.useContext(SocketContext);
   const dispatch = useDispatch();
   const history = useHistory();
 

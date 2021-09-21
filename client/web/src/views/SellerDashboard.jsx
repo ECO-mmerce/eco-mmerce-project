@@ -5,7 +5,7 @@ import { fetchSellerProducts } from '../stores/action';
 import ChatList from '../components/ChatList';
 import SellerProductCard from '../components/SellerProductCard';
 
-export default function SellerDashboard({ socket }) {
+export default function SellerDashboard() {
   const history = useHistory();
   const dispatch = useDispatch();
   const { isLogin, user_role, sellerProducts } = useSelector(
@@ -40,9 +40,7 @@ export default function SellerDashboard({ socket }) {
         >
           Add Product
         </Link>
-        <div>
-          {user_role === 'seller' ? <ChatList socket={socket} /> : null}
-        </div>
+        <div>{user_role === 'seller' ? <ChatList /> : null}</div>
       </section>
 
       <section className="text-gray-600 py-24 px-5 body-font flex h-screen overflow-y-scroll">
