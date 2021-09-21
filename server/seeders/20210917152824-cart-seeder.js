@@ -6,14 +6,44 @@ module.exports = {
       'Carts',
       [
         {
-          ProductId: 2,
-          UserId: 2,
+          ProductId: 1,
+          UserId: 3,
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
           ProductId: 1,
-          UserId: 2,
+          UserId: 3,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          ProductId: 3,
+          UserId: 3,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          ProductId: 9,
+          UserId: 4,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          ProductId: 7,
+          UserId: 4,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          ProductId: 2,
+          UserId: 4,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          ProductId: 2,
+          UserId: 4,
           createdAt: new Date(),
           updatedAt: new Date(),
         },

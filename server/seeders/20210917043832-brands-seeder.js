@@ -6,7 +6,7 @@ module.exports = {
       'Brands',
       [
         {
-          name: 'Sensatia Botanicals',
+          name: 'Oriflame',
           createdAt: new Date(),
           updatedAt: new Date(),
         },
@@ -16,12 +16,27 @@ module.exports = {
           updatedAt: new Date(),
         },
         {
-          name: 'Lacoco',
+          name: 'Wardah',
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
-          name: 'Some By Mi',
+          name: 'Sensatia Botanical',
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          name: 'Vaseline',
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          name: 'Garnier',
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          name: 'Rohto',
           createdAt: new Date(),
           updatedAt: new Date(),
         },
