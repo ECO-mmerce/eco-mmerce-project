@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchHistory } from '../stores/action';
+import Moment from 'moment';
 
 export default function History() {
   const dispatch = useDispatch();
@@ -11,16 +12,9 @@ export default function History() {
   }, []);
 
   const getDate = (date) => {
-    const day = new Date(date).getDate();
-    const month = new Date(date).getMonth() + 1;
-    const year = new Date(date).getFullYear();
-
-    console.log(day, month, year);
-
-    return `${day} - ${month > 9 ? month : `0${month}`} - ${year}`;
+    Moment.locale('id');
+    return Moment(date).format('YYYY-MM-DD HH:mm:ss');
   };
-
-  console.log(history);
 
   return (
     <div class="container mx-auto px-4 sm:px-8">

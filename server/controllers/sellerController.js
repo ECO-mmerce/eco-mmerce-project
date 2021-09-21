@@ -225,11 +225,11 @@ class SellerController {
       if (updatedProduct[0] === 0) {
         throw {
           name: 'Not Found',
-          message: `Product with ID ${id} is not found!`,
+          message: `Product is not found!`,
         };
       } else {
         res.status(200).json({
-          message: `Product with ID ${id} has been successfully updated!`,
+          message: `Product has been successfully updated!`,
         });
       }
     } catch (err) {
@@ -246,11 +246,11 @@ class SellerController {
       if (deletedProduct === 0) {
         throw {
           name: 'Not Found',
-          message: `Product with ID ${id} is not found!`,
+          message: `Product is not found!`,
         };
       } else {
         res.status(200).json({
-          message: `Product with ID ${id} has been successfully deleted!`,
+          message: `Product has been successfully deleted!`,
         });
       }
     } catch (err) {

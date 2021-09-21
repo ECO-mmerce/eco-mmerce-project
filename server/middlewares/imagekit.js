@@ -3,6 +3,7 @@ const imagekitAPI = require('../apis/imagekit');
 const getDate = require('../helpers/getDate');
 
 async function uploadImage(req, res, next) {
+  console.log(req.file, `INI DI IMAGE KIT`);
   try {
     // console.log(req.baseUrl); // /sellers
     // console.log(req.url); // register
@@ -41,6 +42,7 @@ async function uploadImage(req, res, next) {
       next();
     }
   } catch (err) {
+    console.log(err);
     next(err);
   }
 }

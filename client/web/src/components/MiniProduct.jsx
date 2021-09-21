@@ -1,10 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addCart } from '../stores/action';
 
 export default function MiniProduct({ products }) {
   const dispatch = useDispatch();
+  const user_role = useSelector((state) => state.user_role);
 
   const addToCart = (e, id) => {
     e.preventDefault();
@@ -47,7 +48,7 @@ export default function MiniProduct({ products }) {
             Rp {products.price.toLocaleString('id-ID')}, 00
           </p>
         </Link>
-        {localStorage.access_token ? (
+        {localStorage.access_token && user_role !== 'seller' ? (
           <button
             type="button"
             onClick={(e) => addToCart(e, products.id)}
@@ -55,15 +56,7 @@ export default function MiniProduct({ products }) {
           >
             Add to Cart
           </button>
-        ) : (
-          <Link
-            // onClick={(e) => addToCart(e, products.id)}
-            to="/login"
-            className="bg-green-400 hover:bg-green-600 text-white font-bold p-2 w-32 rounded-lg"
-          >
-            Add to Cart
-          </Link>
-        )}
+        ) : null}
       </div>
     </div>
   );

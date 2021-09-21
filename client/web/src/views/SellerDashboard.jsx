@@ -18,6 +18,8 @@ export default function SellerDashboard({ socket }) {
     }
   );
 
+  console.log(sellerProducts, `INI SELLER PUNYA`);
+
   useEffect(() => {
     dispatch(fetchSellerProducts());
   }, []);
@@ -48,7 +50,7 @@ export default function SellerDashboard({ socket }) {
       <section className="text-gray-600 py-24 px-5 body-font flex h-screen overflow-y-scroll">
         {sellerProducts?.length === 0 ? (
           <h1 className="mx-auto">
-            It's Empty ;) Come add your products by click the green button !
+            It's Empty ;) Come add your products by clicking the green button !
           </h1>
         ) : (
           <div className="container px-5  mx-auto">

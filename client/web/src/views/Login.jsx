@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useLocation } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import { googleLogin, login, setIsRegister } from '../stores/action';
 import { GoogleLogin } from 'react-google-login';
+import Input from '@material-tailwind/react/Input';
+import Button from '@material-tailwind/react/Button';
 
 const roles = ['buyers', 'sellers'];
 
@@ -57,51 +59,82 @@ export default function Login() {
   };
 
   return (
-    <section className="flex justify-center my-10">
-      <div className="w-1/4 bg-white rounded-xl py-10 text-center">
+    <section className="flex justify-center w-full h-full my-10">
+      <div className="bg-white rounded-xl py-10">
         <div className="flex justify-center">
           <img
-            className="w-1/3"
+            className="w-1/3 mb-6"
             src="https://ik.imagekit.io/ztg2jcaeb0e/ecommerce/eco-merce_1__BX5HSOkuz.png?updatedAt=1631834431042"
             alt=""
           />
         </div>
-        <h1 className="text-4xl font-medium">Login</h1>
-        <form
-          onSubmit={handleSubmit}
-          className="flex flex-col text-2xl gap-5 my-5 items-center"
-        >
-          <input
-            className="px-2 py-1 rounded bg-gray-200"
-            type="text"
-            placeholder="email"
-            value={email}
-            onChange={handleEmail}
-          />
-          <input
-            className="px-2 py-1 rounded bg-gray-200"
-            type="password"
-            placeholder="password"
-            value={password}
-            onChange={handlePassword}
-          />
-          <button
-            type="submit"
-            className="bg-green-400 text-white font-bold p-2 w-32 rounded-lg"
-          >
-            Login
-          </button>
+        <div className="text-center mb-4">
+          <h1 className="text-4xl mb-4 font-medium">Login</h1>
+        </div>
+        <form onSubmit={handleSubmit} className="flex-col text-md gap-8">
+          <div className="py-2 mx-12 pt-2 px-1 items-center">
+            <Input
+              type="text"
+              color="green"
+              size="lg"
+              outline={true}
+              placeholder="email"
+              value={email}
+              onChange={handleEmail}
+            />
+          </div>
+          <div className="py-2 mx-12 pt-2 px-1 mb-4 items-center">
+            <Input
+              type="password"
+              color="green"
+              size="regular"
+              outline={true}
+              placeholder="password"
+              value={password}
+              onChange={handlePassword}
+            />
+          </div>
+          <div className="mb-4">
+            <center>
+              <Button
+                type="submit"
+                color="green"
+                buttonType="filled"
+                size="lg"
+                block={false}
+                iconOnly={false}
+                ripple="light"
+              >
+                Login
+              </Button>
+            </center>
+          </div>
         </form>
+
         {location.pathname.includes('/seller') ? null : (
-          <GoogleLogin
-            clientId="164658214505-2t0d8gtpcjn6jl331mj2ccdi9lb9f4g1.apps.googleusercontent.com"
-            buttonText="Login"
-            isSignedIn={true}
-            onSuccess={responseGoogle}
-            onFailure={responseGoogle}
-            cookiePolicy={'single_host_origin'}
-          />
+          <center>
+            <GoogleLogin
+              clientId="164658214505-2t0d8gtpcjn6jl331mj2ccdi9lb9f4g1.apps.googleusercontent.com"
+              buttonText="Login"
+              isSignedIn={true}
+              onSuccess={responseGoogle}
+              onFailure={responseGoogle}
+              cookiePolicy={'single_host_origin'}
+            />
+          </center>
         )}
+
+        <div className="mt-8">
+          <center>
+            <h3>
+              Not logged in ?{' '}
+              <Link className="text-black underlined" to="/register">
+                <b>click here</b>
+              </Link>{' '}
+              to register
+            </h3>
+          </center>
+        </div>
       </div>
     </section>
   );

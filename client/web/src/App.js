@@ -1,4 +1,5 @@
 import './App.css';
+import '@material-tailwind/react/tailwind.css';
 import 'react-toastify/dist/ReactToastify.css';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';

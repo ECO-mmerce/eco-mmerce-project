@@ -196,7 +196,7 @@ class BuyerController {
             include: [
               {
                 model: User, // seller
-                attributes: ['id', 'firstName', 'lastName', 'role'],
+                attributes: ['id', 'firstName', 'lastName', 'role', 'picture'],
               },
             ],
           },
@@ -222,7 +222,7 @@ class BuyerController {
       if (product === null) {
         throw {
           name: 'Not Found',
-          message: `Product with ID ${id} is not found!`,
+          message: `Product is not found!`,
         };
       } else {
         res.status(200).json(product);
@@ -334,7 +334,8 @@ class BuyerController {
       if (data === 0) {
         throw {
           name: 'Not Found',
-          message: `Product with ID ${ProductId} is not found!`,
+          message: `Product
+           is not found!`,
         };
       } else {
         res.status(200).json({ message: 'Product has been reduced by one' });
@@ -356,7 +357,7 @@ class BuyerController {
       if (data === 0) {
         throw {
           name: 'Not Found',
-          message: `Product with ID ${ProductId} is not found!`,
+          message: `Product is not found!`,
         };
       } else {
         res
@@ -425,26 +426,23 @@ class BuyerController {
         },
       });
 
-      console.log(data);
+      if (data) {
+        res.status(201).json(data);
+        await currentCart.forEach((el) => {
+          History.create({
+            ProductId: el.ProductId,
+            UserId: el.UserId,
+          });
+        });
 
-      res.status(201).json(data);
-
-      // await currentCart.forEach((el) => {
-      //   History.create({
-      //     ProductId: el.ProductId,
-      //     UserId: el.UserId,
-      //   });
-      // });
-
-      // const checkedOut = await Cart.destroy({ where: { UserId } });
-      // if (checkedOut === 0) {
-      //   throw {
-      //     name: 'Bad Request',
-      //     message: "You don't have any products in your cart.",
-      //   };
-      // } else {
-      //   res.status(200).json({ message: 'Checkout successfully!' });
-      // }
+        const checkedOut = await Cart.destroy({ where: { UserId } });
+        if (checkedOut === 0) {
+          throw {
+            name: 'Bad Request',
+            message: "You don't have any products in your cart.",
+          };
+        }
+      }
     } catch (err) {
       next(err);
     }
@@ -464,10 +462,6 @@ class BuyerController {
               model: Category,
               attributes: ['name'],
             },
-          },
-          {
-            model: User,
-            attributes: ['firstName', 'lastName'],
           },
         ],
       });
