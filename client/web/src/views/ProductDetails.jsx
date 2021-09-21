@@ -2,8 +2,9 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import { fetchProduct, setChatWith, addCart } from '../stores/action';
+import SocketContext from '../config/socket';
 
-export default function ProductDetails({ socket }) {
+export default function ProductDetails() {
   const { user_id, user_role } = useSelector(({ user_id, user_role }) => {
     return {
       user_id,
@@ -13,6 +14,7 @@ export default function ProductDetails({ socket }) {
   const product = useSelector((state) => state.product);
   const isLoading = useSelector((state) => state.isLoading);
 
+  const socket = React.useContext(SocketContext);
   const dispatch = useDispatch();
   const history = useHistory();
 
