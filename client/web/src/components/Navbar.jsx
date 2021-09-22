@@ -5,21 +5,25 @@ import { setIsLogin, setUser } from '../stores/action';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import { useGoogleLogout } from 'react-google-login';
+import Dropdown from '@material-tailwind/react/Dropdown';
+import DropdownItem from '@material-tailwind/react/DropdownItem';
+import Image from '@material-tailwind/react/Image';
 
 export default function Navbar() {
   const clientId =
     '164658214505-2t0d8gtpcjn6jl331mj2ccdi9lb9f4g1.apps.googleusercontent.com';
-  const { user_firstName, user_lastName, user_picture, isLogin, user_role} = useSelector(
-    ({ user_firstName, user_lastName, user_picture, isLogin, user_role}) => {
-      return {
-        user_firstName,
-        user_lastName,
-        user_picture,
-        isLogin,
-        user_role
-      };
-    }
-  );
+  const { user_firstName, user_lastName, user_picture, isLogin, user_role } =
+    useSelector(
+      ({ user_firstName, user_lastName, user_picture, isLogin, user_role }) => {
+        return {
+          user_firstName,
+          user_lastName,
+          user_picture,
+          isLogin,
+          user_role,
+        };
+      }
+    );
 
   const logOut = () => {
     dispatch(
@@ -57,38 +61,51 @@ export default function Navbar() {
     history.push('/login');
   };
 
-  const [dropdownActive, setDropdownActive] = useState(false)
+  const goToRegisterPage = () => {
+    history.push('/register');
+  };
+
+  const goToSellerPage = () => {
+    history.push('/seller');
+  };
+
+  const goToCart = () => {
+    history.push('/cart');
+  };
+
+  const [dropdownActive, setDropdownActive] = useState(false);
   function handleDropdown(e) {
-    setDropdownActive(!dropdownActive)
+    setDropdownActive(!dropdownActive);
   }
 
-  let dropdownOptions
+  let dropdownOptions;
 
-  if(!isLogin){
+  if (!isLogin) {
     dropdownOptions = (
       <div className="flex flex-col gap-2">
-        <Link to="/login" >login</Link>
-        <Link to="/register" >register</Link>
+        <Link to="/login">login</Link>
+        <Link to="/register">register</Link>
       </div>
-    )
-  }else if(user_role === 'seller'){
+    );
+  } else if (user_role === 'seller') {
     dropdownOptions = (
       <div className="flex flex-col gap-2">
-        <Link to="/seller/orders" >orders</Link>
-        <Link to="/seller/addproduct" >add products</Link>
+        <Link to="/seller/orders">orders</Link>
+        <Link to="/seller/addproduct">add products</Link>
         <button onClick={logOut}>logout</button>
       </div>
-    )
-  }else {
+    );
+  } else {
     dropdownOptions = (
       <div className="flex flex-col gap-2">
         <button onClick={logOut}>logout</button>
       </div>
-    )
+    );
   }
+
   return (
-    <header class="text-gray-600 body-font">
-      <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
+    <header className="text-gray-600 body-font">
+      <div className="container mx-auto flex p-5 flex-col md:flex-row items-center">
         <Link to="/" className="h-full">
           <img
             className="logo hover:grow"
@@ -96,83 +113,196 @@ export default function Navbar() {
             alt="eco-mmerce-logo"
           />
         </Link>
-        <nav class="md:mr-auto md:ml-4 md:py-1 md:pl-4 md:border-l md:border-gray-400	flex flex-wrap items-center text-base justify-center">
+        <nav className="md:mr-auto md:ml-4 md:py-1 md:pl-4 md:border-l md:border-gray-400	flex grid grid-cols-4 gap-5 items-center text-base justify-center">
           <Link to="/products" className="hover:text-green-900 hover:grow">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              height="24"
-              fill="currentColor"
-              className="bi bi-bag"
-              viewBox="0 0 16 16"
-            >
-              <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5z" />
-            </svg>
-            <span className="ml-2">Products</span>
-          </Link>
-
-          {location.pathname.includes('/seller') || user_role === 'seller' ? (
-            <Link to="/seller" className="mr-5 hover:grow hover:text-green-900">
+            <div className="flex">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 height="24"
                 fill="currentColor"
-                className="bi bi-shop"
+                className="bi bi-bag"
                 viewBox="0 0 16 16"
               >
-                <path d="M2.97 1.35A1 1 0 0 1 3.73 1h8.54a1 1 0 0 1 .76.35l2.609 3.044A1.5 1.5 0 0 1 16 5.37v.255a2.375 2.375 0 0 1-4.25 1.458A2.371 2.371 0 0 1 9.875 8 2.37 2.37 0 0 1 8 7.083 2.37 2.37 0 0 1 6.125 8a2.37 2.37 0 0 1-1.875-.917A2.375 2.375 0 0 1 0 5.625V5.37a1.5 1.5 0 0 1 .361-.976l2.61-3.045zm1.78 4.275a1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0 1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0 1.375 1.375 0 1 0 2.75 0V5.37a.5.5 0 0 0-.12-.325L12.27 2H3.73L1.12 5.045A.5.5 0 0 0 1 5.37v.255a1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0zM1.5 8.5A.5.5 0 0 1 2 9v6h1v-5a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v5h6V9a.5.5 0 0 1 1 0v6h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1V9a.5.5 0 0 1 .5-.5zM4 15h3v-5H4v5zm5-5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-3zm3 0h-2v3h2v-3z" />
+                <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5z" />
               </svg>
-              <h2 className="mx-1">Seller</h2>
+              <div className="flex ml-2">
+                <h2>Products</h2>
+              </div>
+            </div>
+          </Link>
+
+          {localStorage.access_token && user_role === 'buyer' ? (
+            <Link to="/history" className="hover:text-green-900 hover:grow">
+              <div className="flex">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  height="24"
+                  fill="currentColor"
+                  className="bi bi-clock-history"
+                  viewBox="0 0 16 16"
+                >
+                  <path d="M8.515 1.019A7 7 0 0 0 8 1V0a8 8 0 0 1 .589.022l-.074.997zm2.004.45a7.003 7.003 0 0 0-.985-.299l.219-.976c.383.086.76.2 1.126.342l-.36.933zm1.37.71a7.01 7.01 0 0 0-.439-.27l.493-.87a8.025 8.025 0 0 1 .979.654l-.615.789a6.996 6.996 0 0 0-.418-.302zm1.834 1.79a6.99 6.99 0 0 0-.653-.796l.724-.69c.27.285.52.59.747.91l-.818.576zm.744 1.352a7.08 7.08 0 0 0-.214-.468l.893-.45a7.976 7.976 0 0 1 .45 1.088l-.95.313a7.023 7.023 0 0 0-.179-.483zm.53 2.507a6.991 6.991 0 0 0-.1-1.025l.985-.17c.067.386.106.778.116 1.17l-1 .025zm-.131 1.538c.033-.17.06-.339.081-.51l.993.123a7.957 7.957 0 0 1-.23 1.155l-.964-.267c.046-.165.086-.332.12-.501zm-.952 2.379c.184-.29.346-.594.486-.908l.914.405c-.16.36-.345.706-.555 1.038l-.845-.535zm-.964 1.205c.122-.122.239-.248.35-.378l.758.653a8.073 8.073 0 0 1-.401.432l-.707-.707z" />
+                  <path d="M8 1a7 7 0 1 0 4.95 11.95l.707.707A8.001 8.001 0 1 1 8 0v1z" />
+                  <path d="M7.5 3a.5.5 0 0 1 .5.5v5.21l3.248 1.856a.5.5 0 0 1-.496.868l-3.5-2A.5.5 0 0 1 7 9V3.5a.5.5 0 0 1 .5-.5z" />
+                </svg>
+                <div className="flex ml-2">
+                  <h2>History</h2>
+                </div>
+              </div>
             </Link>
           ) : null}
 
-          {localStorage.access_token ? (
-            <Link to="/history" className="hover:text-green-900">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                height="24"
-                fill="currentColor"
-                class="bi bi-clock-history"
-                viewBox="0 0 16 16"
-              >
-                <path d="M8.515 1.019A7 7 0 0 0 8 1V0a8 8 0 0 1 .589.022l-.074.997zm2.004.45a7.003 7.003 0 0 0-.985-.299l.219-.976c.383.086.76.2 1.126.342l-.36.933zm1.37.71a7.01 7.01 0 0 0-.439-.27l.493-.87a8.025 8.025 0 0 1 .979.654l-.615.789a6.996 6.996 0 0 0-.418-.302zm1.834 1.79a6.99 6.99 0 0 0-.653-.796l.724-.69c.27.285.52.59.747.91l-.818.576zm.744 1.352a7.08 7.08 0 0 0-.214-.468l.893-.45a7.976 7.976 0 0 1 .45 1.088l-.95.313a7.023 7.023 0 0 0-.179-.483zm.53 2.507a6.991 6.991 0 0 0-.1-1.025l.985-.17c.067.386.106.778.116 1.17l-1 .025zm-.131 1.538c.033-.17.06-.339.081-.51l.993.123a7.957 7.957 0 0 1-.23 1.155l-.964-.267c.046-.165.086-.332.12-.501zm-.952 2.379c.184-.29.346-.594.486-.908l.914.405c-.16.36-.345.706-.555 1.038l-.845-.535zm-.964 1.205c.122-.122.239-.248.35-.378l.758.653a8.073 8.073 0 0 1-.401.432l-.707-.707z" />
-                <path d="M8 1a7 7 0 1 0 4.95 11.95l.707.707A8.001 8.001 0 1 1 8 0v1z" />
-                <path d="M7.5 3a.5.5 0 0 1 .5.5v5.21l3.248 1.856a.5.5 0 0 1-.496.868l-3.5-2A.5.5 0 0 1 7 9V3.5a.5.5 0 0 1 .5-.5z" />
-              </svg>
-              <h2>History</h2>
-            </Link>
+          {location.pathname.includes('/seller') || user_role === 'seller' ? (
+            <>
+              <Link to="/seller" className="hover:grow hover:text-green-900">
+                <div className="flex">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="24"
+                    fill="currentColor"
+                    className="bi bi-shop"
+                    viewBox="0 0 16 16"
+                  >
+                    <path d="M2.97 1.35A1 1 0 0 1 3.73 1h8.54a1 1 0 0 1 .76.35l2.609 3.044A1.5 1.5 0 0 1 16 5.37v.255a2.375 2.375 0 0 1-4.25 1.458A2.371 2.371 0 0 1 9.875 8 2.37 2.37 0 0 1 8 7.083 2.37 2.37 0 0 1 6.125 8a2.37 2.37 0 0 1-1.875-.917A2.375 2.375 0 0 1 0 5.625V5.37a1.5 1.5 0 0 1 .361-.976l2.61-3.045zm1.78 4.275a1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0 1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0 1.375 1.375 0 1 0 2.75 0V5.37a.5.5 0 0 0-.12-.325L12.27 2H3.73L1.12 5.045A.5.5 0 0 0 1 5.37v.255a1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0zM1.5 8.5A.5.5 0 0 1 2 9v6h1v-5a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v5h6V9a.5.5 0 0 1 1 0v6h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1V9a.5.5 0 0 1 .5-.5zM4 15h3v-5H4v5zm5-5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-3zm3 0h-2v3h2v-3z" />
+                  </svg>
+                  <div className="flex ml-2">
+                    <h2>My Products</h2>
+                  </div>
+                </div>
+              </Link>
+            </>
           ) : null}
 
           {localStorage.access_token && user_role !== 'seller' ? (
             <Link to="/cart" className="hover:text-green-900 hover:grow">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                height="24"
-                fill="currentColor"
-                class="bi bi-cart3"
-                viewBox="0 0 16 16"
-              >
-                <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l.84 4.479 9.144-.459L13.89 4H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
-              </svg>
-              <span className="ml-2">My Cart</span>
+              <div className="flex">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  height="24"
+                  fill="currentColor"
+                  className="bi bi-cart3"
+                  viewBox="0 0 16 16"
+                >
+                  <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l.84 4.479 9.144-.459L13.89 4H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+                </svg>
+                <div className="flex ml-2">
+                  <h2>My Cart</h2>
+                </div>
+              </div>
             </Link>
           ) : null}
         </nav>
 
-        <button
+        {localStorage.access_token ? (
+          <div className="flex">
+            <Dropdown
+              color="transparent"
+              buttonText={
+                <div className="w-24 grid grid-cols-2">
+                  <Image src={user_picture} className="mr-2" rounded />
+                  <h1 className="text-black mt-2 ml-2 text-lg">
+                    {user_firstName}
+                  </h1>
+                </div>
+              }
+              rounded
+              style={{
+                padding: 0,
+                color: 'transparent',
+              }}
+            >
+              {user_role === 'seller' ? (
+                <>
+                  <DropdownItem color="green" onClick={() => goToSellerPage()}>
+                    My Products
+                  </DropdownItem>
+                  <DropdownItem color="green" onClick={() => signOut()}>
+                    Logout
+                  </DropdownItem>
+                </>
+              ) : (
+                <>
+                  <DropdownItem color="green" onClick={() => goToCart()}>
+                    My Cart
+                  </DropdownItem>
+                  <DropdownItem color="green" onClick={() => signOut()}>
+                    Logout
+                  </DropdownItem>
+                </>
+              )}
+            </Dropdown>
+          </div>
+        ) : (
+          <div className="flex">
+            <Dropdown
+              color="transparent"
+              buttonText={
+                <div className="w-24 grid grid-cols-2">
+                  <Image
+                    src={`https://avatars.dicebear.com/api/personas/${Math.round(
+                      Math.random() * 5
+                    )}.svg`}
+                    className="mr-2"
+                    rounded
+                  />
+                  <h1 className="text-black mt-2 ml-2 text-lg">
+                    {user_firstName || 'Guest'}
+                  </h1>
+                </div>
+              }
+              rounded
+              style={{
+                padding: 0,
+                color: 'transparent',
+              }}
+            >
+              <>
+                <DropdownItem color="green" onClick={() => goToLoginPage()}>
+                  Login
+                </DropdownItem>
+                <DropdownItem color="green" onClick={() => goToRegisterPage()}>
+                  Register
+                </DropdownItem>
+              </>
+            </Dropdown>
+          </div>
+        )}
+
+        {/* <button
           className="hover:grow inline-flex items-center py-1 px-3 focus:outline-none text-base mt-4 md:mt-0"
-          onClick={
-            localStorage.getItem('access_token')
-              ? () => signOut()
-              : () => goToLoginPage()
-          }
+          // onClick={
+          //   localStorage.getItem('access_token')
+          //     ? () => signOut()
+          //     : () => goToLoginPage()
+          // }
         >
           {localStorage.getItem('access_token') ? (
             user_picture ? (
-              <>
-                <img src={user_picture} width="26" alt="user_picture" />
-                <span>{`${user_firstName} ${user_lastName}`}</span>
-              </>
+              <Dropdown
+                color="transparent"
+                buttonText={
+                  <div className="w-12">
+                    <Image src={user_picture} rounded />
+                  </div>
+                }
+                rounded
+                style={{
+                  padding: 0,
+                  color: 'transparent',
+                }}
+              >
+                <DropdownItem color="lightBlue">Action</DropdownItem>
+                <DropdownItem color="lightBlue">Another Action</DropdownItem>
+                <DropdownItem color="lightBlue">Something Else</DropdownItem>
+              </Dropdown>
             ) : (
+              // <div class="inline-block mb-6 rounded-full bg-gray-300 pr-5 h-full line-height-username1">
+              //   <img
+              //     class="rounded-full float-left h-full"
+              //     src={user_picture}
+              //   />{' '}
+              //   <span class="ml-3">{`${user_firstName} ${user_lastName}`}</span>
+              // </div>
               <>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -199,7 +329,7 @@ export default function Navbar() {
               <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm12 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1v-1c0-1-1-4-6-4s-6 3-6 4v1a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12z" />
             </svg>
           )}
-        </button>
+        </button> */}
       </div>
     </header>
 
@@ -269,7 +399,7 @@ export default function Navbar() {
     //           width="16"
     //           height="16"
     //           fill="currentColor"
-    //           class="bi bi-clock-history"
+    //           className="bi bi-clock-history"
     //           viewBox="0 0 16 16"
     //         >
     //           <path d="M8.515 1.019A7 7 0 0 0 8 1V0a8 8 0 0 1 .589.022l-.074.997zm2.004.45a7.003 7.003 0 0 0-.985-.299l.219-.976c.383.086.76.2 1.126.342l-.36.933zm1.37.71a7.01 7.01 0 0 0-.439-.27l.493-.87a8.025 8.025 0 0 1 .979.654l-.615.789a6.996 6.996 0 0 0-.418-.302zm1.834 1.79a6.99 6.99 0 0 0-.653-.796l.724-.69c.27.285.52.59.747.91l-.818.576zm.744 1.352a7.08 7.08 0 0 0-.214-.468l.893-.45a7.976 7.976 0 0 1 .45 1.088l-.95.313a7.023 7.023 0 0 0-.179-.483zm.53 2.507a6.991 6.991 0 0 0-.1-1.025l.985-.17c.067.386.106.778.116 1.17l-1 .025zm-.131 1.538c.033-.17.06-.339.081-.51l.993.123a7.957 7.957 0 0 1-.23 1.155l-.964-.267c.046-.165.086-.332.12-.501zm-.952 2.379c.184-.29.346-.594.486-.908l.914.405c-.16.36-.345.706-.555 1.038l-.845-.535zm-.964 1.205c.122-.122.239-.248.35-.378l.758.653a8.073 8.073 0 0 1-.401.432l-.707-.707z" />
@@ -342,7 +472,7 @@ export default function Navbar() {
     //           xmlns="http://www.w3.org/2000/svg"
     //           height="24"
     //           fill="currentColor"
-    //           class="bi bi-cart3"
+    //           className="bi bi-cart3"
     //           viewBox="0 0 16 16"
     //         >
     //           <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l.84 4.479 9.144-.459L13.89 4H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />

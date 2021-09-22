@@ -32,9 +32,11 @@ export default function SellerDashboard({ socket }) {
 
   return (
     <>
-      <section className="px-10 flex flex-col items-center my-10 px-64">
+      <section className="flex flex-col items-center my-10 px-10">
         <div className="flex flex-col gap-5 mb-10 w-full">
-          <h1 className="text-2xl" style={{ fontSize: 36 }}>CHATS</h1>
+          <h1 className="text-2xl" style={{ fontSize: 36 }}>
+            CHATS
+          </h1>
           <div>
             {user_role === 'seller' ? <ChatList socket={socket} /> : null}
           </div>
@@ -54,8 +56,8 @@ export default function SellerDashboard({ socket }) {
               It's Empty ;) Come add your products by click the green button !
             </h1>
           ) : (
-            <div className="container px-5  mx-auto">
-              <div className="flex flex-wrap grid grid-cols-4 gap-5">
+            <div className="container sm:py-18 mx-auto">
+              <div className="sm:gap-5 lg:px-6 md:px-8 sm:px-2 grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
                 {sellerProducts?.map((product) => {
                   return (
                     <SellerProductCard key={product.id} products={product} />
@@ -66,7 +68,6 @@ export default function SellerDashboard({ socket }) {
           )}
         </section>
       </section>
-
     </>
   );
 }

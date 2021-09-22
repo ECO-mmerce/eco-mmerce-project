@@ -6,6 +6,12 @@ const io = require('socket.io')({
 });
 const { Chat } = require('./models');
 
+// console.log(io.on, `INI IO`);
+
+io.on('connect_error', (err) => {
+  console.log(`connect_error due to ${err.message}`);
+});
+
 io.on('connection', (socket) => {
   // all socket listener here
 

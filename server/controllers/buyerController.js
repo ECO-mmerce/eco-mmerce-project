@@ -99,7 +99,7 @@ class BuyerController {
       const { firstName, lastName, email, password, phoneNumber } = req.body;
       const picture =
         req.imgUrl ||
-        'https://ik.imagekit.io/imgmarc/default-profile_4m4ooSMXJ.png?updatedAt=1629741970508';
+        `https://avatars.dicebear.com/api/personas/${firstName}.svg`;
 
       const newBuyer = await User.create({
         firstName,

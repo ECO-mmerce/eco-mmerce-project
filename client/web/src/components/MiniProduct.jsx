@@ -14,15 +14,15 @@ export default function MiniProduct({ products }) {
   };
 
   return (
-    <div className="">
+    <div className="w-full h-full">
       <div className="bg-gray-100 hover:grow hover:shadow-md p-6 rounded-lg">
         <Link to={`/products/${products.id}`}>
           <img
-            className="h-40 rounded w-full object-cover object-center mb-6"
+            className="h-40 rounded-lg w-full object-cover object-center mb-6"
             src={products.picture}
             alt="content"
           />
-          {products?.Brands.map((el) => {
+          {products?.Brands?.map((el) => {
             return (
               <h3
                 key={el.id}
@@ -40,7 +40,10 @@ export default function MiniProduct({ products }) {
           </p>
           {products?.UsersProducts?.map((el) => {
             return (
-              <p key={el.id} className="text-md text-gray-900 title-font mb-4">
+              <p
+                key={el.ProductId}
+                className="text-md text-gray-900 title-font mb-4"
+              >
                 {`${el.User.firstName} ${el.User.lastName}`}
               </p>
             );
@@ -49,7 +52,7 @@ export default function MiniProduct({ products }) {
             IDR {products.price.toLocaleString('id-ID')}, 00
           </p>
         </Link>
-        <div className="items-center">
+        <div className="items-center w-full h-full">
           {localStorage.access_token && user_role === 'buyer' ? (
             <Button
               color="teal"
@@ -57,12 +60,11 @@ export default function MiniProduct({ products }) {
               ripple="light"
             >
               <svg
-                className="mr-4"
+                className="mr-4 bi bi-cart3"
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
                 height="16"
                 fill="currentColor"
-                class="bi bi-cart3"
                 viewBox="0 0 16 16"
               >
                 <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l.84 4.479 9.144-.459L13.89 4H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
