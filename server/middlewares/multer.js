@@ -1,7 +1,7 @@
 const multer = require('multer');
 const upload = multer({
   fileFilter(req, file, cb) {
-    console.log(file, `INI DI MULTER`);
+    // console.log(file, `INI DI MULTER`);
     if (file.mimetype.includes('image')) {
       cb(null, true);
     } else {

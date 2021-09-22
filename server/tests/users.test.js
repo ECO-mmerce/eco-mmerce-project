@@ -333,6 +333,23 @@ describe('POST /buyers/login [fail] [401]', () => {
   });
 });
 
+describe('POST /buyers/login/google [success]', () => {
+  test(`Should return {} [201] `, (done) => {
+    request(app)
+      .post('/buyers/login/google')
+      .set('Accept', appJSON)
+      .send({
+        idToken: process.env.GOOGLE_TOKEN_LOGIN_TESTING,
+        audience: process.env.GOOGLE_CLIENT_ID,
+      })
+      .then((response) => {
+        expect(response.status).toBe(201);
+        expect(response.body).toEqual(expect.objectContaining({}));
+        done();
+      })
+      .catch((err) => done(err));
+  });
+});
 // Test Seller
 
 describe('POST /sellers/register [success]', () => {
@@ -342,7 +359,7 @@ describe('POST /sellers/register [success]', () => {
       .set('Accept', appJSON)
       .send(seller)
       .then((response) => {
-        expect(response.status).toBe(201); // BUG
+        expect(response.status).toBe(201);
         expect(response.body).toHaveProperty('id', expect.any(Number));
         expect(response.body).toHaveProperty('email');
         done();
@@ -464,7 +481,7 @@ describe('POST /sellers/login [success]', () => {
       .set('Accept', appJSON)
       .send(sellerLogin)
       .then((response) => {
-        expect(response.status).toBe(200); // BUG
+        expect(response.status).toBe(200);
         expect(response.body).toHaveProperty('id', expect.any(Number));
         expect(response.body).toHaveProperty('firstName');
         expect(response.body).toHaveProperty('lastName');

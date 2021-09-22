@@ -25,13 +25,14 @@ export default function ChatBox({
             : `items-start`
         }`}
       >
-        <p className="text-lg font-bold m-1 w-max-1/2">{message.fullName}</p>
-        <p className="text-xl bg-green-200 px-5 py-1 rounded-lg">
+        <p className="text-lg m-1 w-max-1/2">{message.fullName}</p>
+        <p className="text-xl text-white bg-green-500 px-5 py-1 rounded-lg">
           {message.message}
         </p>
       </div>
     );
   });
+
   return (
     <div className="flex flex-col">
       {displayMessages}

@@ -44,13 +44,15 @@ export default function Cart() {
       <div className="flex flex-col mx-auto mt-20 items-start w-10/12 bg-green-400 rounded-xl mb-10">
         <h1 className="text-5xl font-bold my-5 px-5 text-white">My Cart</h1>
         <div className="w-full bg-white p-7 rounded-xl">
-          {cart.length !== 0 ? (
-            cart.map((el) => {
-              return <CartItem key={el.Product.id} data={el} />;
-            })
-          ) : (
-            <H6 color="gray">It's empty, go shopping now, EcoHippies !</H6>
-          )}
+          <div>
+            {cart?.length !== 0 ? (
+              cart?.map((el) => {
+                return <CartItem key={el.Product.id} data={el} />;
+              })
+            ) : (
+              <H6 color="gray">It's empty, go shopping now, EcoHippies !</H6>
+            )}
+          </div>
 
           <div className="w-full h-1 bg-gray-600 rounded-xl my-5"></div>
           <div className="flex flex-col items-end gap-3">

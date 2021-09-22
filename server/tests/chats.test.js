@@ -79,7 +79,7 @@ describe('GET /chats/:id [success]', () => {
       .set('Accept', appJSON)
       .set('access_token', sellerToken)
       .then((response) => {
-        console.log(response.body);
+        // console.log(response.body);
         expect(response.status).toBe(200);
         expect(response.body).toEqual(
           expect.arrayContaining([
@@ -106,7 +106,7 @@ describe('GET /sellers/chats [success]', () => {
       .set('Accept', appJSON)
       .set('access_token', sellerToken)
       .then((response) => {
-        console.log(response.body);
+        // console.log(response.body);
         expect(response.status).toBe(200);
         expect(response.body).toEqual(
           expect.arrayContaining([

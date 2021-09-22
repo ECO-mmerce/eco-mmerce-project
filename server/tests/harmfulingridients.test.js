@@ -7,7 +7,7 @@ const data = [{ name: 'ingridient1' }, { name: 'ingridient2' }];
 beforeAll((done) => {
   HarmfulIngridient.bulkCreate(data)
     .then((resp) => {
-      console.log(resp.body);
+      // console.log(resp.body);
       done();
     })
     .catch((err) => {

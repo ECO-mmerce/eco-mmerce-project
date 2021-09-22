@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">94.12% </span>
+                <span class="strong">58.33% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>16/17</span>
+                <span class='fraction'>7/12</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">75% </span>
+                <span class="strong">25% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>3/4</span>
+                <span class='fraction'>1/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">94.12% </span>
+                <span class="strong">58.33% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>16/17</span>
+                <span class='fraction'>7/12</span>
             </div>
         
             
@@ -55,7 +55,7 @@
             Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
         </p>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -104,27 +104,27 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -140,27 +140,27 @@ const { Chat } = require('./models');
 // console.log(io.on, `INI IO`);
 &nbsp;
 io.on('connect_error', <span class="fstat-no" title="function not covered" >(e</span>rr) =&gt; {
-<span class="cstat-no" title="statement not covered" >  console.log(`connect_error due to ${err.message}`);</span>
+  // console.log(`connect_error due to ${err.message}`);
 });
 &nbsp;
 io.on('connection', (socket) =&gt; {
   // all socket listener here
 &nbsp;
-  console.log(`user ${socket.id} connected`);
-  socket.on('joinRoom', ({ sellerId, buyerId }) =&gt; {
-    const roomname = `chat-seller-${sellerId}-buyer-${buyerId}`;
+  // console.log(`user ${socket.id} connected`);
+  socket.on('joinRoom', <span class="fstat-no" title="function not covered" >({</span> sellerId, buyerId }) =&gt; {
+    const roomname = <span class="cstat-no" title="statement not covered" >`chat-seller-${sellerId}-buyer-${buyerId}`;</span>
     // Join to room
-    console.log(roomname);
-    socket.join(roomname);
+    // console.log(roomname);
+<span class="cstat-no" title="statement not covered" >    socket.join(roomname);</span>
   });
 &nbsp;
-  socket.on('chat', ({ message }) =&gt; {
-    const roomname = `chat-seller-${message.SellerId}-buyer-${message.BuyerId}`;
-    Chat.create(message);
-    console.log(message);
-    console.log(roomname);
+  socket.on('chat', <span class="fstat-no" title="function not covered" >({</span> message }) =&gt; {
+    const roomname = <span class="cstat-no" title="statement not covered" >`chat-seller-${message.SellerId}-buyer-${message.BuyerId}`;</span>
+<span class="cstat-no" title="statement not covered" >    Chat.create(message);</span>
+    // console.log(message);
+    // console.log(roomname);
 &nbsp;
-    io.in(roomname).emit('message', message);
+<span class="cstat-no" title="statement not covered" >    io.in(roomname).emit('message', message);</span>
   });
 });
 &nbsp;
@@ -172,7 +172,7 @@ module.exports = io;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Wed Sep 22 2021 20:10:52 GMT+0700 (Western Indonesia Time)
+                at Thu Sep 23 2021 00:06:17 GMT+0700 (Western Indonesia Time)
             </div>
         </div>
         <script src="../prettify.js"></script>
