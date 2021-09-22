@@ -25,11 +25,11 @@ async function checkIngredients(req, res, next) {
       if (score == 1 || score == 2) status = 'Warn';
       if (score == 3) status = 'Harmful';
       if (score > 3) status = 'Reject';
-      console.log(
-        score,
-        status,
-        'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'
-      );
+      // console.log(
+      //   score,
+      //   status,
+      //   'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'
+      // );
 
       req.body.ingridient = output.map((el) =>
         el

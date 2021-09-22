@@ -19,7 +19,7 @@ class SellerController {
         where: { email },
       });
 
-      console.log(user);
+      // console.log(user);
 
       if (user) {
         if (checkPassword(password, user.password)) {
@@ -166,7 +166,7 @@ class SellerController {
         brand,
       } = req.body;
 
-      console.log(req.body, `INI BODY`);
+      // console.log(req.body, `INI BODY`);
 
       if (status === 'Reject')
         throw {
