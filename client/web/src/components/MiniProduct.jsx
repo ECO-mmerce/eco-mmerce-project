@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { addCart } from '../stores/action';
+import Button from '@material-tailwind/react/Button';
 
 export default function MiniProduct({ products }) {
   const dispatch = useDispatch();
@@ -45,18 +46,31 @@ export default function MiniProduct({ products }) {
             );
           })}
           <p className="leading-relaxed text-base mb-4">
-            Rp {products.price.toLocaleString('id-ID')}, 00
+            IDR {products.price.toLocaleString('id-ID')}, 00
           </p>
         </Link>
-        {localStorage.access_token && user_role !== 'seller' ? (
-          <button
-            type="button"
-            onClick={(e) => addToCart(e, products.id)}
-            className="bg-green-400 hover:bg-green-600 text-white font-bold p-2 w-32 rounded-lg"
-          >
-            Add to Cart
-          </button>
-        ) : null}
+        <div className="items-center">
+          {localStorage.access_token && user_role === 'buyer' ? (
+            <Button
+              color="teal"
+              onClick={(e) => addToCart(e, products.id)}
+              ripple="light"
+            >
+              <svg
+                className="mr-4"
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="bi bi-cart3"
+                viewBox="0 0 16 16"
+              >
+                <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l.84 4.479 9.144-.459L13.89 4H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+              </svg>
+              Add to Cart
+            </Button>
+          ) : null}
+        </div>
       </div>
     </div>
   );

@@ -1,14 +1,23 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchSellerProduct } from '../stores/action';
 import { Link, useParams, useHistory } from 'react-router-dom';
 import { deleteSellerProduct } from '../stores/action';
 
+import Modal from '@material-tailwind/react/Modal';
+import ModalHeader from '@material-tailwind/react/ModalHeader';
+import ModalBody from '@material-tailwind/react/ModalBody';
+import ModalFooter from '@material-tailwind/react/ModalFooter';
+import Button from '@material-tailwind/react/Button';
+
 export default function SellerProductDetail() {
-  const dispatch = useDispatch();
-  const history = useHistory();
-  const sellerProduct = useSelector((state) => state.sellerProduct);
   const { id } = useParams();
+  const history = useHistory();
+  const dispatch = useDispatch();
+
+  const [showModal, setShowModal] = useState(false);
+
+  const sellerProduct = useSelector((state) => state.sellerProduct);
 
   useEffect(() => {
     dispatch(fetchSellerProduct(id));
@@ -17,6 +26,15 @@ export default function SellerProductDetail() {
   const deleteProduct = (id) => {
     dispatch(deleteSellerProduct(id));
     history.push('/seller');
+  };
+
+  const toEditPage = (id) => {
+    history.push(`/seller/products/edit/${id}`);
+  };
+
+  const cancelBtn = (e) => {
+    e.preventDefault();
+    setShowModal(false);
   };
 
   return (
@@ -65,18 +83,80 @@ export default function SellerProductDetail() {
               <span className="title-font font-medium text-2xl text-gray-900">
                 Rp {sellerProduct?.price?.toLocaleString('id-ID')}, 00
               </span>
-              <Link
-                to={`/seller/products/edit/${sellerProduct.id}`}
-                className="flex ml-auto text-white bg-green-500 border-0 py-2 px-6 focus:outline-none hover:bg-green-600 rounded"
+              <Button
+                className="flex ml-auto"
+                color="teal"
+                onClick={(e) => toEditPage(sellerProduct.id)}
+                ripple="light"
               >
-                Edit Product
-              </Link>
-              <button
-                onClick={() => deleteProduct(sellerProduct.id)}
-                className="flex ml-auto text-white bg-green-500 border-0 py-2 px-6 focus:outline-none hover:bg-green-600 rounded"
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  fill="currentColor"
+                  class="bi bi-pencil-square"
+                  viewBox="0 0 16 16"
+                >
+                  <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                  <path
+                    fill-rule="evenodd"
+                    d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"
+                  />
+                </svg>
+                <span className="ml-2">Edit Product</span>
+              </Button>
+
+              <Button
+                className="flex mx-6"
+                color="teal"
+                onClick={() => setShowModal(true)}
+                ripple="light"
               >
-                Delete Product
-              </button>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  fill="currentColor"
+                  class="bi bi-trash"
+                  viewBox="0 0 16 16"
+                >
+                  <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+                  <path
+                    fill-rule="evenodd"
+                    d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"
+                  />
+                </svg>
+                <span className="ml-2">Delete Product</span>
+              </Button>
+
+              <Modal size="sm" active={showModal} toggler={(e) => cancelBtn(e)}>
+                <ModalHeader toggler={(e) => cancelBtn(e)}>
+                  Delete Product
+                </ModalHeader>
+                <ModalBody>
+                  <p className="text-base leading-relaxed text-gray-600 font-normal">
+                    Are you sure ? This action cannot be undone !
+                  </p>
+                </ModalBody>
+                <ModalFooter>
+                  <Button
+                    color="red"
+                    buttonType="button"
+                    onClick={(e) => cancelBtn(e)}
+                    ripple="dark"
+                  >
+                    Cancel
+                  </Button>
+
+                  <Button
+                    color="green"
+                    onClick={(e) => deleteProduct(sellerProduct.id)}
+                    ripple="light"
+                  >
+                    Proceed
+                  </Button>
+                </ModalFooter>
+              </Modal>
             </div>
           </div>
         </div>

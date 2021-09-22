@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import { fetchProduct, setChatWith, addCart } from '../stores/action';
 import SocketContext from '../config/socket';
+import Button from '@material-tailwind/react/Button';
 
 export default function ProductDetails() {
   const { user_id, user_role } = useSelector(({ user_id, user_role }) => {
@@ -99,12 +100,28 @@ export default function ProductDetails() {
               <span className="title-font font-medium text-2xl text-gray-900">
                 Rp {product?.price?.toLocaleString('id-ID')}, 00
               </span>
-              <button
-                onClick={(e) => addToCart(e, product.id)}
-                className="flex ml-auto text-white bg-green-500 border-0 py-2 px-6 focus:outline-none hover:bg-green-600 rounded"
-              >
-                Add to Cart
-              </button>
+              <div className="flex ml-auto">
+                {localStorage.access_token ? (
+                  <Button
+                    color="teal"
+                    onClick={(e) => addToCart(e, product.id)}
+                    ripple="light"
+                  >
+                    <svg
+                      className="mr-4"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      fill="currentColor"
+                      class="bi bi-cart3"
+                      viewBox="0 0 16 16"
+                    >
+                      <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l.84 4.479 9.144-.459L13.89 4H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+                    </svg>
+                    Add to Cart
+                  </Button>
+                ) : null}
+              </div>
             </div>
           </div>
         </div>
