@@ -49,6 +49,7 @@ let buyerId = 0;
 let buyerToken = '';
 let categoryId = 0;
 let productId = 0;
+let productId2 = 0;
 const notFoundProductId = 10;
 
 beforeAll(async () => {
@@ -90,6 +91,30 @@ beforeAll(async () => {
     UserId: seller.id,
   });
 
+  const product2 = await Product.create(
+    {
+      name,
+      price,
+      stock,
+      weight,
+      status,
+      description,
+      ingridient,
+      UserId: seller.id,
+      picture,
+      CategoryId: category.id,
+      harmfulIngridient,
+      Brands: { name: brand },
+    },
+    { include: [Brand] }
+  );
+  productId2 = product2.id;
+
+  await UsersProduct.create({
+    ProductId: product2.id,
+    UserId: seller.id,
+  });
+
   await Cart.bulkCreate([
     {
       UserId: buyer.id,
@@ -98,6 +123,10 @@ beforeAll(async () => {
     {
       UserId: buyer.id,
       ProductId: product.id,
+    },
+    {
+      UserId: buyer.id,
+      ProductId: product2.id,
     },
   ]);
 });
@@ -242,6 +271,29 @@ describe('GET /buyers/products/:id [failed]', () => {
       .catch((err) => done(err));
   });
 });
+
+// HMMMMMMMMMMMMMMMMMMMMMMMMMMM
+// describe('GET /buyers/checkIngredients [success]', () => {
+//   test('Should return {ingridients} [200]', (done) => {
+//     request(app)
+//       .get('/buyers/checkIngredients')
+//       .then((response) => {
+//         expect(response.status).toBe(200);
+//         expect(response.body).toEqual(
+//           expect.objectContaining({
+//             ingridients: expect.objectContaining({
+//               ingridient: expect.arrayContaining([expect.any(String)]),
+//               harmfulIngridient: expect.arrayContaining([expect.any(String)]),
+//             }),
+//           })
+//         );
+//         done();
+//       })
+//       .catch((err) => done(err));
+//   });
+// });
+
+// Auth-N Auth-Z
 
 describe('POST /buyers/carts [success]', () => {
   test('Should return {message: Successfully added product to cart!} [201]', (done) => {
@@ -440,7 +492,7 @@ describe('DELETE /buyers/carts [failed]', () => {
 describe('POST /buyers/checkout [success]', () => {
   test('Should return {token, redirect_url} [201]', (done) => {
     request(app)
-      .post('/buyers/checkout')
+      .post('/buyers/carts/checkout')
       .set('access_token', buyerToken)
       .set('Accept', appJSON)
       .then((response) => {
@@ -458,7 +510,7 @@ describe('POST /buyers/checkout [success]', () => {
 });
 
 describe('GET /buyers/history [success]', () => {
-  test('Should return [{}] [200]', (done) => {
+  test('Should return [{ProductId, UserId, createdAt, Product}] [200]', (done) => {
     request(app)
       .get('/buyers/history')
       .set('access_token', buyerToken)
