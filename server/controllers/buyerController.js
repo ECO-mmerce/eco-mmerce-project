@@ -473,13 +473,9 @@ class BuyerController {
     try {
       const { ingridient, status, harmfulIngridient } = req.body;
 
-      if (status > 3)
-        throw {
-          name: 'Bad Request',
-          message: `Rejected! Eco-mmerce can not tolerate your dangerous product`,
-        };
-
-      res.status(200).json({ ingridients: { ingridient, harmfulIngridient } });
+      res
+        .status(200)
+        .json({ ingridients: { ingridient, status, harmfulIngridient } });
     } catch (error) {
       next(error);
     }
