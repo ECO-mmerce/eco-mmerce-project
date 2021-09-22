@@ -8,7 +8,8 @@ const formData = 'multipart/form-data';
 
 const image = `${__dirname}/cover.png`;
 const ingredients = `${__dirname}/eco.jpg`;
-const reject = `${__dirname}/reject.jpg`;
+// const reject = `${__dirname}/reject.jpg`;
+const reject = '/home/dita/h8/eco-mmerce-project/server/tests/reject.jpg';
 const notImageFormat = `${__dirname}/notImageFormat`;
 
 const name = 'name';
