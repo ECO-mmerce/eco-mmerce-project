@@ -6,6 +6,7 @@ const {
   Category,
   Brand,
   Cart,
+  Transaction,
 } = require('../models');
 const request = require('supertest');
 const { signToken } = require('../helpers/jwt');
@@ -50,8 +51,8 @@ const ingredients = `${__dirname}/eco.jpg`;
 
 let buyerId = 0;
 let buyerToken = '';
+let buyerOrder = '';
 let sellerToken = '';
-let categoryId = 0;
 let productId = 0;
 let productId2 = 0;
 const notFoundProductId = 10;
@@ -70,6 +71,7 @@ beforeAll(async () => {
 
   const buyer = await User.create(buyerCreator);
   buyerId = buyer.id;
+  buyerOrder = `Order-${buyer.firstName}${buyer.email}-Code-${Date.now()}`;
   buyerToken = signToken({
     id: buyer.id,
     email: buyer.email,
@@ -138,6 +140,11 @@ beforeAll(async () => {
       ProductId: product2.id,
     },
   ]);
+
+  await Transaction.create({
+    OrderId: buyerOrder,
+    BuyerId: buyer.id,
+  });
 });
 
 afterAll(async () => {
@@ -282,7 +289,7 @@ describe('GET /buyers/products/:id [failed]', () => {
 });
 
 describe('POST /buyers/checkIngredients [success]', () => {
-  test('Should return {ingridients} [200]', (done) => {
+  test('Should return {ingridients: ingridient, status, harmfulIngridient} [200]', (done) => {
     request(app)
       .post('/buyers/checkIngredients')
       .set('Content-Type', formData)
@@ -550,6 +557,28 @@ describe('POST /buyers/checkout [success]', () => {
           expect.objectContaining({
             token: expect.any(String),
             redirect_url: expect.any(String),
+          })
+        );
+        done();
+      })
+      .catch((err) => done(err));
+  });
+});
+
+// MIDTRANS (NO auth)
+describe('POST /buyers/paymenthandling [success]', () => {
+  test('Should return {message} [201]', (done) => {
+    request(app)
+      .post('/buyers/paymenthandling')
+      .send({
+        order_id: buyerOrder,
+        transaction_status: 'capture',
+      })
+      .then((response) => {
+        expect(response.status).toBe(200);
+        expect(response.body).toEqual(
+          expect.objectContaining({
+            message: 'OK',
           })
         );
         done();
