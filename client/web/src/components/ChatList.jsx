@@ -20,14 +20,18 @@ export default function ChatList() {
     dispatch(fetchChatList());
   }, [dispatch]);
 
-  const goToChatRoom = (buyerId, buyerName) => () => {
-    dispatch(setChatWith({ id: buyerId, name: buyerName })); // dapet dari hasil getAll chat
+  const goToChatRoom = (buyerId, buyerName, buyerPicture) => () => {
+    dispatch(
+      setChatWith({ id: buyerId, name: buyerName, picture: buyerPicture })
+    ); // dapet dari hasil getAll chat
     socket.emit('joinRoom', {
       sellerId: user_id,
       buyerId: buyerId,
     });
     history.push('/chat');
   };
+
+  console.log(chatList);
 
   return (
     <div>
@@ -37,7 +41,11 @@ export default function ChatList() {
           return (
             <button
               className="bg-green-500 px-4 py-1 text-white rounded hover:bg-green-600"
-              onClick={goToChatRoom(chatItem.BuyerId, buyerName)}
+              onClick={goToChatRoom(
+                chatItem.BuyerId,
+                buyerName,
+                chatItem.User.picture
+              )}
               key={'chatitem-' + i}
             >
               {buyerName}

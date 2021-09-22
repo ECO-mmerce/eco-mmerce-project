@@ -3,6 +3,12 @@ import { useDispatch } from 'react-redux';
 import { removeQty, deleteCart } from '../stores/action';
 import { addCart } from '../stores/action';
 
+import Modal from '@material-tailwind/react/Modal';
+import ModalHeader from '@material-tailwind/react/ModalHeader';
+import ModalBody from '@material-tailwind/react/ModalBody';
+import ModalFooter from '@material-tailwind/react/ModalFooter';
+import Button from '@material-tailwind/react/Button';
+
 export default function CartItem({ data }) {
   const dispatch = useDispatch();
   const [modal, setModal] = useState(false);
@@ -10,7 +16,7 @@ export default function CartItem({ data }) {
   const getPriceForQty = (price, qty) => {
     let result = price * qty;
 
-    return `Rp ${result.toLocaleString()}, 00`;
+    return `IDR ${result.toLocaleString()}, 00`;
   };
 
   const deleteHandler = (id) => {
@@ -18,83 +24,74 @@ export default function CartItem({ data }) {
     dispatch(deleteCart(id));
   };
 
+  const cancelBtn = (e) => {
+    e.preventDefault();
+    setModal(false);
+  };
+
   return (
-    <div className="my-3 flex justify-between items-center text-xl">
+    <div className="my-3 flex items-center text-xl">
       <div className="flex items-center">
         <img className="h-20" src={data.Product.picture} alt="Item Image" />
         <tdata>{data.Product.name}</tdata>
       </div>
       <tdata>Rp {data.Product.price.toLocaleString()}, 00</tdata>
       <tdata>
-        <button
-          className="mr-2"
-          onClick={() => dispatch(removeQty(data.Product.id))}
-        >
-          -
-        </button>
-        {data.Product.qty}
-        <button
-          className="ml-2"
-          onClick={() => dispatch(addCart(data.Product.id))}
-        >
-          +
-        </button>
+        <div className="custom-number-input h-10 w-32">
+          <div className="flex flex-row h-10 w-full rounded-lg relative bg-transparent mt-1">
+            <button
+              onClick={() => dispatch(removeQty(data.Product.id))}
+              className=" bg-gray-100 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-20 rounded-l"
+            >
+              <span className="m-auto text-2xl font-thin">−</span>
+            </button>
+            <input
+              disabled={true}
+              type="number"
+              className="text-center w-full bg-gray-100 text-md md:text-basecursor-default flex items-center text-green-600  outline-none"
+              name="custom-input-number"
+              value={data.Product.qty}
+            />
+            <button
+              onClick={() => dispatch(addCart(data.Product.id))}
+              className="bg-gray-100 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-20 rounded-r"
+            >
+              <span className="m-auto text-2xl font-thin">+</span>
+            </button>
+          </div>
+        </div>
       </tdata>
       <tdata>{getPriceForQty(data.Product.price, data.Product.qty)}</tdata>
-      <button
-        onClick={() => setModal(true)}
-        className="bg-red-400 text-white px-3 py-1 rounded-lg"
-      >
-        delete
-      </button>
+      <Button color="red" onClick={(e) => setModal(true)} ripple="light">
+        Delete
+      </Button>
 
-      {modal ? (
-        <>
-          <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-            <div className="relative w-auto my-6 mx-auto max-w-3xl">
-              {/*content*/}
-              <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
-                {/*header*/}
-                <div className="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
-                  <h3 className="text-3xl font-semibold">Delete Item ?</h3>
-                  <button
-                    className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
-                    onClick={() => setModal(false)}
-                  >
-                    <span className="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
-                      ×
-                    </span>
-                  </button>
-                </div>
-                {/*body*/}
-                <div className="relative p-6 flex-auto">
-                  <h3 className="my-4 text-blueGray-500 text-lg leading-relaxed">
-                    Are you sure you want to delete this item form your cart ?
-                  </h3>
-                </div>
-                {/*footer*/}
-                <div className="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
-                  <button
-                    className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                    type="button"
-                    onClick={() => setModal(false)}
-                  >
-                    Close
-                  </button>
-                  <button
-                    className="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                    type="button"
-                    onClick={() => deleteHandler(data.Product.id)}
-                  >
-                    Proceed
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
-        </>
-      ) : null}
+      <Modal size="sm" active={modal} toggler={(e) => cancelBtn(e)}>
+        <ModalHeader toggler={(e) => cancelBtn(e)}>Delete Product</ModalHeader>
+        <ModalBody>
+          <p className="text-base leading-relaxed text-gray-600 font-normal">
+            Are you sure ? This action cannot be undone !
+          </p>
+        </ModalBody>
+        <ModalFooter>
+          <Button
+            color="red"
+            buttonType="button"
+            onClick={(e) => cancelBtn(e)}
+            ripple="dark"
+          >
+            Cancel
+          </Button>
+
+          <Button
+            color="green"
+            onClick={(e) => deleteHandler(data.Product.id)}
+            ripple="light"
+          >
+            Proceed
+          </Button>
+        </ModalFooter>
+      </Modal>
     </div>
   );
 }
