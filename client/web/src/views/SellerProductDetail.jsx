@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchSellerProduct } from '../stores/action';
-import { Link, useParams, useHistory } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import { deleteSellerProduct } from '../stores/action';
 
+import Alert from '@material-tailwind/react/Alert';
 import Modal from '@material-tailwind/react/Modal';
-import ModalHeader from '@material-tailwind/react/ModalHeader';
-import ModalBody from '@material-tailwind/react/ModalBody';
-import ModalFooter from '@material-tailwind/react/ModalFooter';
 import Button from '@material-tailwind/react/Button';
+import ModalBody from '@material-tailwind/react/ModalBody';
+import ModalHeader from '@material-tailwind/react/ModalHeader';
+import ModalFooter from '@material-tailwind/react/ModalFooter';
 
 export default function SellerProductDetail() {
   const { id } = useParams();
@@ -38,15 +39,15 @@ export default function SellerProductDetail() {
   };
 
   return (
-    <section className="text-gray-600 body-font overflow-hidden">
-      <div className="container px-5 py-24 mx-auto">
-        <div className="lg:w-4/5 mx-auto flex flex-wrap">
+    <section className="text-gray-600 flex body-font overflow-hidden">
+      <div className="container lg:px-5 md:py-12 lg:py-24 mx-auto">
+        <div className="lg:w-4/5 mx-auto flex">
           <img
             alt="product"
-            className="lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center rounded"
+            className="lg:w-2/5 sm:1/6 object-cover object-center rounded"
             src={sellerProduct?.picture}
           />
-          <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
+          <div className="lg:w-1/2 md:w-full sm:w-full w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
             {sellerProduct?.Brands?.map((el) => {
               return (
                 <h2
@@ -78,6 +79,34 @@ export default function SellerProductDetail() {
             <p className="leading-relaxed text-sm font-style: italic mt-5">
               Ingredients : {sellerProduct?.ingridient?.join(', ')}.
             </p>
+            <p className="leading-relaxed text-sm font-style: italic">
+              Stock : {sellerProduct?.stock}
+            </p>
+            <p className="leading-relaxed text-sm font-style: italic mb-5">
+              Weight : {sellerProduct?.weight} kg
+            </p>
+
+            {sellerProduct?.status === 'Eco' ? (
+              <Alert buttonText="test" color="green">
+                <b>ECO!</b> This Product is Eco Friendly !
+              </Alert>
+            ) : sellerProduct?.status === 'Warn' ? (
+              <Alert buttonText="test" color="orange">
+                <b>WARN!</b> This Product Contain{' '}
+                {sellerProduct?.harmfulIngridient?.includes('')
+                  ? ''
+                  : sellerProduct?.harmfulIngridient?.length}{' '}
+                non-Eco friendly ingrident, which is "
+                {sellerProduct.harmfulIngridient.join(', ')}".
+              </Alert>
+            ) : (
+              <Alert buttonText="test" color="red">
+                <b>HARMFUL!</b> This Product is HARMFUL for our environment. It
+                contains {sellerProduct?.harmfulIngridient?.length} non-Eco
+                friendly ingridents, which is "
+                {sellerProduct?.harmfulIngridient?.join(', ')}".
+              </Alert>
+            )}
 
             <div className="flex mt-10">
               <span className="title-font font-medium text-2xl text-gray-900">
@@ -86,7 +115,7 @@ export default function SellerProductDetail() {
               <Button
                 className="flex ml-auto"
                 color="teal"
-                onClick={(e) => toEditPage(sellerProduct.id)}
+                onClick={() => toEditPage(sellerProduct.id)}
                 ripple="light"
               >
                 <svg

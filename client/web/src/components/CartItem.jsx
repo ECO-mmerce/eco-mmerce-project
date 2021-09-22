@@ -30,7 +30,7 @@ export default function CartItem({ data }) {
   };
 
   return (
-    <div className="my-3 flex justify-between items-center text-xl">
+    <div className="my-3 flex items-center text-xl">
       <div className="flex items-center">
         <img className="h-20" src={data.Product.picture} alt="Item Image" />
         <tdata>{data.Product.name}</tdata>

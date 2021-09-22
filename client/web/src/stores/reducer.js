@@ -26,6 +26,7 @@ const initialState = {
   messages: [],
   chatWithId: 0,
   chatWithName: '',
+  chatWithPicture: '',
   products: [],
   product: {},
   cart: [],
@@ -71,6 +72,7 @@ export default function reducer(state = initialState, action) {
         ...state,
         chatWithId: action.payload.id,
         chatWithName: action.payload.name,
+        chatWithPicture: action.payload.picture,
       };
     case PRODUCTS_SET:
       return {
