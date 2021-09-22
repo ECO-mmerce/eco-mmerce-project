@@ -457,7 +457,7 @@ class BuyerController {
           },
         });
 
-        const { UserId } = find;
+        const { BuyerId: UserId } = find;
 
         // Get all cart from this user
         const currentCart = await Cart.findAll({
