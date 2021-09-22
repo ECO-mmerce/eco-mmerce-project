@@ -16,9 +16,12 @@ export default function AddNewProduct() {
   const history = useHistory();
   const formAddProduct = useRef(null);
   const dispatch = useDispatch();
+
   const [productImage, setProductImage] = useState('');
-  const [showModal, setShowModal] = useState(false);
   const [ingredientsImage, setIngredientsImage] = useState('');
+
+  const [loading, setLoading] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   const toastOptions = {
     position: 'bottom-right',
@@ -34,14 +37,20 @@ export default function AddNewProduct() {
     e.preventDefault();
     const formData = new FormData(formAddProduct.current);
 
+    setLoading(true);
+
     if (!formData) {
       setShowModal(false);
       toast.error('All the required field must be filled !', toastOptions);
     } else {
-      setShowModal(false);
       dispatch(addProduct(formData)).then((data) => {
         if (data) {
+          setLoading(false);
+          setShowModal(false);
           history.push('/seller');
+        } else {
+          setLoading(false);
+          setShowModal(false);
         }
       });
     }
@@ -245,6 +254,21 @@ export default function AddNewProduct() {
                   Are you sure ? All uploaded pictures cannot be edited, but you
                   can edit other stuff later.
                 </p>
+
+                {loading ? (
+                  <center>
+                    <lottie-player
+                      src="https://assets2.lottiefiles.com/packages/lf20_x9pEKm.json"
+                      background="transparent"
+                      speed="0.5"
+                      style={{ width: 100, height: 100 }}
+                      loop
+                      autoplay
+                    />
+                  </center>
+                ) : (
+                  ''
+                )}
               </ModalBody>
               <ModalFooter>
                 <Button

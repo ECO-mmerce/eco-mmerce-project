@@ -15,7 +15,7 @@ import {
 } from './actionType';
 import { toast } from 'react-toastify';
 
-const baseUrl = 'http://localhost:4000';
+const baseUrl = 'http://ecommerce.marcotiger.my.id';
 
 const toastOptions = {
   position: 'bottom-right',
@@ -475,6 +475,31 @@ export function deleteCart(id) {
       }
     } catch (err) {
       console.log(err);
+    }
+  };
+}
+
+export function scanProduct(payload) {
+  return async function (dispatch, getState) {
+    try {
+      const response = await fetch(baseUrl + '/buyers/checkIngredients', {
+        method: 'POST',
+        headers: {
+          access_token: localStorage.access_token,
+          Accept: 'application/json',
+        },
+        body: payload,
+      });
+
+      const data = await response.json();
+
+      console.log(response, `INI RESPONSE`);
+
+      if (response.status == 200) {
+        return data;
+      }
+    } catch (err) {
+      return err;
     }
   };
 }

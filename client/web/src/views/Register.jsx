@@ -3,8 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 import Button from '@material-tailwind/react/Button';
 import Input from '@material-tailwind/react/Input';
-import PhoneInput from 'react-phone-input-2';
-import 'react-phone-input-2/lib/material.css';
 
 import { register } from '../stores/action';
 

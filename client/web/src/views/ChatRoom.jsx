@@ -86,23 +86,27 @@ export default function ChatRoom() {
 
   const handleSend = (e) => {
     e.preventDefault();
-    socket.emit('chat', {
-      message: {
-        BuyerId: user_role === 'buyer' ? user_id : chatWithId,
-        SellerId: user_role === 'buyer' ? chatWithId : user_id,
-        message: chat,
-        fullName: user_firstName + ' ' + user_lastName,
-      },
-    });
+    if (chat !== '') {
+      socket.emit('chat', {
+        message: {
+          BuyerId: user_role === 'buyer' ? user_id : chatWithId,
+          SellerId: user_role === 'buyer' ? chatWithId : user_id,
+          message: chat,
+          fullName: user_firstName + ' ' + user_lastName,
+        },
+      });
+    }
     setChat('');
   };
 
   return (
-<div className="h-screen w-screen px-10 pt-10 pb-32 flex justify-center">
+    <div className="h-screen w-screen px-10 pt-10 pb-32 flex justify-center">
       <div className=" w-1/2 h-full flex flex-col items-start bg-gray-200 rounded-3xl border-8 border-gray-300">
-        <div className="flex items-center">
+        <div className="flex p-5 items-center">
           <Image src={chatWithPicture} className="m-2 w-1/12" rounded />
-          <h1 className="text-lg font-bold w-10/12 text-left">{chatWithName}</h1>
+          <h1 className="text-lg font-bold w-10/12 text-left">
+            {chatWithName}
+          </h1>
         </div>
         <div className="h-full w-full bg-white mb-3 overflow-y-scroll">
           <ChatBox
@@ -115,7 +119,7 @@ export default function ChatRoom() {
           <div ref={messageEndRef} />
         </div>
 
-        <div
+        {/* <div
           class="w-full rounded-b-2xl bg-gray-200 px-10 pb-10 pt-2 text-gray-800 overflow-hidden"
           x-data="app()"
           x-init="generatePassword()"
@@ -147,76 +151,54 @@ export default function ChatRoom() {
               </button>
             </form>
           </div>
+        </div> */}
+
+        <div class="w-full mx-auto rounded-xl p-5 bg-gray-100 shadow-lg text-gray-800 overflow-hidden max-w-3xl">
+          <div class="mt-1">
+            <form onSubmit={(e) => handleSend(e)}>
+              <div className="flex flex-col">
+                <div className="flex pb-6">
+                  <Input
+                    type="text"
+                    color="green"
+                    size="regular"
+                    outline={false}
+                    placeholder="Input"
+                    value={chat}
+                    placeholder="Enter Your Message"
+                    onChange={(e) => setChat(e.target.value)}
+                  />
+
+                  <Button
+                    className="ml-2"
+                    color="green"
+                    buttonType="link"
+                    size="regular"
+                    rounded={true}
+                    block={false}
+                    iconOnly={false}
+                    ripple="light"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      fill="currentColor"
+                      className="bi bi-arrow-90deg-right"
+                      viewBox="0 0 16 16"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M14.854 4.854a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708.708L13.293 4H3.5A2.5 2.5 0 0 0 1 6.5v8a.5.5 0 0 0 1 0v-8A1.5 1.5 0 0 1 3.5 5h9.793l-3.147 3.146a.5.5 0 0 0 .708.708l4-4z"
+                      />
+                    </svg>
+                  </Button>
+                </div>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </div>
   );
 }
-
-//     <div className="h-screen w-screen px-10 pt-10 pb-32 flex justify-center">
-//       <div className=" w-1/2 h-full flex flex-col items-start bg-gray-200 rounded-3xl border-8 border-gray-300">
-//         <div className="grid grid-cols-2">
-//           <div className="w-14 my-2 mx-2 flex">
-//             <Image src={chatWithPicture} rounded />
-//           </div>
-//           <div className="flex mt-6">
-//             <h1 className="text-xl font-bold">{chatWithName}</h1>
-//           </div>
-//         </div>
-
-//         <div className="h-full w-full bg-white mb-3 overflow-y-scroll">
-//           <ChatBox
-//             messages={messages}
-//             user_firstName={user_firstName}
-//             user_lastName={user_lastName}
-//             user_picture={user_picture}
-//             chatWithPicture={chatWithPicture}
-//           />
-//           <div ref={messageEndRef} />
-//         </div>
-
-//         <div class="w-full mx-auto rounded-xl p-5 bg-gray-100 shadow-lg text-gray-800 overflow-hidden max-w-3xl">
-//           <div class="mt-1">
-//             <form onSubmit={(e) => handleSend(e)}>
-//               <div className="flex flex-col">
-//                 <div className="flex pb-6">
-//                   <Input
-//                     type="text"
-//                     color="green"
-//                     size="regular"
-//                     outline={false}
-//                     placeholder="Input"
-//                     value={chat}
-//                     placeholder="Enter Your Message"
-//                     onChange={(e) => setChat(e.target.value)}
-//                   />
-
-//                   <Button
-//                     className="ml-2"
-//                     color="green"
-//                     buttonType="link"
-//                     size="regular"
-//                     rounded={true}
-//                     block={false}
-//                     iconOnly={false}
-//                     ripple="light"
-//                   >
-//                     <svg
-//                       xmlns="http://www.w3.org/2000/svg"
-//                       width="24"
-//                       height="24"
-//                       fill="currentColor"
-//                       className="bi bi-arrow-90deg-right"
-//                       viewBox="0 0 16 16"
-//                     >
-//                       <path
-//                         fill-rule="evenodd"
-//                         d="M14.854 4.854a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708.708L13.293 4H3.5A2.5 2.5 0 0 0 1 6.5v8a.5.5 0 0 0 1 0v-8A1.5 1.5 0 0 1 3.5 5h9.793l-3.147 3.146a.5.5 0 0 0 .708.708l4-4z"
-//                       />
-//                     </svg>
-//                   </Button>
-//                 </div>
-//               </div>
-//             </form>
-//           </div>
-//         </div>

@@ -45,8 +45,8 @@ export default function Cart() {
         <h1 className="text-5xl font-bold my-5 px-5 text-white">My Cart</h1>
         <div className="w-full bg-white p-7 rounded-xl">
           <div>
-            {cart.length !== 0 ? (
-              cart.map((el) => {
+            {cart?.length !== 0 ? (
+              cart?.map((el) => {
                 return <CartItem key={el.Product.id} data={el} />;
               })
             ) : (

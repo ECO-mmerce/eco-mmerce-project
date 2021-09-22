@@ -5,25 +5,26 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
+import { checkToken } from './stores/action';
+import SocketContext, { socket } from './config/socket';
 
-import Navbar from './components/Navbar';
-import Footer from './components/Footer';
 import Home from './views/Home';
 import Cart from './components/Cart';
-import History from './views/History';
 import Login from './views/Login';
-import Register from './views/Register';
-import AddNewProduct from './views/AddNewProduct';
-import Products from './views/Products';
-import ProductDetails from './views/ProductDetails';
-import UserDashboard from './views/UserDashboard';
 import Orders from './views/Orders';
-import { checkToken } from './stores/action';
+import Navbar from './components/Navbar';
+import Footer from './components/Footer';
+import History from './views/History';
 import ChatRoom from './views/ChatRoom';
+import Register from './views/Register';
+import Products from './views/Products';
+import ScanProduct from './views/ScanProduct';
+import EditProduct from './views/EditProduct';
+import UserDashboard from './views/UserDashboard';
+import AddNewProduct from './views/AddNewProduct';
+import ProductDetails from './views/ProductDetails';
 import SellerDashboard from './views/SellerDashboard';
 import SellerProductDetail from './views/SellerProductDetail';
-import EditProduct from './views/EditProduct';
-import SocketContext, { socket } from './config/socket';
 
 function App() {
   const dispatch = useDispatch();
@@ -35,7 +36,7 @@ function App() {
   return (
     <SocketContext.Provider value={socket}>
       <BrowserRouter>
-        <div className="App">
+        <div className="App overflow-x-hidden">
           <ToastContainer />
           <Navbar />
           <Switch>
@@ -50,6 +51,9 @@ function App() {
             </Route>
             <Route path="/cart">
               <Cart />
+            </Route>
+            <Route path="/scan">
+              <ScanProduct />
             </Route>
             <Route path="/history">
               <History />
