@@ -409,7 +409,7 @@ class BuyerController {
 
       await Transaction.create({
         OrderId: order_id,
-        UserId: UserId,
+        BuyerId: UserId,
       });
 
       const parameter = {
@@ -457,7 +457,7 @@ class BuyerController {
           },
         });
 
-        const { UserId } = find;
+        const { BuyerId: UserId } = find;
 
         // Get all cart from this user
         const currentCart = await Cart.findAll({
