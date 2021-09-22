@@ -34,7 +34,7 @@ export default function AddNewProduct() {
     e.preventDefault();
     const formData = new FormData(formAddProduct.current);
 
-    if (formData) {
+    if (!formData) {
       setShowModal(false);
       toast.error('All the required field must be filled !', toastOptions);
     } else {
@@ -148,10 +148,9 @@ export default function AddNewProduct() {
                 <option selected disabled hidden>
                   Select Category
                 </option>
-                <option value={1}>Skincare</option>
-                <option value={2}>Cosmetic</option>
-                <option value={3}>Sanitary</option>
-                <option value={4}>Hygene</option>
+                <option value="1">Hair</option>
+                <option value="2">Face</option>
+                <option value="3">Body</option>
               </select>
             </div>
             <div className="flex flex-col items-start my-5">

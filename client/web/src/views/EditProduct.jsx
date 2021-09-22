@@ -142,10 +142,9 @@ export default function EditProduct() {
                 <option value={categoryId} selected hidden>
                   {categoryName}
                 </option>
-                <option value="1">Skincare</option>
-                <option value="2">Cosmetic</option>
-                <option value="3">Sanitary</option>
-                <option value="4">Hygene</option>
+                <option value="1">Hair</option>
+                <option value="2">Face</option>
+                <option value="3">Body</option>
               </select>
             </div>
             <div className="flex flex-col items-start my-5">

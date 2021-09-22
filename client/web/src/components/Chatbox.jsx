@@ -32,6 +32,7 @@ export default function ChatBox({
       </div>
     );
   });
+
   return (
     <div className="flex flex-col">
       {displayMessages}
