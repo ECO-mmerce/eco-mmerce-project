@@ -5,7 +5,7 @@ import { fetchSellerProducts } from '../stores/action';
 import ChatList from '../components/ChatList';
 import SellerProductCard from '../components/SellerProductCard';
 
-export default function SellerDashboard({ socket }) {
+export default function SellerDashboard() {
   const history = useHistory();
   const dispatch = useDispatch();
   const { isLogin, user_role, sellerProducts } = useSelector(
@@ -37,9 +37,7 @@ export default function SellerDashboard({ socket }) {
           <h1 className="text-2xl" style={{ fontSize: 36 }}>
             CHATS
           </h1>
-          <div>
-            {user_role === 'seller' ? <ChatList socket={socket} /> : null}
-          </div>
+          <div>{user_role === 'seller' ? <ChatList /> : null}</div>
         </div>
         <div className="flex justify-between items-center w-full mb-5">
           <h1 style={{ fontSize: 36 }}>MY PRODUCTS</h1>

@@ -29,6 +29,9 @@ router.get(
   BuyerController.ingredientsCheck
 );
 
+// Midtrans handling
+router.post('/paymenthandling', BuyerController.paymentHandling);
+
 router.use(authentication);
 router.use(authorizationBuyer);
 

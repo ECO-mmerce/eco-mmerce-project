@@ -12,6 +12,7 @@ const {
   Cart,
   UsersProduct,
   History,
+  Transaction,
 } = require('../models');
 const _ = require('lodash');
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
@@ -406,6 +407,11 @@ class BuyerController {
       const order_id =
         'Order-' + user.firstName + user.email + '-Code-' + Date.now();
 
+      await Transaction.create({
+        OrderId: order_id,
+        UserId: UserId,
+      });
+
       const parameter = {
         transaction_details: {
           order_id,
@@ -426,6 +432,46 @@ class BuyerController {
 
       if (data) {
         res.status(201).json(data);
+      } else {
+        throw {
+          message: 'Internal Server Error',
+        };
+      }
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  static async paymentHandling(req, res, next) {
+    try {
+      const { order_id, transaction_status } = req.body;
+
+      if (
+        transaction_status === 'capture' ||
+        transaction_status === 'settlement'
+      ) {
+        // Get User ID from this transaction
+        const find = await Transaction.findOne({
+          where: {
+            OrderId: order_id,
+          },
+        });
+
+        const { UserId } = find;
+
+        // Get all cart from this user
+        const currentCart = await Cart.findAll({
+          where: { UserId },
+          attributes: ['ProductId', 'UserId'],
+          include: [
+            {
+              model: Product,
+              attributes: ['price'],
+            },
+          ],
+        });
+
+        // Populate Order history based on cart item
         await currentCart.forEach((el) => {
           History.create({
             ProductId: el.ProductId,
@@ -433,6 +479,7 @@ class BuyerController {
           });
         });
 
+        // Remove all item from Cart
         const checkedOut = await Cart.destroy({ where: { UserId } });
         if (checkedOut === 0) {
           throw {
@@ -440,11 +487,9 @@ class BuyerController {
             message: "You don't have any products in your cart.",
           };
         }
-      } else {
-        throw {
-          message: 'Internal Server Error',
-        };
       }
+
+      res.status(200).json({ message: 'OK' });
     } catch (err) {
       next(err);
     }
@@ -489,7 +534,6 @@ class BuyerController {
       next(error);
     }
   }
-  
 }
 
 module.exports = BuyerController;
