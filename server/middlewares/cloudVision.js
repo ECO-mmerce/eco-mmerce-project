@@ -3,7 +3,6 @@ async function detectIngredients(req, res, next) {
   const vision = require('@google-cloud/vision');
   // Creates a client
   const anotate = new vision.ImageAnnotatorClient();
-
   try {
     // Performs text detection on the image file
 
@@ -44,10 +43,9 @@ async function detectIngredients(req, res, next) {
       } else {
         output = output.toLowerCase().split(', ');
         output[0] = output[0].split(' ').slice(1).join(' ');
-        req.body.ingridient = output;
+        req.output = output;
         next();
       }
-      
     }
   } catch (error) {
     console.log(error);

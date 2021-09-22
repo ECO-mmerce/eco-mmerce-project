@@ -49,10 +49,6 @@ export default function ProductDetails() {
 
   return (
     <section className="text-gray-600 body-font overflow-hidden">
-      {user_role === 'buyer' ? (
-        <button onClick={handleChat}>Go To Chat</button>
-      ) : null}
-
       <div className="container px-5 py-24 mx-auto">
         <div className="lg:w-4/5 mx-auto flex flex-wrap">
           <img
@@ -87,11 +83,18 @@ export default function ProductDetails() {
                 </h2>
               );
             })}
+            {user_role === 'buyer' ? (
+              <button
+                className="bg-green-400 text-white px-4 py-1 rounded-lg my-2"
+                onClick={handleChat}
+              >chat with seller</button>
+            ) : null}
 
             <p className="leading-relaxed mt-5">{product?.description}</p>
             <p className="leading-relaxed text-sm font-style: italic mt-5">
               Ingredients : {product?.ingridient?.join(', ')}.
             </p>
+            <h1 className={`font-bold ${+product.status > 0 ? 'text-red-600' : 'text-green-600'}`}>This Product contains {product.status} harmful ingredients which {+product.status > 1 ? 'are': 'is'}: {product.harmfulIngridient.join(', ')} </h1>
 
             <div className="flex mt-10">
               <span className="title-font font-medium text-2xl text-gray-900">

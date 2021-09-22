@@ -6,22 +6,17 @@ module.exports = {
       'Categories',
       [
         {
-          name: 'Skincare',
+          name: 'Hair',
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
-          name: 'Cosmetic',
+          name: 'Face',
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
-          name: 'Sanitary',
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        },
-        {
-          name: 'Hygiene',
+          name: 'Body',
           createdAt: new Date(),
           updatedAt: new Date(),
         },

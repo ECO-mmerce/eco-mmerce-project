@@ -14,7 +14,7 @@ export default function MiniProduct({ products }) {
   };
 
   return (
-    <div className="p-4">
+    <div className="">
       <div className="bg-gray-100 hover:grow hover:shadow-md p-6 rounded-lg">
         <Link to={`/products/${products.id}`}>
           <img

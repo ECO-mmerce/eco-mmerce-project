@@ -5,8 +5,11 @@ const detectIngredients = require('../middlewares/cloudVision');
 const BuyerController = require('../controllers/buyerController.js');
 const authentication = require('../middlewares/authentication.js');
 const { authorizationBuyer } = require('../middlewares/authorization.js');
+const checkIngredients = require('../middlewares/checkIngredients.js');
+const detectIngredients = require('../middlewares/cloudVision.js');
 const uploadImage = require('../middlewares/imagekit');
 const upload = require('../middlewares/multer');
+const test = require('../middlewares/test.js');
 
 router.post('/login', BuyerController.loginBuyer);
 router.post('/login/google', BuyerController.googleLoginBuyer);

@@ -1,16 +1,18 @@
+const _ = require('lodash');
+
 const { HarmfulIngridient } = require('../models');
 
 async function checkIngredients(req, res, next) {
-  let { ingridient } = req.body;
-  if (ingridient) {
+  let output = req.output;
+  if (output) {
     try {
       let score = 0;
       let bodyHarmfulIngridient = [];
       let harmfulIngridients = await HarmfulIngridient.findAll();
-      ingridient.forEach((ingredient) => {
-        if (ingredient) {
+      output.forEach((output) => {
+        if (output) {
           harmfulIngridients.forEach((harmfulIngridient) => {
-            if (ingredient.includes(harmfulIngridient.name.toLowerCase())) {
+            if (output.includes(harmfulIngridient.name.toLowerCase())) {
               score++;
               bodyHarmfulIngridient.push(harmfulIngridient.name);
             }
@@ -24,12 +26,17 @@ async function checkIngredients(req, res, next) {
           message: `Rejected! Eco-mmerce cannot tolerate your dangerous product`,
         };
 
+      req.body.ingridient = output.map((el) =>
+        el
+          .split(' ')
+          .map((el) => _.capitalize(el))
+          .join(' ')
+      );
       req.body.status = score;
       req.body.harmfulIngridient = bodyHarmfulIngridient;
 
       next();
     } catch (error) {
-      // console.log(error);
       next(error);
     }
   }

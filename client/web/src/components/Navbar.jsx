@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import { setIsLogin, setUser } from '../stores/action';
@@ -9,18 +9,17 @@ import { useGoogleLogout } from 'react-google-login';
 export default function Navbar() {
   const clientId =
     '164658214505-2t0d8gtpcjn6jl331mj2ccdi9lb9f4g1.apps.googleusercontent.com';
-
-  const { user_firstName, user_lastName, user_picture, user_role } =
-    useSelector(
-      ({ user_firstName, user_lastName, user_picture, user_role }) => {
-        return {
-          user_firstName,
-          user_lastName,
-          user_picture,
-          user_role,
-        };
-      }
-    );
+  const { user_firstName, user_lastName, user_picture, isLogin, user_role} = useSelector(
+    ({ user_firstName, user_lastName, user_picture, isLogin, user_role}) => {
+      return {
+        user_firstName,
+        user_lastName,
+        user_picture,
+        isLogin,
+        user_role
+      };
+    }
+  );
 
   const logOut = () => {
     dispatch(
@@ -58,6 +57,35 @@ export default function Navbar() {
     history.push('/login');
   };
 
+  const [dropdownActive, setDropdownActive] = useState(false)
+  function handleDropdown(e) {
+    setDropdownActive(!dropdownActive)
+  }
+
+  let dropdownOptions
+
+  if(!isLogin){
+    dropdownOptions = (
+      <div className="flex flex-col gap-2">
+        <Link to="/login" >login</Link>
+        <Link to="/register" >register</Link>
+      </div>
+    )
+  }else if(user_role === 'seller'){
+    dropdownOptions = (
+      <div className="flex flex-col gap-2">
+        <Link to="/seller/orders" >orders</Link>
+        <Link to="/seller/addproduct" >add products</Link>
+        <button onClick={logOut}>logout</button>
+      </div>
+    )
+  }else {
+    dropdownOptions = (
+      <div className="flex flex-col gap-2">
+        <button onClick={logOut}>logout</button>
+      </div>
+    )
+  }
   return (
     <header class="text-gray-600 body-font">
       <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
