@@ -98,29 +98,12 @@
 <a name='L39'></a><a href='#L39'>39</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">27x</span>
+<span class="cline-any cline-yes">27x</span>
+<span class="cline-any cline-yes">27x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">10x</span>
-<span class="cline-any cline-yes">10x</span>
-<span class="cline-any cline-yes">10x</span>
-<span class="cline-any cline-yes">10x</span>
-<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">27x</span>
+<span class="cline-any cline-yes">25x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -129,35 +112,35 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const { User } = require(`../models`);
 &nbsp;
-async function <span class="fstat-no" title="function not covered" >authorization(</span>req, res, next) {
-<span class="cstat-no" title="statement not covered" >  try {</span>
-    const { id } = <span class="cstat-no" title="statement not covered" >req.user;</span>
-    const verifyUser = <span class="cstat-no" title="statement not covered" >await User.findOne({ where: id });</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >    if (verifyUser.role === 'seller') {</span>
-<span class="cstat-no" title="statement not covered" >      next();</span>
-    } else {
-<span class="cstat-no" title="statement not covered" >      throw {</span>
-        name: 'Forbidden',
-        message: "You don't have an access to do this!",
-      };
-    }
-  } catch (err) {
-<span class="cstat-no" title="statement not covered" >    next(err);</span>
-  }
-}
-&nbsp;
-async function authorizationBuyer(req, res, next) {
+async function authorization(req, res, next) {
   try {
     const { id } = req.user;
     const verifyUser = await User.findOne({ where: id });
-    if (verifyUser.role === 'buyer') {
+&nbsp;
+    if (verifyUser.role === 'seller') {
       next();
     } else {
       throw {
@@ -170,6 +153,23 @@ async function authorizationBuyer(req, res, next) {
   }
 }
 &nbsp;
+async function <span class="fstat-no" title="function not covered" >authorizationBuyer(</span>req, res, next) {
+<span class="cstat-no" title="statement not covered" >  try {</span>
+    const { id } = <span class="cstat-no" title="statement not covered" >req.user;</span>
+    const verifyUser = <span class="cstat-no" title="statement not covered" >await User.findOne({ where: id });</span>
+<span class="cstat-no" title="statement not covered" >    if (verifyUser.role === 'buyer') {</span>
+<span class="cstat-no" title="statement not covered" >      next();</span>
+    } else {
+<span class="cstat-no" title="statement not covered" >      throw {</span>
+        name: 'Forbidden',
+        message: "You don't have an access to do this!",
+      };
+    }
+  } catch (err) {
+<span class="cstat-no" title="statement not covered" >    next(err);</span>
+  }
+}
+&nbsp;
 module.exports = { authorization, authorizationBuyer };
 &nbsp;</pre></td></tr></table></pre>
 
@@ -178,7 +178,7 @@ module.exports = { authorization, authorizationBuyer };
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Wed Sep 22 2021 16:42:46 GMT+0700 (Western Indonesia Time)
+                at Wed Sep 22 2021 20:19:36 GMT+0700 (Western Indonesia Time)
             </div>
         </div>
         <script src="../../prettify.js"></script>

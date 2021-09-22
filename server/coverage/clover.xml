@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1632303766943" clover="3.2.0">
-  <project timestamp="1632303766943" name="All files">
-    <metrics statements="562" coveredstatements="376" conditionals="125" coveredconditionals="53" methods="72" coveredmethods="50" elements="759" coveredelements="479" complexity="0" loc="562" ncloc="562" packages="7" files="37" classes="37"/>
+<coverage generated="1632316776773" clover="3.2.0">
+  <project timestamp="1632316776773" name="All files">
+    <metrics statements="577" coveredstatements="388" conditionals="131" coveredconditionals="64" methods="75" coveredmethods="49" elements="783" coveredelements="501" complexity="0" loc="577" ncloc="577" packages="7" files="38" classes="38"/>
     <package name="server">
       <metrics statements="13" coveredstatements="13" conditionals="2" coveredconditionals="1" methods="0" coveredmethods="0"/>
       <file name="app.js" path="/home/dita/h8/eco-mmerce-project/server/app.js">
@@ -37,7 +37,7 @@
       </file>
     </package>
     <package name="server.controllers">
-      <metrics statements="206" coveredstatements="93" conditionals="42" coveredconditionals="11" methods="26" coveredmethods="11"/>
+      <metrics statements="217" coveredstatements="60" conditionals="48" coveredconditionals="7" methods="27" coveredmethods="5"/>
       <file name="brandController.js" path="/home/dita/h8/eco-mmerce-project/server/controllers/brandController.js">
         <metrics statements="8" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
@@ -50,119 +50,130 @@
         <line num="21" count="1" type="stmt"/>
       </file>
       <file name="buyerController.js" path="/home/dita/h8/eco-mmerce-project/server/controllers/buyerController.js">
-        <metrics statements="112" coveredstatements="79" conditionals="24" coveredconditionals="11" methods="14" coveredmethods="11"/>
+        <metrics statements="123" coveredstatements="8" conditionals="30" coveredconditionals="0" methods="15" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
         <line num="5" count="1" type="stmt"/>
         <line num="6" count="1" type="stmt"/>
-        <line num="15" count="1" type="stmt"/>
         <line num="16" count="1" type="stmt"/>
         <line num="17" count="1" type="stmt"/>
-        <line num="21" count="0" type="stmt"/>
+        <line num="18" count="1" type="stmt"/>
         <line num="22" count="0" type="stmt"/>
-        <line num="24" count="0" type="stmt"/>
-        <line num="28" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="23" count="0" type="stmt"/>
+        <line num="25" count="0" type="stmt"/>
         <line num="29" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="30" count="0" type="stmt"/>
-        <line num="36" count="0" type="stmt"/>
-        <line num="45" count="0" type="stmt"/>
-        <line num="48" count="0" type="stmt"/>
-        <line num="51" count="0" type="stmt"/>
-        <line num="56" count="0" type="stmt"/>
+        <line num="30" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="31" count="0" type="stmt"/>
+        <line num="37" count="0" type="stmt"/>
+        <line num="46" count="0" type="stmt"/>
+        <line num="49" count="0" type="stmt"/>
+        <line num="52" count="0" type="stmt"/>
         <line num="57" count="0" type="stmt"/>
-        <line num="61" count="0" type="stmt"/>
-        <line num="63" count="0" type="stmt"/>
+        <line num="58" count="0" type="stmt"/>
+        <line num="62" count="0" type="stmt"/>
         <line num="64" count="0" type="stmt"/>
         <line num="65" count="0" type="stmt"/>
-        <line num="67" count="0" type="stmt"/>
-        <line num="79" count="0" type="stmt"/>
-        <line num="84" count="0" type="stmt"/>
-        <line num="93" count="0" type="stmt"/>
-        <line num="98" count="0" type="stmt"/>
+        <line num="66" count="0" type="stmt"/>
+        <line num="68" count="0" type="stmt"/>
+        <line num="80" count="0" type="stmt"/>
+        <line num="85" count="0" type="stmt"/>
+        <line num="94" count="0" type="stmt"/>
         <line num="99" count="0" type="stmt"/>
-        <line num="101" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="104" count="0" type="stmt"/>
-        <line num="114" count="0" type="stmt"/>
-        <line num="116" count="0" type="stmt"/>
-        <line num="121" count="1" type="stmt"/>
-        <line num="122" count="1" type="stmt"/>
-        <line num="123" count="1" type="cond" truecount="1" falsecount="1"/>
-        <line num="124" count="1" type="cond" truecount="1" falsecount="1"/>
-        <line num="125" count="1" type="stmt"/>
-        <line num="174" count="1" type="stmt"/>
-        <line num="176" count="0" type="stmt"/>
-        <line num="181" count="2" type="stmt"/>
-        <line num="182" count="2" type="stmt"/>
-        <line num="183" count="2" type="stmt"/>
-        <line num="222" count="2" type="cond" truecount="2" falsecount="0"/>
-        <line num="223" count="1" type="stmt"/>
-        <line num="228" count="1" type="stmt"/>
-        <line num="231" count="1" type="stmt"/>
-        <line num="236" count="1" type="stmt"/>
-        <line num="237" count="1" type="stmt"/>
-        <line num="285" count="1" type="stmt"/>
-        <line num="286" count="1" type="stmt"/>
-        <line num="287" count="1" type="stmt"/>
-        <line num="288" count="4" type="stmt"/>
-        <line num="289" count="4" type="stmt"/>
-        <line num="290" count="4" type="stmt"/>
-        <line num="291" count="16" type="cond" truecount="2" falsecount="0"/>
-        <line num="293" count="4" type="stmt"/>
-        <line num="294" count="4" type="stmt"/>
-        <line num="297" count="1" type="stmt"/>
-        <line num="299" count="1" type="stmt"/>
-        <line num="301" count="0" type="stmt"/>
-        <line num="306" count="1" type="stmt"/>
-        <line num="307" count="1" type="stmt"/>
-        <line num="308" count="1" type="stmt"/>
-        <line num="309" count="1" type="stmt"/>
-        <line num="314" count="1" type="stmt"/>
-        <line num="316" count="0" type="stmt"/>
-        <line num="321" count="2" type="stmt"/>
-        <line num="322" count="2" type="stmt"/>
-        <line num="323" count="2" type="stmt"/>
-        <line num="325" count="2" type="stmt"/>
-        <line num="330" count="2" type="cond" truecount="2" falsecount="0"/>
-        <line num="331" count="1" type="stmt"/>
-        <line num="337" count="1" type="stmt"/>
-        <line num="341" count="1" type="stmt"/>
-        <line num="343" count="1" type="stmt"/>
-        <line num="348" count="2" type="stmt"/>
-        <line num="349" count="2" type="stmt"/>
-        <line num="350" count="2" type="stmt"/>
-        <line num="352" count="2" type="stmt"/>
-        <line num="356" count="2" type="cond" truecount="2" falsecount="0"/>
-        <line num="357" count="1" type="stmt"/>
-        <line num="363" count="1" type="stmt"/>
-        <line num="365" count="1" type="stmt"/>
-        <line num="370" count="1" type="stmt"/>
-        <line num="371" count="1" type="stmt"/>
-        <line num="373" count="1" type="stmt"/>
-        <line num="385" count="1" type="stmt"/>
-        <line num="386" count="1" type="stmt"/>
-        <line num="387" count="1" type="stmt"/>
-        <line num="391" count="1" type="stmt"/>
-        <line num="398" count="1" type="stmt"/>
-        <line num="407" count="1" type="stmt"/>
-        <line num="409" count="1" type="stmt"/>
-        <line num="420" count="1" type="stmt"/>
-        <line num="427" count="1" type="stmt"/>
-        <line num="428" count="1" type="stmt"/>
-        <line num="434" count="1" type="stmt"/>
-        <line num="435" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="100" count="0" type="stmt"/>
+        <line num="102" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="105" count="0" type="stmt"/>
+        <line num="115" count="0" type="stmt"/>
+        <line num="117" count="0" type="stmt"/>
+        <line num="122" count="0" type="stmt"/>
+        <line num="123" count="0" type="stmt"/>
+        <line num="124" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="125" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="126" count="0" type="stmt"/>
+        <line num="175" count="0" type="stmt"/>
+        <line num="177" count="0" type="stmt"/>
+        <line num="182" count="0" type="stmt"/>
+        <line num="183" count="0" type="stmt"/>
+        <line num="184" count="0" type="stmt"/>
+        <line num="223" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="224" count="0" type="stmt"/>
+        <line num="229" count="0" type="stmt"/>
+        <line num="232" count="0" type="stmt"/>
+        <line num="237" count="0" type="stmt"/>
+        <line num="238" count="0" type="stmt"/>
+        <line num="286" count="0" type="stmt"/>
+        <line num="287" count="0" type="stmt"/>
+        <line num="288" count="0" type="stmt"/>
+        <line num="289" count="0" type="stmt"/>
+        <line num="290" count="0" type="stmt"/>
+        <line num="291" count="0" type="stmt"/>
+        <line num="292" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="294" count="0" type="stmt"/>
+        <line num="295" count="0" type="stmt"/>
+        <line num="298" count="0" type="stmt"/>
+        <line num="300" count="0" type="stmt"/>
+        <line num="302" count="0" type="stmt"/>
+        <line num="307" count="0" type="stmt"/>
+        <line num="308" count="0" type="stmt"/>
+        <line num="309" count="0" type="stmt"/>
+        <line num="310" count="0" type="stmt"/>
+        <line num="315" count="0" type="stmt"/>
+        <line num="317" count="0" type="stmt"/>
+        <line num="322" count="0" type="stmt"/>
+        <line num="323" count="0" type="stmt"/>
+        <line num="324" count="0" type="stmt"/>
+        <line num="326" count="0" type="stmt"/>
+        <line num="331" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="332" count="0" type="stmt"/>
+        <line num="338" count="0" type="stmt"/>
+        <line num="342" count="0" type="stmt"/>
+        <line num="344" count="0" type="stmt"/>
+        <line num="349" count="0" type="stmt"/>
+        <line num="350" count="0" type="stmt"/>
+        <line num="351" count="0" type="stmt"/>
+        <line num="353" count="0" type="stmt"/>
+        <line num="357" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="358" count="0" type="stmt"/>
+        <line num="364" count="0" type="stmt"/>
+        <line num="366" count="0" type="stmt"/>
+        <line num="371" count="0" type="stmt"/>
+        <line num="372" count="0" type="stmt"/>
+        <line num="374" count="0" type="stmt"/>
+        <line num="386" count="0" type="stmt"/>
+        <line num="387" count="0" type="stmt"/>
+        <line num="388" count="0" type="stmt"/>
+        <line num="392" count="0" type="stmt"/>
+        <line num="399" count="0" type="stmt"/>
+        <line num="408" count="0" type="stmt"/>
+        <line num="410" count="0" type="stmt"/>
+        <line num="415" count="0" type="stmt"/>
+        <line num="426" count="0" type="stmt"/>
+        <line num="433" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="434" count="0" type="stmt"/>
         <line num="436" count="0" type="stmt"/>
-        <line num="442" count="1" type="stmt"/>
-        <line num="444" count="0" type="stmt"/>
-        <line num="449" count="1" type="stmt"/>
-        <line num="450" count="1" type="stmt"/>
-        <line num="451" count="1" type="stmt"/>
-        <line num="466" count="1" type="stmt"/>
-        <line num="468" count="0" type="stmt"/>
-        <line num="473" count="1" type="stmt"/>
-        <line num="474" count="1" type="stmt"/>
-        <line num="476" count="1" type="stmt"/>
-        <line num="480" count="0" type="stmt"/>
-        <line num="485" count="1" type="stmt"/>
+        <line num="441" count="0" type="stmt"/>
+        <line num="446" count="0" type="stmt"/>
+        <line num="447" count="0" type="stmt"/>
+        <line num="449" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="454" count="0" type="stmt"/>
+        <line num="460" count="0" type="stmt"/>
+        <line num="463" count="0" type="stmt"/>
+        <line num="475" count="0" type="stmt"/>
+        <line num="476" count="0" type="stmt"/>
+        <line num="483" count="0" type="stmt"/>
+        <line num="484" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="485" count="0" type="stmt"/>
+        <line num="492" count="0" type="stmt"/>
+        <line num="494" count="0" type="stmt"/>
+        <line num="499" count="0" type="stmt"/>
+        <line num="500" count="0" type="stmt"/>
+        <line num="501" count="0" type="stmt"/>
+        <line num="516" count="0" type="stmt"/>
+        <line num="518" count="0" type="stmt"/>
+        <line num="523" count="0" type="stmt"/>
+        <line num="524" count="0" type="stmt"/>
+        <line num="526" count="0" type="stmt"/>
+        <line num="530" count="0" type="stmt"/>
+        <line num="535" count="1" type="stmt"/>
       </file>
       <file name="categoryController.js" path="/home/dita/h8/eco-mmerce-project/server/controllers/categoryController.js">
         <metrics statements="6" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
@@ -198,7 +209,7 @@
         <line num="18" count="1" type="stmt"/>
       </file>
       <file name="sellerController.js" path="/home/dita/h8/eco-mmerce-project/server/controllers/sellerController.js">
-        <metrics statements="62" coveredstatements="5" conditionals="14" coveredconditionals="0" methods="7" coveredmethods="0"/>
+        <metrics statements="62" coveredstatements="43" conditionals="14" coveredconditionals="7" methods="7" coveredmethods="5"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
@@ -220,51 +231,51 @@
         <line num="57" count="0" type="stmt"/>
         <line num="67" count="0" type="stmt"/>
         <line num="69" count="0" type="stmt"/>
-        <line num="74" count="0" type="stmt"/>
-        <line num="75" count="0" type="stmt"/>
-        <line num="76" count="0" type="stmt"/>
-        <line num="108" count="0" type="stmt"/>
+        <line num="74" count="1" type="stmt"/>
+        <line num="75" count="1" type="stmt"/>
+        <line num="76" count="1" type="stmt"/>
+        <line num="108" count="1" type="stmt"/>
         <line num="110" count="0" type="stmt"/>
-        <line num="115" count="0" type="stmt"/>
-        <line num="116" count="0" type="stmt"/>
-        <line num="117" count="0" type="stmt"/>
-        <line num="118" count="0" type="stmt"/>
-        <line num="141" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="142" count="0" type="stmt"/>
-        <line num="147" count="0" type="stmt"/>
-        <line num="149" count="0" type="stmt"/>
-        <line num="154" count="0" type="stmt"/>
-        <line num="167" count="0" type="stmt"/>
-        <line num="169" count="0" type="stmt"/>
-        <line num="171" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="115" count="2" type="stmt"/>
+        <line num="116" count="2" type="stmt"/>
+        <line num="117" count="2" type="stmt"/>
+        <line num="118" count="2" type="stmt"/>
+        <line num="141" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="142" count="1" type="stmt"/>
+        <line num="147" count="1" type="stmt"/>
+        <line num="149" count="1" type="stmt"/>
+        <line num="154" count="10" type="stmt"/>
+        <line num="167" count="10" type="stmt"/>
+        <line num="169" count="10" type="stmt"/>
+        <line num="171" count="10" type="cond" truecount="1" falsecount="1"/>
         <line num="172" count="0" type="stmt"/>
-        <line num="177" count="0" type="stmt"/>
-        <line num="179" count="0" type="stmt"/>
-        <line num="199" count="0" type="stmt"/>
-        <line num="204" count="0" type="stmt"/>
-        <line num="206" count="0" type="stmt"/>
-        <line num="211" count="0" type="stmt"/>
-        <line num="212" count="0" type="stmt"/>
-        <line num="213" count="0" type="stmt"/>
-        <line num="214" count="0" type="stmt"/>
-        <line num="216" count="0" type="stmt"/>
-        <line num="231" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="232" count="0" type="stmt"/>
-        <line num="237" count="0" type="stmt"/>
-        <line num="242" count="0" type="stmt"/>
-        <line num="247" count="0" type="stmt"/>
-        <line num="248" count="0" type="stmt"/>
-        <line num="249" count="0" type="stmt"/>
-        <line num="251" count="0" type="stmt"/>
-        <line num="252" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="253" count="0" type="stmt"/>
-        <line num="258" count="0" type="stmt"/>
-        <line num="263" count="0" type="stmt"/>
+        <line num="177" count="10" type="stmt"/>
+        <line num="179" count="10" type="stmt"/>
+        <line num="199" count="2" type="stmt"/>
+        <line num="204" count="2" type="stmt"/>
+        <line num="206" count="8" type="stmt"/>
+        <line num="211" count="8" type="stmt"/>
+        <line num="212" count="8" type="stmt"/>
+        <line num="213" count="8" type="stmt"/>
+        <line num="214" count="8" type="stmt"/>
+        <line num="216" count="8" type="stmt"/>
+        <line num="231" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="232" count="1" type="stmt"/>
+        <line num="237" count="1" type="stmt"/>
+        <line num="242" count="7" type="stmt"/>
+        <line num="247" count="2" type="stmt"/>
+        <line num="248" count="2" type="stmt"/>
+        <line num="249" count="2" type="stmt"/>
+        <line num="251" count="2" type="stmt"/>
+        <line num="252" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="253" count="1" type="stmt"/>
+        <line num="258" count="1" type="stmt"/>
+        <line num="263" count="1" type="stmt"/>
         <line num="268" count="1" type="stmt"/>
       </file>
     </package>
     <package name="server.helpers">
-      <metrics statements="24" coveredstatements="10" conditionals="10" coveredconditionals="0" methods="5" coveredmethods="3"/>
+      <metrics statements="24" coveredstatements="23" conditionals="10" coveredconditionals="6" methods="5" coveredmethods="4"/>
       <file name="bcrypt.js" path="/home/dita/h8/eco-mmerce-project/server/helpers/bcrypt.js">
         <metrics statements="5" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="1"/>
         <line num="1" count="1" type="stmt"/>
@@ -274,164 +285,163 @@
         <line num="12" count="1" type="stmt"/>
       </file>
       <file name="getDate.js" path="/home/dita/h8/eco-mmerce-project/server/helpers/getDate.js">
-        <metrics statements="14" coveredstatements="1" conditionals="10" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <metrics statements="14" coveredstatements="14" conditionals="10" coveredconditionals="6" methods="1" coveredmethods="1"/>
         <line num="1" count="1" type="stmt"/>
-        <line num="2" count="0" type="stmt"/>
-        <line num="3" count="0" type="stmt"/>
-        <line num="4" count="0" type="stmt"/>
-        <line num="5" count="0" type="stmt"/>
-        <line num="6" count="0" type="stmt"/>
-        <line num="7" count="0" type="stmt"/>
-        <line num="8" count="0" type="stmt"/>
-        <line num="10" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="11" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="12" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="13" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="14" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="16" count="0" type="stmt"/>
+        <line num="2" count="9" type="stmt"/>
+        <line num="3" count="9" type="stmt"/>
+        <line num="4" count="9" type="stmt"/>
+        <line num="5" count="9" type="stmt"/>
+        <line num="6" count="9" type="stmt"/>
+        <line num="7" count="9" type="stmt"/>
+        <line num="8" count="9" type="stmt"/>
+        <line num="10" count="9" type="cond" truecount="1" falsecount="1"/>
+        <line num="11" count="9" type="cond" truecount="1" falsecount="1"/>
+        <line num="12" count="9" type="cond" truecount="1" falsecount="1"/>
+        <line num="13" count="9" type="cond" truecount="1" falsecount="1"/>
+        <line num="14" count="9" type="cond" truecount="2" falsecount="0"/>
+        <line num="16" count="9" type="stmt"/>
       </file>
       <file name="jwt.js" path="/home/dita/h8/eco-mmerce-project/server/helpers/jwt.js">
         <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
         <line num="1" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
         <line num="6" count="2" type="stmt"/>
-        <line num="10" count="10" type="stmt"/>
+        <line num="10" count="27" type="stmt"/>
         <line num="13" count="1" type="stmt"/>
       </file>
     </package>
     <package name="server.middlewares">
-      <metrics statements="144" coveredstatements="89" conditionals="58" coveredconditionals="33" methods="14" coveredmethods="10"/>
+      <metrics statements="143" coveredstatements="116" conditionals="58" coveredconditionals="42" methods="14" coveredmethods="12"/>
       <file name="authentication.js" path="/home/dita/h8/eco-mmerce-project/server/middlewares/authentication.js">
-        <metrics statements="14" coveredstatements="14" conditionals="4" coveredconditionals="3" methods="1" coveredmethods="1"/>
+        <metrics statements="13" coveredstatements="13" conditionals="4" coveredconditionals="3" methods="1" coveredmethods="1"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
-        <line num="5" count="13" type="stmt"/>
-        <line num="6" count="13" type="stmt"/>
-        <line num="7" count="13" type="stmt"/>
-        <line num="8" count="13" type="cond" truecount="2" falsecount="0"/>
-        <line num="9" count="10" type="stmt"/>
-        <line num="10" count="10" type="stmt"/>
-        <line num="11" count="10" type="cond" truecount="1" falsecount="1"/>
-        <line num="12" count="10" type="stmt"/>
-        <line num="17" count="10" type="stmt"/>
-        <line num="20" count="3" type="stmt"/>
-        <line num="23" count="3" type="stmt"/>
-        <line num="27" count="1" type="stmt"/>
+        <line num="5" count="32" type="stmt"/>
+        <line num="6" count="32" type="stmt"/>
+        <line num="7" count="32" type="cond" truecount="2" falsecount="0"/>
+        <line num="8" count="27" type="stmt"/>
+        <line num="9" count="27" type="stmt"/>
+        <line num="10" count="27" type="cond" truecount="1" falsecount="1"/>
+        <line num="11" count="27" type="stmt"/>
+        <line num="16" count="27" type="stmt"/>
+        <line num="19" count="5" type="stmt"/>
+        <line num="22" count="5" type="stmt"/>
+        <line num="26" count="1" type="stmt"/>
       </file>
       <file name="authorization.js" path="/home/dita/h8/eco-mmerce-project/server/middlewares/authorization.js">
         <metrics statements="16" coveredstatements="9" conditionals="4" coveredconditionals="2" methods="2" coveredmethods="1"/>
         <line num="1" count="1" type="stmt"/>
-        <line num="4" count="0" type="stmt"/>
-        <line num="5" count="0" type="stmt"/>
-        <line num="6" count="0" type="stmt"/>
-        <line num="8" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="9" count="0" type="stmt"/>
-        <line num="11" count="0" type="stmt"/>
-        <line num="17" count="0" type="stmt"/>
-        <line num="22" count="10" type="stmt"/>
-        <line num="23" count="10" type="stmt"/>
-        <line num="24" count="10" type="stmt"/>
-        <line num="25" count="10" type="cond" truecount="2" falsecount="0"/>
-        <line num="26" count="8" type="stmt"/>
-        <line num="28" count="2" type="stmt"/>
-        <line num="34" count="2" type="stmt"/>
+        <line num="4" count="27" type="stmt"/>
+        <line num="5" count="27" type="stmt"/>
+        <line num="6" count="27" type="stmt"/>
+        <line num="8" count="27" type="cond" truecount="2" falsecount="0"/>
+        <line num="9" count="25" type="stmt"/>
+        <line num="11" count="2" type="stmt"/>
+        <line num="17" count="2" type="stmt"/>
+        <line num="22" count="0" type="stmt"/>
+        <line num="23" count="0" type="stmt"/>
+        <line num="24" count="0" type="stmt"/>
+        <line num="25" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="26" count="0" type="stmt"/>
+        <line num="28" count="0" type="stmt"/>
+        <line num="34" count="0" type="stmt"/>
         <line num="38" count="1" type="stmt"/>
       </file>
       <file name="checkIngredients.js" path="/home/dita/h8/eco-mmerce-project/server/middlewares/checkIngredients.js">
         <metrics statements="28" coveredstatements="24" conditionals="16" coveredconditionals="8" methods="5" coveredmethods="4"/>
         <line num="1" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
-        <line num="6" count="1" type="stmt"/>
-        <line num="7" count="1" type="stmt"/>
-        <line num="8" count="1" type="cond" truecount="1" falsecount="1"/>
-        <line num="9" count="1" type="stmt"/>
-        <line num="10" count="1" type="stmt"/>
-        <line num="11" count="1" type="stmt"/>
-        <line num="12" count="1" type="stmt"/>
-        <line num="13" count="1" type="stmt"/>
-        <line num="14" count="3" type="cond" truecount="1" falsecount="1"/>
-        <line num="15" count="3" type="stmt"/>
+        <line num="6" count="10" type="stmt"/>
+        <line num="7" count="10" type="stmt"/>
+        <line num="8" count="10" type="cond" truecount="1" falsecount="1"/>
+        <line num="9" count="10" type="stmt"/>
+        <line num="10" count="10" type="stmt"/>
+        <line num="11" count="10" type="stmt"/>
+        <line num="12" count="10" type="stmt"/>
+        <line num="13" count="10" type="stmt"/>
+        <line num="14" count="45" type="cond" truecount="1" falsecount="1"/>
+        <line num="15" count="45" type="stmt"/>
         <line num="16" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="17" count="0" type="stmt"/>
         <line num="18" count="0" type="stmt"/>
-        <line num="24" count="1" type="cond" truecount="1" falsecount="1"/>
-        <line num="25" count="1" type="cond" truecount="3" falsecount="1"/>
-        <line num="26" count="1" type="cond" truecount="1" falsecount="1"/>
-        <line num="27" count="1" type="cond" truecount="1" falsecount="1"/>
-        <line num="28" count="1" type="stmt"/>
-        <line num="34" count="1" type="stmt"/>
-        <line num="35" count="3" type="stmt"/>
-        <line num="37" count="12" type="stmt"/>
-        <line num="40" count="1" type="stmt"/>
-        <line num="41" count="1" type="stmt"/>
-        <line num="43" count="1" type="stmt"/>
+        <line num="24" count="10" type="cond" truecount="1" falsecount="1"/>
+        <line num="25" count="10" type="cond" truecount="3" falsecount="1"/>
+        <line num="26" count="10" type="cond" truecount="1" falsecount="1"/>
+        <line num="27" count="10" type="cond" truecount="1" falsecount="1"/>
+        <line num="28" count="10" type="stmt"/>
+        <line num="34" count="10" type="stmt"/>
+        <line num="35" count="45" type="stmt"/>
+        <line num="37" count="159" type="stmt"/>
+        <line num="40" count="10" type="stmt"/>
+        <line num="41" count="10" type="stmt"/>
+        <line num="43" count="10" type="stmt"/>
         <line num="45" count="0" type="stmt"/>
         <line num="49" count="1" type="stmt"/>
       </file>
       <file name="cloudVision.js" path="/home/dita/h8/eco-mmerce-project/server/middlewares/cloudVision.js">
-        <metrics statements="28" coveredstatements="22" conditionals="17" coveredconditionals="15" methods="2" coveredmethods="2"/>
-        <line num="3" count="1" type="stmt"/>
-        <line num="5" count="1" type="stmt"/>
-        <line num="6" count="1" type="stmt"/>
-        <line num="9" count="1" type="cond" truecount="1" falsecount="1"/>
-        <line num="10" count="1" type="stmt"/>
-        <line num="13" count="1" type="stmt"/>
-        <line num="14" count="1" type="stmt"/>
-        <line num="15" count="1" type="stmt"/>
-        <line num="17" count="1" type="stmt"/>
-        <line num="18" count="98" type="cond" truecount="2" falsecount="0"/>
-        <line num="19" count="97" type="cond" truecount="2" falsecount="0"/>
-        <line num="26" count="1" type="stmt"/>
-        <line num="29" count="97" type="cond" truecount="2" falsecount="0"/>
-        <line num="30" count="12" type="stmt"/>
-        <line num="31" count="12" type="cond" truecount="2" falsecount="0"/>
-        <line num="32" count="1" type="stmt"/>
-        <line num="38" count="1" type="cond" truecount="1" falsecount="1"/>
-        <line num="39" count="0" type="stmt"/>
-        <line num="40" count="0" type="stmt"/>
-        <line num="41" count="0" type="stmt"/>
-        <line num="42" count="0" type="stmt"/>
-        <line num="44" count="1" type="stmt"/>
-        <line num="45" count="1" type="stmt"/>
-        <line num="46" count="1" type="stmt"/>
-        <line num="47" count="1" type="stmt"/>
+        <metrics statements="28" coveredstatements="26" conditionals="17" coveredconditionals="16" methods="2" coveredmethods="2"/>
+        <line num="3" count="11" type="stmt"/>
+        <line num="5" count="11" type="stmt"/>
+        <line num="6" count="11" type="stmt"/>
+        <line num="9" count="11" type="cond" truecount="1" falsecount="1"/>
+        <line num="10" count="11" type="stmt"/>
+        <line num="13" count="11" type="stmt"/>
+        <line num="14" count="11" type="stmt"/>
+        <line num="15" count="11" type="stmt"/>
+        <line num="17" count="11" type="stmt"/>
+        <line num="18" count="1272" type="cond" truecount="2" falsecount="0"/>
+        <line num="19" count="1261" type="cond" truecount="2" falsecount="0"/>
+        <line num="26" count="10" type="stmt"/>
+        <line num="29" count="1261" type="cond" truecount="2" falsecount="0"/>
+        <line num="30" count="159" type="stmt"/>
+        <line num="31" count="159" type="cond" truecount="2" falsecount="0"/>
+        <line num="32" count="10" type="stmt"/>
+        <line num="38" count="11" type="cond" truecount="2" falsecount="0"/>
+        <line num="39" count="1" type="stmt"/>
+        <line num="40" count="1" type="stmt"/>
+        <line num="41" count="1" type="stmt"/>
+        <line num="42" count="1" type="stmt"/>
+        <line num="44" count="10" type="stmt"/>
+        <line num="45" count="10" type="stmt"/>
+        <line num="46" count="10" type="stmt"/>
+        <line num="47" count="10" type="stmt"/>
         <line num="51" count="0" type="stmt"/>
         <line num="52" count="0" type="stmt"/>
         <line num="56" count="1" type="stmt"/>
       </file>
       <file name="errorHandler.js" path="/home/dita/h8/eco-mmerce-project/server/middlewares/errorHandler.js">
-        <metrics statements="22" coveredstatements="10" conditionals="9" coveredconditionals="4" methods="2" coveredmethods="1"/>
+        <metrics statements="22" coveredstatements="17" conditionals="9" coveredconditionals="6" methods="2" coveredmethods="2"/>
         <line num="1" count="1" type="stmt"/>
-        <line num="7" count="8" type="cond" truecount="1" falsecount="1"/>
+        <line num="7" count="26" type="cond" truecount="1" falsecount="1"/>
         <line num="8" count="0" type="stmt"/>
-        <line num="11" count="8" type="cond" truecount="3" falsecount="4"/>
+        <line num="11" count="26" type="cond" truecount="5" falsecount="2"/>
         <line num="13" count="3" type="stmt"/>
         <line num="14" count="3" type="stmt"/>
-        <line num="16" count="0" type="stmt"/>
-        <line num="17" count="0" type="stmt"/>
-        <line num="19" count="3" type="stmt"/>
-        <line num="20" count="3" type="stmt"/>
+        <line num="16" count="2" type="stmt"/>
+        <line num="17" count="2" type="stmt"/>
+        <line num="19" count="5" type="stmt"/>
+        <line num="20" count="5" type="stmt"/>
         <line num="22" count="2" type="stmt"/>
         <line num="23" count="2" type="stmt"/>
         <line num="25" count="0" type="stmt"/>
         <line num="26" count="0" type="stmt"/>
-        <line num="28" count="0" type="stmt"/>
-        <line num="29" count="0" type="stmt"/>
-        <line num="32" count="0" type="stmt"/>
-        <line num="34" count="0" type="stmt"/>
-        <line num="35" count="0" type="stmt"/>
+        <line num="28" count="14" type="stmt"/>
+        <line num="29" count="14" type="stmt"/>
+        <line num="32" count="14" type="stmt"/>
+        <line num="34" count="14" type="stmt"/>
+        <line num="35" count="14" type="stmt"/>
         <line num="38" count="0" type="stmt"/>
         <line num="39" count="0" type="stmt"/>
         <line num="43" count="1" type="stmt"/>
       </file>
       <file name="imagekit.js" path="/home/dita/h8/eco-mmerce-project/server/middlewares/imagekit.js">
-        <metrics statements="26" coveredstatements="4" conditionals="6" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <metrics statements="26" coveredstatements="17" conditionals="6" coveredconditionals="5" methods="1" coveredmethods="1"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
-        <line num="6" count="0" type="stmt"/>
-        <line num="7" count="0" type="stmt"/>
-        <line num="11" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="6" count="10" type="stmt"/>
+        <line num="7" count="10" type="stmt"/>
+        <line num="11" count="10" type="cond" truecount="1" falsecount="1"/>
         <line num="12" count="0" type="stmt"/>
         <line num="13" count="0" type="stmt"/>
         <line num="14" count="0" type="stmt"/>
@@ -439,36 +449,36 @@
         <line num="17" count="0" type="stmt"/>
         <line num="23" count="0" type="stmt"/>
         <line num="24" count="0" type="stmt"/>
-        <line num="25" count="0" type="cond" truecount="0" falsecount="4"/>
-        <line num="26" count="0" type="stmt"/>
-        <line num="27" count="0" type="stmt"/>
-        <line num="28" count="0" type="stmt"/>
-        <line num="29" count="0" type="stmt"/>
-        <line num="30" count="0" type="stmt"/>
-        <line num="32" count="0" type="stmt"/>
-        <line num="38" count="0" type="stmt"/>
-        <line num="39" count="0" type="stmt"/>
-        <line num="42" count="0" type="stmt"/>
+        <line num="25" count="10" type="cond" truecount="4" falsecount="0"/>
+        <line num="26" count="9" type="stmt"/>
+        <line num="27" count="9" type="stmt"/>
+        <line num="28" count="9" type="stmt"/>
+        <line num="29" count="9" type="stmt"/>
+        <line num="30" count="9" type="stmt"/>
+        <line num="32" count="9" type="stmt"/>
+        <line num="38" count="9" type="stmt"/>
+        <line num="39" count="9" type="stmt"/>
+        <line num="42" count="1" type="stmt"/>
         <line num="45" count="0" type="stmt"/>
         <line num="46" count="0" type="stmt"/>
         <line num="50" count="1" type="stmt"/>
       </file>
       <file name="multer.js" path="/home/dita/h8/eco-mmerce-project/server/middlewares/multer.js">
-        <metrics statements="10" coveredstatements="6" conditionals="2" coveredconditionals="1" methods="1" coveredmethods="1"/>
+        <metrics statements="10" coveredstatements="10" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
-        <line num="4" count="1" type="stmt"/>
-        <line num="5" count="1" type="cond" truecount="1" falsecount="1"/>
-        <line num="6" count="1" type="stmt"/>
-        <line num="8" count="0" type="stmt"/>
-        <line num="9" count="0" type="stmt"/>
-        <line num="10" count="0" type="stmt"/>
-        <line num="11" count="0" type="stmt"/>
+        <line num="4" count="22" type="stmt"/>
+        <line num="5" count="22" type="cond" truecount="2" falsecount="0"/>
+        <line num="6" count="21" type="stmt"/>
+        <line num="8" count="1" type="stmt"/>
+        <line num="9" count="1" type="stmt"/>
+        <line num="10" count="1" type="stmt"/>
+        <line num="11" count="1" type="stmt"/>
         <line num="16" count="1" type="stmt"/>
       </file>
     </package>
     <package name="server.models">
-      <metrics statements="92" coveredstatements="88" conditionals="13" coveredconditionals="8" methods="27" coveredmethods="26"/>
+      <metrics statements="96" coveredstatements="92" conditionals="13" coveredconditionals="8" methods="29" coveredmethods="28"/>
       <file name="brand.js" path="/home/dita/h8/eco-mmerce-project/server/models/brand.js">
         <metrics statements="8" coveredstatements="8" conditionals="0" coveredconditionals="0" methods="4" coveredmethods="4"/>
         <line num="2" count="1" type="stmt"/>
@@ -476,8 +486,8 @@
         <line num="4" count="1" type="stmt"/>
         <line num="7" count="1" type="stmt"/>
         <line num="13" count="1" type="stmt"/>
-        <line num="30" count="2" type="stmt"/>
-        <line num="32" count="2" type="stmt"/>
+        <line num="30" count="3" type="stmt"/>
+        <line num="32" count="3" type="stmt"/>
         <line num="38" count="1" type="stmt"/>
       </file>
       <file name="cart.js" path="/home/dita/h8/eco-mmerce-project/server/models/cart.js">
@@ -535,12 +545,12 @@
         <line num="13" count="0" type="stmt"/>
         <line num="15" count="1" type="stmt"/>
         <line num="18" count="1" type="stmt"/>
-        <line num="21" count="11" type="cond" truecount="3" falsecount="0"/>
-        <line num="24" count="10" type="stmt"/>
-        <line num="25" count="10" type="stmt"/>
+        <line num="21" count="12" type="cond" truecount="3" falsecount="0"/>
+        <line num="24" count="11" type="stmt"/>
+        <line num="25" count="11" type="stmt"/>
         <line num="28" count="1" type="stmt"/>
-        <line num="29" count="10" type="cond" truecount="1" falsecount="1"/>
-        <line num="30" count="10" type="stmt"/>
+        <line num="29" count="11" type="cond" truecount="1" falsecount="1"/>
+        <line num="30" count="11" type="stmt"/>
         <line num="34" count="1" type="stmt"/>
         <line num="35" count="1" type="stmt"/>
         <line num="37" count="1" type="stmt"/>
@@ -565,6 +575,13 @@
         <line num="3" count="1" type="stmt"/>
         <line num="7" count="1" type="stmt"/>
         <line num="33" count="1" type="stmt"/>
+      </file>
+      <file name="transaction.js" path="/home/dita/h8/eco-mmerce-project/server/models/transaction.js">
+        <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="14" count="1" type="stmt"/>
+        <line num="47" count="1" type="stmt"/>
       </file>
       <file name="user.js" path="/home/dita/h8/eco-mmerce-project/server/models/user.js">
         <metrics statements="16" coveredstatements="14" conditionals="4" coveredconditionals="2" methods="3" coveredmethods="3"/>
@@ -596,7 +613,7 @@
       </file>
     </package>
     <package name="server.routes">
-      <metrics statements="77" coveredstatements="77" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <metrics statements="78" coveredstatements="78" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
       <file name="brandRouter.js" path="/home/dita/h8/eco-mmerce-project/server/routes/brandRouter.js">
         <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
@@ -605,7 +622,7 @@
         <line num="7" count="1" type="stmt"/>
       </file>
       <file name="buyerRouter.js" path="/home/dita/h8/eco-mmerce-project/server/routes/buyerRouter.js">
-        <metrics statements="24" coveredstatements="24" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <metrics statements="25" coveredstatements="25" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
         <line num="4" count="1" type="stmt"/>
@@ -621,15 +638,16 @@
         <line num="21" count="1" type="stmt"/>
         <line num="22" count="1" type="stmt"/>
         <line num="23" count="1" type="stmt"/>
-        <line num="32" count="1" type="stmt"/>
         <line num="33" count="1" type="stmt"/>
         <line num="35" count="1" type="stmt"/>
         <line num="36" count="1" type="stmt"/>
         <line num="38" count="1" type="stmt"/>
         <line num="39" count="1" type="stmt"/>
         <line num="41" count="1" type="stmt"/>
-        <line num="43" count="1" type="stmt"/>
-        <line num="45" count="1" type="stmt"/>
+        <line num="42" count="1" type="stmt"/>
+        <line num="44" count="1" type="stmt"/>
+        <line num="46" count="1" type="stmt"/>
+        <line num="48" count="1" type="stmt"/>
       </file>
       <file name="categoryRouter.js" path="/home/dita/h8/eco-mmerce-project/server/routes/categoryRouter.js">
         <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
