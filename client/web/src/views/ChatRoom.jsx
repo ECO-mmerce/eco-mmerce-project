@@ -97,12 +97,10 @@ export default function ChatRoom() {
 
   return (
     <div className="h-screen w-screen px-10 pt-10 pb-32 flex justify-center">
-      <div className=" w-1/2 h-full flex flex-col items-start bg-gray-300 rounded-3xl border-8 border-gray-300">
-        <div className="w-24 grid grid-cols-2">
-          <Image src={chatWithPicture} className="mr-2" rounded />
-          <div className="flex">
-            <h1 className="text-lg ml-4 font-bold">{chatWithName}</h1>
-          </div>
+      <div className=" w-1/2 h-full flex flex-col items-start bg-gray-200 rounded-3xl border-8 border-gray-300">
+        <div className="flex items-center">
+          <Image src={chatWithPicture} className="m-2 w-1/12" rounded />
+          <h1 className="text-lg font-bold w-10/12 text-left">{chatWithName}</h1>
         </div>
         <div className="h-full w-full bg-white mb-3 overflow-y-scroll">
           <ChatBox
@@ -116,30 +114,27 @@ export default function ChatRoom() {
         </div>
 
         <div
-          class="w-full mx-auto rounded-xl bg-gray-100 shadow-lg p-10 text-gray-800 relative overflow-hidden resize-x min-w-80 max-w-3xl"
+          class="w-full rounded-b-2xl bg-gray-200 px-10 pb-10 pt-2 text-gray-800 overflow-hidden"
           x-data="app()"
           x-init="generatePassword()"
         >
-          <div class="relative mt-1">
-            <form onSubmit={(e) => handleSend(e)}>
+          <div class="mt-1 w-full">
+            <form className="flex items-center" onSubmit={(e) => handleSend(e)}>
               <input
                 type="text"
                 id="password"
                 value={chat}
-                class="w-full pl-3 pr-10 py-2 border-2 border-gray-200 rounded-xl hover:border-gray-300 focus:outline-none focus:border-green-500 transition-colors"
+                class="w-full pl-3 pr-10 py-2 border-2 border-gray-200 rounded-xl hover:border-gray-300 focus:outline-none focus:border-green-500 text-2xl"
                 placeholder="Enter Your Chat"
                 onChange={(e) => setChat(e.target.value)}
               />
               <button
                 type="submit"
-                class="block w-7 h-7 text-center text-xl leading-0 absolute top-2 right-2 text-gray-400 focus:outline-none hover:text-gray-900 transition-colors"
+                class="block w-7 h-7 text-center text-xl top-2 right-2 text-gray-400 focus:outline-none hover:text-gray-900"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  fill="currentColor"
-                  className="bi bi-arrow-90deg-right"
+                  className="bi bi-arrow-90deg-right h-full ml-3 text-gray-800"
                   viewBox="0 0 16 16"
                 >
                   <path
