@@ -14,8 +14,6 @@ async function authentication(req, res, next) {
           role: payload.role,
         };
         next();
-      } else {
-        throw { name: 'Unauthorized', message: `You are not authorized!` };
       }
     } else {
       throw { name: 'Unauthorized', message: `You are not authorized!` };

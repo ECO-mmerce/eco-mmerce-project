@@ -11,6 +11,7 @@ const request = require('supertest');
 const { signToken } = require('../helpers/jwt');
 
 const appJSON = 'application/json';
+const formData = 'multipart/form-data';
 
 const sellerCreator = {
   firstName: 'sel',
@@ -45,8 +46,11 @@ const ingridient = ['a', 'b'];
 const harmfulIngridient = ['a', 'b'];
 const picture = 'picture';
 
+const ingredients = `${__dirname}/eco.jpg`;
+
 let buyerId = 0;
 let buyerToken = '';
+let sellerToken = '';
 let categoryId = 0;
 let productId = 0;
 let productId2 = 0;
@@ -58,6 +62,11 @@ beforeAll(async () => {
 
   const seller = await User.create(sellerCreator);
   sellerId = seller.id;
+  sellerToken = signToken({
+    id: seller.id,
+    email: seller.email,
+    role: seller.role,
+  });
 
   const buyer = await User.create(buyerCreator);
   buyerId = buyer.id;
@@ -272,26 +281,29 @@ describe('GET /buyers/products/:id [failed]', () => {
   });
 });
 
-// HMMMMMMMMMMMMMMMMMMMMMMMMMMM
-// describe('GET /buyers/checkIngredients [success]', () => {
-//   test('Should return {ingridients} [200]', (done) => {
-//     request(app)
-//       .get('/buyers/checkIngredients')
-//       .then((response) => {
-//         expect(response.status).toBe(200);
-//         expect(response.body).toEqual(
-//           expect.objectContaining({
-//             ingridients: expect.objectContaining({
-//               ingridient: expect.arrayContaining([expect.any(String)]),
-//               harmfulIngridient: expect.arrayContaining([expect.any(String)]),
-//             }),
-//           })
-//         );
-//         done();
-//       })
-//       .catch((err) => done(err));
-//   });
-// });
+describe('POST /buyers/checkIngredients [success]', () => {
+  test('Should return {ingridients} [200]', (done) => {
+    request(app)
+      .post('/buyers/checkIngredients')
+      .set('Content-Type', formData)
+      .set('Accept', appJSON)
+      .attach('ingredients', ingredients)
+      .then((response) => {
+        expect(response.status).toBe(200);
+        expect(response.body).toEqual(
+          expect.objectContaining({
+            ingridients: expect.objectContaining({
+              ingridient: expect.arrayContaining([expect.any(String)]),
+              status: expect.any(String),
+              harmfulIngridient: expect.any(Array),
+            }),
+          })
+        );
+        done();
+      })
+      .catch((err) => done(err));
+  });
+});
 
 // Auth-N Auth-Z
 
@@ -329,6 +341,26 @@ describe('POST /buyers/carts [failed]', () => {
         expect(response.body).toEqual(
           expect.objectContaining({
             message: 'You are not authorized!',
+          })
+        );
+        done();
+      })
+      .catch((err) => done(err));
+  });
+
+  test(`Should return {message: You don't have an access to do this!} [403]`, (done) => {
+    request(app)
+      .post('/buyers/carts')
+      .set('Accept', appJSON)
+      .set('access_token', sellerToken)
+      .send({
+        ProductId: productId,
+      })
+      .then((response) => {
+        expect(response.status).toBe(403);
+        expect(response.body).toEqual(
+          expect.objectContaining({
+            message: `You don't have an access to do this!`,
           })
         );
         done();
@@ -384,6 +416,23 @@ describe('GET /buyers/carts [failed]', () => {
         expect(response.body).toEqual(
           expect.objectContaining({
             message: 'You are not authorized!',
+          })
+        );
+        done();
+      })
+      .catch((err) => done(err));
+  });
+
+  test(`Should return {message: You don't have an access to do this!} [403]`, (done) => {
+    request(app)
+      .get('/buyers/carts')
+      .set('access_token', sellerToken)
+      .set('Accept', appJSON)
+      .then((response) => {
+        expect(response.status).toBe(403);
+        expect(response.body).toEqual(
+          expect.objectContaining({
+            message: `You don't have an access to do this!`,
           })
         );
         done();

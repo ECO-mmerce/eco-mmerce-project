@@ -168,10 +168,10 @@ class SellerController {
 
       console.log(req.body, `INI BODY`);
 
-      if (status > 3)
+      if (status === 'Reject')
         throw {
           name: 'Bad Request',
-          message: `Rejected! Eco-mmerce cannot tolerate your dangerous product`,
+          message: `Rejected! Eco-mmerce can not tolerate your dangerous product`,
         };
 
       const { id } = req.user;

@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">75% </span>
+                <span class="strong">56.25% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>12/16</span>
+                <span class='fraction'>9/16</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>2/2</span>
+                <span class='fraction'>1/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">75% </span>
+                <span class="strong">56.25% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>12/16</span>
+                <span class='fraction'>9/16</span>
             </div>
         
             
@@ -95,15 +95,15 @@
 <a name='L36'></a><a href='#L36'>36</a>
 <a name='L37'></a><a href='#L37'>37</a>
 <a name='L38'></a><a href='#L38'>38</a>
-<a name='L39'></a><a href='#L39'>39</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">7x</span>
+<a name='L39'></a><a href='#L39'>39</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">24x</span>
-<span class="cline-any cline-yes">24x</span>
-<span class="cline-any cline-yes">24x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">24x</span>
-<span class="cline-any cline-yes">24x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -116,32 +116,32 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const { User } = require(`../models`);
 &nbsp;
-async function authorization(req, res, next) {
-  try {
-    const { id } = req.user;
-    const verifyUser = await User.findOne({ where: id });
+async function <span class="fstat-no" title="function not covered" >authorization(</span>req, res, next) {
+<span class="cstat-no" title="statement not covered" >  try {</span>
+    const { id } = <span class="cstat-no" title="statement not covered" >req.user;</span>
+    const verifyUser = <span class="cstat-no" title="statement not covered" >await User.findOne({ where: id });</span>
 &nbsp;
-    <span class="missing-if-branch" title="else path not taken" >E</span>if (verifyUser.role === 'seller') {
-      next();
+<span class="cstat-no" title="statement not covered" >    if (verifyUser.role === 'seller') {</span>
+<span class="cstat-no" title="statement not covered" >      next();</span>
     } else {
 <span class="cstat-no" title="statement not covered" >      throw {</span>
         name: 'Forbidden',
@@ -157,16 +157,16 @@ async function authorizationBuyer(req, res, next) {
   try {
     const { id } = req.user;
     const verifyUser = await User.findOne({ where: id });
-    <span class="missing-if-branch" title="else path not taken" >E</span>if (verifyUser.role === 'buyer') {
+    if (verifyUser.role === 'buyer') {
       next();
     } else {
-<span class="cstat-no" title="statement not covered" >      throw {</span>
+      throw {
         name: 'Forbidden',
         message: "You don't have an access to do this!",
       };
     }
   } catch (err) {
-<span class="cstat-no" title="statement not covered" >    next(err);</span>
+    next(err);
   }
 }
 &nbsp;
@@ -178,7 +178,7 @@ module.exports = { authorization, authorizationBuyer };
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Wed Sep 22 2021 12:18:33 GMT+0700 (Western Indonesia Time)
+                at Wed Sep 22 2021 16:42:46 GMT+0700 (Western Indonesia Time)
             </div>
         </div>
         <script src="../../prettify.js"></script>
