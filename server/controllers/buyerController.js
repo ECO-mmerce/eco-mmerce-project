@@ -430,13 +430,7 @@ class BuyerController {
         },
       });
 
-      if (data) {
-        res.status(201).json(data);
-      } else {
-        throw {
-          message: 'Internal Server Error',
-        };
-      }
+      res.status(201).json(data);
     } catch (err) {
       next(err);
     }

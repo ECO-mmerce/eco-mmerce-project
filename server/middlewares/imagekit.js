@@ -3,7 +3,7 @@ const imagekitAPI = require('../apis/imagekit');
 const getDate = require('../helpers/getDate');
 
 async function uploadImage(req, res, next) {
-  console.log(req.file, `INI DI IMAGE KIT`);
+  // console.log(req.file, `INI DI IMAGE KIT`);
   try {
     // console.log(req.baseUrl); // /sellers
     // console.log(req.url); // register
@@ -23,7 +23,7 @@ async function uploadImage(req, res, next) {
       req.imgUrl = response.data.url;
       next();
     } else if (req.url === '/products' && req.files.image) {
-      console.log(req.files.image);
+      // console.log(req.files.image);
       const fileName = 'image_' + getDate();
       const data = new FormData();
       data.append('file', req.files.image[0].buffer.toString('base64'));
@@ -42,7 +42,7 @@ async function uploadImage(req, res, next) {
       next();
     }
   } catch (err) {
-    console.log(err);
+    // console.log(err);
     next(err);
   }
 }

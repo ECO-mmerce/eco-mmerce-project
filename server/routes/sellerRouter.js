@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const upload = require('../middlewares/multer');
 const uploadImage = require('../middlewares/imagekit');
-const test= require('../middlewares/test')
+// const test= require('../middlewares/test')
 const authentication = require('../middlewares/authentication');
 const ChatController = require('../controllers/chatController');
 const SellerController = require('../controllers/sellerController');

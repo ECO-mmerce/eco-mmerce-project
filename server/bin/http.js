@@ -23,7 +23,7 @@ const httpsServer = https.createServer(
 ); // Add credentials here
 
 server.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  // console.log(`Server running on port ${PORT}`);
 });
 
 httpsServer.listen(SECURE_PORT, () => {
