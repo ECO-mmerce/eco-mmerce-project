@@ -473,16 +473,23 @@ class BuyerController {
       next(err);
     }
   }
+
   static async ingredientsCheck(req, res, next) {
-    if (req.body.ingridient) {
-      res.status(200).json({ ingridients: req.body });
-    } else {
-      const err = new Error();
-      err.name = 'Bad Request';
-      err.message = `server can't read your product's ingredients, please retake the photo`;
-      next(err);
+    try {
+      const { ingridient, status, harmfulIngridient } = req.body;
+
+      if (status > 3)
+        throw {
+          name: 'Bad Request',
+          message: `Rejected! Eco-mmerce can not tolerate your dangerous product`,
+        };
+
+      res.status(200).json({ ingridients: { ingridient, harmfulIngridient } });
+    } catch (error) {
+      next(error);
     }
   }
+  
 }
 
 module.exports = BuyerController;

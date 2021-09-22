@@ -20,12 +20,6 @@ async function checkIngredients(req, res, next) {
         }
       });
 
-      if (score > 3)
-        throw {
-          name: 'Bad Request',
-          message: `Rejected! Eco-mmerce cannot tolerate your dangerous product`,
-        };
-
       req.body.ingridient = output.map((el) =>
         el
           .split(' ')

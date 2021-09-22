@@ -180,13 +180,13 @@ describe('POST /sellers/products [success]', () => {
 });
 
 describe('POST /sellers/products [failed]', () => {
-  test('Should return [{message: Ingridient cannot be empty}] [400]', (done) => {
+  test(`Should return {message: Uploaded picture didn't contain ingridients} [400]`, (done) => {
     request(app)
       .post('/sellers/products')
       .set('Content-Type', formData)
       .set('Accept', appJSON)
       .set('access_token', sellerToken)
-      .attach('ingredients', '')
+      .attach('ingredients', image)
       .attach('image', image)
       .field('name', name)
       .field('price', price)
@@ -196,18 +196,19 @@ describe('POST /sellers/products [failed]', () => {
       .field('CategoryId', categoryId)
       .field('brand', brand)
       .then((response) => {
+        console.log(response.body);
         expect(response.status).toBe(400);
-        expect.arrayContaining([
+        expect(response.body).toEqual(
           expect.objectContaining({
-            message: 'Ingridient cannot be empty',
-          }),
-        ]);
+            message: `Uploaded picture didn't contain ingridients`,
+          })
+        );
         done();
       })
       .catch((err) => done(err));
   });
 
-  test('Should return [{message: Picture cannot be empty}] [400]', (done) => {
+  test('Should return {message: Product.picture cannot be null} [400]', (done) => {
     request(app)
       .post('/sellers/products')
       .set('Content-Type', formData)
@@ -224,17 +225,17 @@ describe('POST /sellers/products [failed]', () => {
       .field('brand', brand)
       .then((response) => {
         expect(response.status).toBe(400);
-        expect.arrayContaining([
+        expect(response.body).toEqual(
           expect.objectContaining({
-            message: 'Picture cannot be empty',
-          }),
-        ]);
+            message: 'Product.picture cannot be null',
+          })
+        );
         done();
       })
       .catch((err) => done(err));
   });
 
-  test('Should return [{message: Name cannot be empty}] [400]', (done) => {
+  test('Should return {message: Name cannot be empty} [400]', (done) => {
     request(app)
       .post('/sellers/products')
       .set('Content-Type', formData)
@@ -251,17 +252,17 @@ describe('POST /sellers/products [failed]', () => {
       .field('brand', brand)
       .then((response) => {
         expect(response.status).toBe(400);
-        expect.arrayContaining([
+        expect(response.body).toEqual(
           expect.objectContaining({
             message: 'Name cannot be empty',
-          }),
-        ]);
+          })
+        );
         done();
       })
       .catch((err) => done(err));
   });
 
-  test('Should return [{message: Price cannot be empty}] [400]', (done) => {
+  test('Should return {message: Price cannot be empty} [400]', (done) => {
     request(app)
       .post('/sellers/products')
       .set('Content-Type', formData)
@@ -278,17 +279,17 @@ describe('POST /sellers/products [failed]', () => {
       .field('brand', brand)
       .then((response) => {
         expect(response.status).toBe(400);
-        expect.arrayContaining([
+        expect(response.body).toEqual(
           expect.objectContaining({
             message: 'Price cannot be empty',
-          }),
-        ]);
+          })
+        );
         done();
       })
       .catch((err) => done(err));
   });
 
-  test('Should return [{message: Stock cannot be empty}] [400]', (done) => {
+  test('Should return {message: Stock cannot be empty} [400]', (done) => {
     request(app)
       .post('/sellers/products')
       .set('Content-Type', formData)
@@ -305,17 +306,17 @@ describe('POST /sellers/products [failed]', () => {
       .field('brand', brand)
       .then((response) => {
         expect(response.status).toBe(400);
-        expect.arrayContaining([
+        expect(response.body).toEqual(
           expect.objectContaining({
             message: 'Stock cannot be empty',
-          }),
-        ]);
+          })
+        );
         done();
       })
       .catch((err) => done(err));
   });
 
-  test('Should return [{message: Weight cannot be empty}] [400]', (done) => {
+  test('Should return {message: Weight cannot be empty} [400]', (done) => {
     request(app)
       .post('/sellers/products')
       .set('Content-Type', formData)
@@ -332,17 +333,17 @@ describe('POST /sellers/products [failed]', () => {
       .field('brand', brand)
       .then((response) => {
         expect(response.status).toBe(400);
-        expect.arrayContaining([
+        expect(response.body).toEqual(
           expect.objectContaining({
             message: 'Weight cannot be empty',
-          }),
-        ]);
+          })
+        );
         done();
       })
       .catch((err) => done(err));
   });
 
-  test('Should return [{message: Description cannot be empty}] [400]', (done) => {
+  test('Should return {message: Description cannot be empty} [400]', (done) => {
     request(app)
       .post('/sellers/products')
       .set('Content-Type', formData)
@@ -359,17 +360,17 @@ describe('POST /sellers/products [failed]', () => {
       .field('brand', brand)
       .then((response) => {
         expect(response.status).toBe(400);
-        expect.arrayContaining([
+        expect(response.body).toEqual(
           expect.objectContaining({
             message: 'Description cannot be empty',
-          }),
-        ]);
+          })
+        );
         done();
       })
       .catch((err) => done(err));
   });
 
-  test('Should return [{message: CategoryId cannot be empty}] [400]', (done) => {
+  test('Should return {message: Category cannot be empty} [400]', (done) => {
     request(app)
       .post('/sellers/products')
       .set('Content-Type', formData)
@@ -386,17 +387,17 @@ describe('POST /sellers/products [failed]', () => {
       .field('brand', brand)
       .then((response) => {
         expect(response.status).toBe(400);
-        expect.arrayContaining([
+        expect(response.body).toEqual(
           expect.objectContaining({
-            message: 'CategoryId cannot be empty',
-          }),
-        ]);
+            message: 'Category cannot be empty',
+          })
+        );
         done();
       })
       .catch((err) => done(err));
   });
 
-  test('Should return [{message: Brand name cannot be empty}] [400]', (done) => {
+  test('Should return {message: Brand name cannot be empty} [400]', (done) => {
     request(app)
       .post('/sellers/products')
       .set('Content-Type', formData)
@@ -413,11 +414,11 @@ describe('POST /sellers/products [failed]', () => {
       .field('brand', '')
       .then((response) => {
         expect(response.status).toBe(400);
-        expect.arrayContaining([
+        expect(response.body).toEqual(
           expect.objectContaining({
             message: 'Brand name cannot be empty',
-          }),
-        ]);
+          })
+        );
         done();
       })
       .catch((err) => done(err));
@@ -480,7 +481,7 @@ describe('UPDATE /sellers/products/:id [failed]', () => {
       .catch((err) => done(err));
   });
 
-  test('Should return [{message: Name cannot be empty}] [400]', (done) => {
+  test('Should return {message: Name cannot be empty} [400]', (done) => {
     request(app)
       .put(`/sellers/products/${productId}`)
       .set('Accept', appJSON)
@@ -488,17 +489,17 @@ describe('UPDATE /sellers/products/:id [failed]', () => {
       .send(productEmptyName)
       .then((response) => {
         expect(response.status).toBe(400);
-        expect.arrayContaining([
+        expect(response.body).toEqual(
           expect.objectContaining({
             message: 'Name cannot be empty',
-          }),
-        ]);
+          })
+        );
         done();
       })
       .catch((err) => done(err));
   });
 
-  test('Should return [{message: Price cannot be empty}] [400]', (done) => {
+  test('Should return {message: Price cannot be empty} [400]', (done) => {
     request(app)
       .put(`/sellers/products/${productId}`)
       .set('Accept', appJSON)
@@ -506,17 +507,17 @@ describe('UPDATE /sellers/products/:id [failed]', () => {
       .send(productEmptyPrice)
       .then((response) => {
         expect(response.status).toBe(400);
-        expect.arrayContaining([
+        expect(response.body).toEqual(
           expect.objectContaining({
             message: 'Price cannot be empty',
-          }),
-        ]);
+          })
+        );
         done();
       })
       .catch((err) => done(err));
   });
 
-  test('Should return [{message: Stock cannot be empty}] [400]', (done) => {
+  test('Should return {message: Stock cannot be empty} [400]', (done) => {
     request(app)
       .put(`/sellers/products/${productId}`)
       .set('Accept', appJSON)
@@ -524,17 +525,17 @@ describe('UPDATE /sellers/products/:id [failed]', () => {
       .send(productEmptyStock)
       .then((response) => {
         expect(response.status).toBe(400);
-        expect.arrayContaining([
+        expect(response.body).toEqual(
           expect.objectContaining({
             message: 'Stock cannot be empty',
-          }),
-        ]);
+          })
+        );
         done();
       })
       .catch((err) => done(err));
   });
 
-  test('Should return [{message: Weight cannot be empty}] [400]', (done) => {
+  test('Should return {message: Weight cannot be empty} [400]', (done) => {
     request(app)
       .put(`/sellers/products/${productId}`)
       .set('Accept', appJSON)
@@ -542,17 +543,17 @@ describe('UPDATE /sellers/products/:id [failed]', () => {
       .send(productEmptyWeight)
       .then((response) => {
         expect(response.status).toBe(400);
-        expect.arrayContaining([
+        expect(response.body).toEqual(
           expect.objectContaining({
             message: 'Weight cannot be empty',
-          }),
-        ]);
+          })
+        );
         done();
       })
       .catch((err) => done(err));
   });
 
-  test('Should return [{message: Description cannot be empty}] [400]', (done) => {
+  test('Should return {message: Description cannot be empty} [400]', (done) => {
     request(app)
       .put(`/sellers/products/${productId}`)
       .set('Accept', appJSON)
@@ -560,17 +561,17 @@ describe('UPDATE /sellers/products/:id [failed]', () => {
       .send(productEmptyDescription)
       .then((response) => {
         expect(response.status).toBe(400);
-        expect.arrayContaining([
+        expect(response.body).toEqual(
           expect.objectContaining({
             message: 'Description cannot be empty',
-          }),
-        ]);
+          })
+        );
         done();
       })
       .catch((err) => done(err));
   });
 
-  test('Should return [{message: CategoryId cannot be empty}] [400]', (done) => {
+  test('Should return {message: Category cannot be empty} [400]', (done) => {
     request(app)
       .put(`/sellers/products/${productId}`)
       .set('Accept', appJSON)
@@ -578,11 +579,11 @@ describe('UPDATE /sellers/products/:id [failed]', () => {
       .send(productEmptyCategoryId)
       .then((response) => {
         expect(response.status).toBe(400);
-        expect.arrayContaining([
+        expect(response.body).toEqual(
           expect.objectContaining({
-            message: 'CategoryId cannot be empty',
-          }),
-        ]);
+            message: 'Category cannot be empty',
+          })
+        );
         done();
       })
       .catch((err) => done(err));
