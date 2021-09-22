@@ -6,6 +6,10 @@ import { editSellerProduct, fetchSellerProduct } from '../stores/action';
 import Input from '@material-tailwind/react/Input';
 import Button from '@material-tailwind/react/Button';
 import Textarea from '@material-tailwind/react/Textarea';
+import Modal from '@material-tailwind/react/Modal';
+import ModalHeader from '@material-tailwind/react/ModalHeader';
+import ModalBody from '@material-tailwind/react/ModalBody';
+import ModalFooter from '@material-tailwind/react/ModalFooter';
 
 export default function EditProduct() {
   const history = useHistory();
@@ -15,6 +19,9 @@ export default function EditProduct() {
 
   const [stock, setStock] = useState(0);
   const [weight, setWeight] = useState(0);
+
+  const [showModal, setShowModal] = useState(false);
+
   const [category, setCategory] = useState('');
   const [categoryName, setCategoryName] = useState('');
   const [categoryId, setCategoryId] = useState('');
@@ -22,8 +29,6 @@ export default function EditProduct() {
   const [name, setName] = useState('');
   const [price, setPrice] = useState('');
   const [description, setDescription] = useState('');
-
-  // console.log(sellerProduct.Category);
 
   useEffect(() => {
     dispatch(fetchSellerProduct(id));
@@ -41,9 +46,15 @@ export default function EditProduct() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(sellerProduct.Category.name, `INI NAMANY`);
-    console.log(categoryId, `INI ID`);
-    console.log(category, `INI NAMA CAT`);
+    setShowModal(true);
+  };
+
+  const cancelBtn = (e) => {
+    e.preventDefault();
+    setShowModal(false);
+  };
+
+  const submitEditedProduct = (e) => {
     const payload = {
       name,
       price,
@@ -70,7 +81,6 @@ export default function EditProduct() {
         <div className="flex p-5 items-center justify-center">
           <form
             encType="multipart/form-data"
-            onSubmit={handleSubmit}
             className="flex flex-col text-md my-5"
           >
             <div className="flex flex-col items-start mb-5">
@@ -151,6 +161,35 @@ export default function EditProduct() {
               />
             </div>
 
+            <Modal size="sm" active={showModal} toggler={(e) => cancelBtn(e)}>
+              <ModalHeader toggler={(e) => cancelBtn(e)}>
+                Edit Product
+              </ModalHeader>
+              <ModalBody>
+                <p className="text-base leading-relaxed text-gray-600 font-normal">
+                  Are you sure ?
+                </p>
+              </ModalBody>
+              <ModalFooter>
+                <Button
+                  color="red"
+                  buttonType="button"
+                  onClick={(e) => cancelBtn(e)}
+                  ripple="dark"
+                >
+                  Cancel
+                </Button>
+
+                <Button
+                  color="green"
+                  onClick={(e) => submitEditedProduct(e)}
+                  ripple="light"
+                >
+                  Proceed
+                </Button>
+              </ModalFooter>
+            </Modal>
+
             <Button
               type="submit"
               color="green"
@@ -159,6 +198,9 @@ export default function EditProduct() {
               block={false}
               iconOnly={false}
               ripple="light"
+              onClick={(e) => {
+                handleSubmit(e);
+              }}
             >
               Edit Product
             </Button>
