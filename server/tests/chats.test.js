@@ -117,6 +117,7 @@ describe('GET /sellers/chats [success]', () => {
                 id: expect.any(Number),
                 firstName,
                 lastName,
+                picture,
               }),
             }),
           ])

@@ -38,7 +38,7 @@ export default function SellerDashboard({ socket }) {
   };
 
   return (
-    <section className="text-gray-600 py-4 px-5 body-font flex h-full">
+<section className="text-gray-600 py-4 px-5 body-font flex h-full">
       <div className="h-full mr-6 w-1/4 bg-white rounded-xl p-5 pb-8 flex-col text-center justify-center overflow-y-scroll items-center">
         <h1 style={{ fontSize: 36 }} className="font-bold text-green-600">
           Chats

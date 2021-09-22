@@ -6,8 +6,10 @@ const { signToken } = require('../helpers/jwt');
 const appJSON = 'application/json';
 const formData = 'multipart/form-data';
 
-const ingredients = `${__dirname}/product.jpg`;
 const image = `${__dirname}/cover.png`;
+const ingredients = `${__dirname}/eco.jpg`;
+const reject = `${__dirname}/reject.jpg`;
+const notImageFormat = `${__dirname}/notImageFormat`;
 
 const name = 'name';
 const price = 123;
@@ -80,6 +82,27 @@ const productEmptyCategoryId = {
   CategoryId: '',
 };
 
+const sellerCreator = {
+  firstName: 'sel',
+  lastName: 'ler',
+  email: 'seller@mail.com',
+  phoneNumber: 234,
+  picture: 'pictureSeller',
+  role: 'seller',
+  password: 'sellerPassword',
+};
+
+const buyerCreator = {
+  firstName: 'buy',
+  lastName: 'er',
+  email: 'buyer@mail.com',
+  phoneNumber: 123,
+  picture: 'pictureBuyer',
+  role: 'buyer',
+  password: 'buyerPassword',
+};
+
+let buyerToken = '';
 let sellerToken = '';
 let sellerId = 0;
 let categoryId = 0;
@@ -90,20 +113,20 @@ beforeAll(async () => {
   const category = await Category.create({ name: 'category name' });
   categoryId = category.id;
 
-  const seller = await User.create({
-    firstName: 'firstName',
-    lastName: 'lastName',
-    email: 'seller@mail.com',
-    phoneNumber: 123,
-    picture: 'sellerPicture',
-    role: 'seller',
-    password: 'password',
-  });
+  const seller = await User.create(sellerCreator);
   sellerId = seller.id;
   sellerToken = signToken({
     id: seller.id,
     email: seller.email,
     role: seller.role,
+  });
+
+  const buyer = await User.create(buyerCreator);
+  buyerId = buyer.id;
+  buyerToken = signToken({
+    id: buyer.id,
+    email: buyer.email,
+    role: buyer.role,
   });
 
   const product = await Product.create(
@@ -155,7 +178,7 @@ afterAll(async () => {
 });
 
 describe('POST /sellers/products [success]', () => {
-  test('Should return [{message: Successfully added product}] [201]', (done) => {
+  test('Should return {message: Successfully added product} [201]', (done) => {
     request(app)
       .post('/sellers/products')
       .set('Content-Type', formData)
@@ -172,7 +195,10 @@ describe('POST /sellers/products [success]', () => {
       .field('brand', brand)
       .then((response) => {
         expect(response.status).toBe(201);
-        expect(response.body).toHaveProperty('message', expect.any(String));
+        expect(response.body).toHaveProperty(
+          'message',
+          'Successfully added product'
+        );
         done();
       })
       .catch((err) => done(err));
@@ -180,6 +206,86 @@ describe('POST /sellers/products [success]', () => {
 });
 
 describe('POST /sellers/products [failed]', () => {
+  test(`Should return {message: You are not authorized!} [401]`, (done) => {
+    request(app)
+      .post('/sellers/products')
+      .set('Content-Type', formData)
+      .set('Accept', appJSON)
+      .attach('ingredients', ingredients)
+      .attach('image', image)
+      .field('name', name)
+      .field('price', price)
+      .field('weight', weight)
+      .field('stock', stock)
+      .field('description', description)
+      .field('CategoryId', categoryId)
+      .field('brand', brand)
+      .then((response) => {
+        expect(response.status).toBe(401);
+        expect(response.body).toEqual(
+          expect.objectContaining({
+            message: 'You are not authorized!',
+          })
+        );
+        done();
+      })
+      .catch((err) => done(err));
+  });
+
+  test(`Should return {message: You don't have an access to do this!} [403]`, (done) => {
+    request(app)
+      .post('/sellers/products')
+      .set('Content-Type', formData)
+      .set('Accept', appJSON)
+      .set('access_token', buyerToken)
+      .attach('ingredients', ingredients)
+      .attach('image', image)
+      .field('name', name)
+      .field('price', price)
+      .field('weight', weight)
+      .field('stock', stock)
+      .field('description', description)
+      .field('CategoryId', categoryId)
+      .field('brand', brand)
+      .then((response) => {
+        expect(response.status).toBe(403);
+        expect(response.body).toEqual(
+          expect.objectContaining({
+            message: `You don't have an access to do this!`,
+          })
+        );
+        done();
+      })
+      .catch((err) => done(err));
+  });
+
+  test(`Should return {message: File is not an image} [400]`, (done) => {
+    request(app)
+      .post('/sellers/products')
+      .set('Content-Type', formData)
+      .set('Accept', appJSON)
+      .set('access_token', sellerToken)
+      .attach('ingredients', notImageFormat)
+      .attach('image', notImageFormat)
+      .field('name', name)
+      .field('price', price)
+      .field('weight', weight)
+      .field('stock', stock)
+      .field('description', description)
+      .field('CategoryId', categoryId)
+      .field('brand', brand)
+      .then((response) => {
+        expect(response.status).toBe(400);
+        expect(response.body).toEqual(
+          expect.objectContaining({
+            message: `File is not an image`,
+          })
+        );
+        done();
+      })
+      .catch((err) => done(err));
+  });
+
   test(`Should return {message: Uploaded picture didn't contain ingridients} [400]`, (done) => {
     request(app)
       .post('/sellers/products')
@@ -207,6 +313,35 @@ describe('POST /sellers/products [failed]', () => {
       })
       .catch((err) => done(err));
   });
+
+  // BUG
+  test(`Should return {message: Rejected! Eco-mmerce can not tolerate your dangerous product} [400]`, (done) => {
+    request(app)
+      .post('/sellers/products')
+      .set('Content-Type', formData)
+      .set('Accept', appJSON)
+      .set('access_token', sellerToken)
+      .attach('ingredients', reject)
+      .attach('image', image)
+      .field('name', name)
+      .field('price', price)
+      .field('weight', weight)
+      .field('stock', stock)
+      .field('description', description)
+      .field('CategoryId', categoryId)
+      .field('brand', brand)
+      .then((response) => {
+        expect(response.status).toBe(400);
+        expect(response.body).toEqual(
+          expect.objectContaining({
+            message: `Rejected! Eco-mmerce can not tolerate your dangerous product`,
+          })
+        );
+        done();
+      })
+      .catch((err) => done(err));
+  });
+  // });
 
   test('Should return {message: Product.picture cannot be null} [400]', (done) => {
     request(app)
@@ -456,6 +591,33 @@ describe('UPDATE /sellers/products/:id [failed]', () => {
         expect(response.body).toEqual(
           expect.objectContaining({
             message: `You are not authorized!`,
+          })
+        );
+        done();
+      })
+      .catch((err) => done(err));
+  });
+
+  test(`Should return {message: You don't have an access to do this!} [403]`, (done) => {
+    request(app)
+      .post(`/sellers/products/${productId}`)
+      .set('Content-Type', formData)
+      .set('Accept', appJSON)
+      .set('access_token', buyerToken)
+      .attach('ingredients', ingredients)
+      .attach('image', image)
+      .field('name', name)
+      .field('price', price)
+      .field('weight', weight)
+      .field('stock', stock)
+      .field('description', description)
+      .field('CategoryId', categoryId)
+      .field('brand', brand)
+      .then((response) => {
+        expect(response.status).toBe(403);
+        expect(response.body).toEqual(
+          expect.objectContaining({
+            message: `You don't have an access to do this!`,
           })
         );
         done();

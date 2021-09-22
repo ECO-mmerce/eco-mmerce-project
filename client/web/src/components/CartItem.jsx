@@ -31,12 +31,12 @@ export default function CartItem({ data }) {
 
   return (
     <div className="my-3 flex items-center text-xl">
-      <div className="flex items-center">
-        <img className="h-20" src={data.Product.picture} alt="Item Image" />
-        <tdata>{data.Product.name}</tdata>
+      <div className="flex items-center w-6/12 overflow-x-hide gap-3">
+        <img className="w-1/6 rounded-lg" src={data.Product.picture} alt="Item Image" />
+        <tdata className="w-5/6">{data.Product.name}</tdata>
       </div>
-      <tdata>Rp {data.Product.price.toLocaleString()}, 00</tdata>
-      <tdata>
+      <tdata className="w-2/12 flex items-center">Rp {data.Product.price.toLocaleString()}, 00</tdata>
+      <tdata className="w-1/12">
         <div className="custom-number-input h-10 w-32">
           <div className="flex flex-row h-10 w-full rounded-lg relative bg-transparent mt-1">
             <button
@@ -47,7 +47,7 @@ export default function CartItem({ data }) {
             </button>
             <input
               disabled={true}
-              type="number"
+              type="text"
               className="text-center w-full bg-gray-100 text-md md:text-basecursor-default flex items-center text-green-600  outline-none"
               name="custom-input-number"
               value={data.Product.qty}
@@ -61,10 +61,12 @@ export default function CartItem({ data }) {
           </div>
         </div>
       </tdata>
+      <div className="w-3/12 flex justify-end gap-5 items-center">
       <tdata>{getPriceForQty(data.Product.price, data.Product.qty)}</tdata>
-      <Button color="red" onClick={(e) => setModal(true)} ripple="light">
-        Delete
-      </Button>
+        <Button color="red" onClick={(e) => setModal(true)} ripple="light">
+          Delete
+        </Button>
+      </div>
 
       <Modal size="sm" active={modal} toggler={(e) => cancelBtn(e)}>
         <ModalHeader toggler={(e) => cancelBtn(e)}>Delete Product</ModalHeader>
