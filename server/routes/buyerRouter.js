@@ -20,7 +20,7 @@ router.post(
 
 router.get('/products', BuyerController.getProducts);
 router.get('/products/:id', BuyerController.getProduct);
-router.get(
+router.post(
   '/checkIngredients',
   upload.fields([{ name: 'ingredients', maxCount: 1 }]),
   // test,
