@@ -27,7 +27,10 @@ class ChatController {
         attributes: {
           exclude: ['createdAt', 'updatedAt', 'fullName', 'message', 'id'],
         },
-        include: { model: User, attributes: ['id', 'firstName', 'lastName'] },
+        include: {
+          model: User,
+          attributes: ['id', 'firstName', 'lastName', 'picture'],
+        },
         group: ['Chat.SellerId', 'Chat.BuyerId', 'User.id'],
       });
 

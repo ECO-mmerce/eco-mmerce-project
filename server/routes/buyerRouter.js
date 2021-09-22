@@ -1,7 +1,5 @@
 const router = require('express').Router();
 
-const checkIngredients = require('../middlewares/checkIngredients');
-const detectIngredients = require('../middlewares/cloudVision');
 const BuyerController = require('../controllers/buyerController.js');
 const authentication = require('../middlewares/authentication.js');
 const { authorizationBuyer } = require('../middlewares/authorization.js');

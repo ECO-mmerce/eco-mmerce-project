@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 export default function SellerProductCard({ products }) {
   //   console.log(products.id);
   return (
-    <div className=" p-4 bg-white hover:grow hover:shadow-md rounded-lg ">
+    <div className="p-4 bg-white hover:grow hover:shadow-md rounded-lg ">
       <Link
         className="block relative h-48 rounded overflow-hidden"
         to={`/seller/products/${products?.id}`}
