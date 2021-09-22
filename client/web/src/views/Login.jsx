@@ -146,17 +146,31 @@ export default function Login() {
             </center>
         )}
 
-        <div className="mt-8">
-          <center>
-            <h3>
-              Not logged in ?{' '}
-              <Link className="text-black underlined" to="/register">
-                <b>click here</b>
-              </Link>{' '}
-              to register
-            </h3>
-          </center>
-        </div>
+        {location.pathname.includes('/seller') ? (
+          <div className="mt-8">
+            <center>
+              <h3>
+                Want to become a seller ?{' '}
+                <Link className="text-black underlined" to="/seller/register">
+                  <b>click here</b>
+                </Link>{' '}
+                to register
+              </h3>
+            </center>
+          </div>
+        ) : (
+          <div className="mt-8">
+            <center>
+              <h3>
+                Not registered ?{' '}
+                <Link className="text-black underlined" to="/register">
+                  <b>click here</b>
+                </Link>{' '}
+                to register
+              </h3>
+            </center>
+          </div>
+        )}
       </div>
     </section>
   );

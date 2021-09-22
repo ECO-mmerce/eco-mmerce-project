@@ -1,11 +1,14 @@
 import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import Button from '@material-tailwind/react/Button';
 import { useHistory, Link } from 'react-router-dom';
-import { fetchSellerProducts } from '../stores/action';
+import { useSelector, useDispatch } from 'react-redux';
+
 import ChatList from '../components/ChatList';
 import SellerProductCard from '../components/SellerProductCard';
 
-export default function SellerDashboard() {
+import { fetchSellerProducts } from '../stores/action';
+
+export default function SellerDashboard({ socket }) {
   const history = useHistory();
   const dispatch = useDispatch();
   const { isLogin, user_role, sellerProducts } = useSelector(
@@ -30,42 +33,55 @@ export default function SellerDashboard() {
     }
   }, [isLogin, user_role, history]);
 
+  const toAddPage = () => {
+    history.push('/seller/addproduct');
+  };
+
   return (
-    <>
-      <section className="flex flex-col items-center my-10 px-10">
-        <div className="flex flex-col gap-5 mb-10 w-full">
-          <h1 className="text-2xl" style={{ fontSize: 36 }}>
-            CHATS
-          </h1>
-          <div>{user_role === 'seller' ? <ChatList /> : null}</div>
+<section className="text-gray-600 py-4 px-5 body-font flex h-full">
+      <div className="h-full mr-6 w-1/4 bg-white rounded-xl p-5 pb-8 flex-col text-center justify-center overflow-y-scroll items-center">
+        <h1 style={{ fontSize: 36 }} className="font-bold text-green-600">
+          Chats
+        </h1>
+        <div className="grid grid-cols-1 w-full py-4 gap-5">
+          {user_role === 'seller' ? <ChatList socket={socket} /> : null}
         </div>
-        <div className="flex justify-between items-center w-full mb-5">
-          <h1 style={{ fontSize: 36 }}>MY PRODUCTS</h1>
-          <Link
-            to={`/seller/addproduct`}
-            className="text-white bg-green-500 py-2 px-6 focus:outline-none hover:bg-green-600 rounded"
+      </div>
+
+      <div className="container bg-white rounded-xl px-5 mx-auto">
+        <div className="flex py-8 justify-center">
+          <h1 style={{ fontSize: 36 }} className="font-bold text-green-600">
+            My Products
+          </h1>
+        </div>
+
+        <div className="flex pb-8 justify-center">
+          <Button
+            color="green"
+            buttonType="filled"
+            size="regular"
+            rounded={false}
+            block={false}
+            iconOnly={false}
+            onClick={() => toAddPage()}
+            ripple="light"
           >
             Add Product
-          </Link>
+          </Button>
         </div>
-        <section className="text-gray-600 body-font flex">
-          {sellerProducts?.length === 0 ? (
+
+        <div className="flex flex-wrap grid grid-cols-4 gap-5">
+          {sellerProducts.length === 0 ? (
             <h1 className="mx-auto">
               It's Empty ;) Come add your products by click the green button !
             </h1>
           ) : (
-            <div className="container sm:py-18 mx-auto">
-              <div className="sm:gap-5 lg:px-6 md:px-8 sm:px-2 grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
-                {sellerProducts?.map((product) => {
-                  return (
-                    <SellerProductCard key={product.id} products={product} />
-                  );
-                })}
-              </div>
-            </div>
+            sellerProducts.map((el) => {
+              return <SellerProductCard key={el.id} products={el} />;
+            })
           )}
-        </section>
-      </section>
-    </>
+        </div>
+      </div>
+    </section>
   );
 }

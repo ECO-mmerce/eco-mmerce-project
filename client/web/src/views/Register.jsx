@@ -96,7 +96,7 @@ export default function Register() {
             name="lastName"
           />
           <Input
-            type="text"
+            type="email"
             color="green"
             size="lg"
             outline={true}
