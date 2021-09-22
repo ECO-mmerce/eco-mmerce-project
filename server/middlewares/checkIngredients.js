@@ -4,6 +4,7 @@ const { HarmfulIngridient } = require('../models');
 
 async function checkIngredients(req, res, next) {
   let output = req.output;
+  let status = '';
   if (output) {
     try {
       let score = 0;
@@ -20,13 +21,23 @@ async function checkIngredients(req, res, next) {
         }
       });
 
+      if (score == 0) status = 'Eco';
+      if (score == 1 || score == 2) status = 'Warn';
+      if (score == 3) status = 'Harmful';
+      if (score > 3) status = 'Reject';
+      console.log(
+        score,
+        status,
+        'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'
+      );
+
       req.body.ingridient = output.map((el) =>
         el
           .split(' ')
           .map((el) => _.capitalize(el))
           .join(' ')
       );
-      req.body.status = score;
+      req.body.status = status;
       req.body.harmfulIngridient = bodyHarmfulIngridient;
 
       next();
